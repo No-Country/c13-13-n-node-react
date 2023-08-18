@@ -3,7 +3,7 @@
 export default function Home() {
   return (
     <main >
-proyecto chat
+<h1>Proyecto chat</h1>
     </main>
   )
 }
