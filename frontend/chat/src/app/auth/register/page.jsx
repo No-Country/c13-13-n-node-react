@@ -1,5 +1,6 @@
 "use client"
 
+import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState } from "react";
 
 export default function Register() {
@@ -10,9 +11,24 @@ export default function Register() {
 
 
 
-  function handleSubmit() {
+  async function handleSubmit() {
     event.preventDefault();
-    alert(email +" "+ password + " " + name +" "+ lastName)    
+    let data = { 
+      name: name,
+      lastName: lastName,
+      email: email,
+      password: password
+    }
+  let result = await fetchFunctions.POST("URL", data)
+   // API Test made it with 
+  //  In this case was needed to send the next object called data:
+   // let data = {
+   //     title: name,
+   //     body: lastName,
+   //     userId: 1,}
+   // let result = await fetchFunctions.postData('https://jsonplaceholder.typicode.com/posts', data)
+
+   
   }
     return(  
     <form onSubmit={handleSubmit}>
