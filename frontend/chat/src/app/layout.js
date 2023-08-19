@@ -2,6 +2,8 @@
 import { Inter } from 'next/font/google'
 import Nav from '@/components/nav'
 
+import './styles/global.css';
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -12,14 +14,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
+      <head> 
         <link rel="stylesheet" href="https://bootswatch.com/5/sketchy/bootstrap.min.css" />
-      
       </head>
+    
       <body className={inter.className}>
-        <Nav/>
-        
-        {children}</body>
+      <div className='bodyLayout'>
+        <Nav/>        
+        {children}
+        </div>
+      </body>
     </html>
   )
 }
