@@ -4,14 +4,12 @@ const router = express.Router();
 const ChatController = require('../controllers/ChatController');
 
 router.post('/newchat', async (req, res) => {
-  const { titulo } = req.body;
-  
-  if (!titulo) {
-    return res.status(400).json({ error: 'El título del chat es requerido' });
+  const { title } = req.body;
+  if (!title) {
+    return res.status(400).json({ error: 'Chat title is required' });
   }
-
   try {
-    const chat = await ChatController.crearChat(titulo);
+    const chat = await ChatController.createChat(title);
     res.status(201).json(chat);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -19,9 +17,9 @@ router.post('/newchat', async (req, res) => {
 });
 
 router.post('/join', async (req, res) => {
-  const { usuarioId, chatId } = req.body;
-  await ChatController.unirUsuarioAChat(usuarioId, chatId);
-  res.send('Usuario unido al chat');
+  const { userId, chatId } = await req.body;
+  result = await ChatController.unirUsuarioAChat(userId, chatId);
+  res.send(result);
 });
 
 router.get('/:usuarioId/chats', async (req, res) => {

@@ -7,11 +7,11 @@ module.exports = (sequelize) => {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
+        primaryKey: true,
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        primaryKey: true,
         validate: {
           isEmail: {
             msg: "Ingrese un mail válido"
