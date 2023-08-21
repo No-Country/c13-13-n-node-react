@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "Chat",
+    "Room",
     {
       title: DataTypes.STRING,
       rating: {
@@ -22,7 +22,15 @@ module.exports = (sequelize) => {
             min: 1,
             max: 50,
           }, // Establece el número máximo predeterminado
-      }
+      },
+      createdBy: {
+        type: DataTypes.INTEGER, // ID del usuario que creó la sala
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW, // Valor por defecto: fecha y hora actual
+      },
     //   ,
     //   review: {
     //     type: DataTypes.TEXT,

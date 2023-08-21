@@ -38,14 +38,14 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { User, Chat } = sequelize.models;
+const { User, Room } = sequelize.models;
 
 
 // Aca vendrian las relaciones
 
 // relacion usuarios y chats
-User.belongsToMany(Chat, { through: 'Users_Chats' });
-Chat.belongsToMany(User, { through: 'Users_Chats' });
+User.belongsToMany(Room, { through: 'Users_Room' });
+Room.belongsToMany(User, { through: 'Users_Room' });
 
 
 module.exports = {

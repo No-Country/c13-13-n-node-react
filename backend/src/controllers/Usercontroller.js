@@ -1,4 +1,4 @@
-const { User, Chat } = require("../db");
+const { User, Room } = require("../db");
 
 
 
@@ -19,7 +19,7 @@ const getUserID = async function (id) {
                 id: id,
             },
             include: 
-            [    { model: Chat }
+            [    { model: Room }
             ]
         })
         if (user) {

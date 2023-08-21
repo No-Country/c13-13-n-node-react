@@ -8,6 +8,10 @@ require('./db.js');
 
 const server = express();
 
+const app = require('http').Server(server)
+const socketio = require('socket.io')(app)
+require('./config/socket.js')(socketio)
+
 server.name = 'API';
 
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
@@ -15,15 +19,16 @@ server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
 server.use(morgan('dev'));
 server.use((req, res, next) => {
+   //Al deployar se cambia esta línea por la de abajo
 //res.header('Access-Control-Allow-Origin', '*'); 
-  //Al deployar se cambia esta línea por la de abajo
-  
+ 
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, Authorization, X-Requested-With, Content-Type, Accept');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
+
 
 server.use('/', routes);
 
@@ -35,4 +40,4 @@ server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   res.status(status).send(message);
 });
 
-module.exports = server;
+module.exports = app;
