@@ -1,9 +1,9 @@
 // controladores/ChatController.js
 const { log } = require('console');
-const { User, Chat } = require('../db');
+const { User, Room } = require('../db');
 
-async function createChat(title){
-    const existingChat = await Chat.findOne({
+async function createChat(title,createdBy){
+    const existingChat = await Room.findOne({
         where: {
             title: title,
         },
@@ -11,33 +11,36 @@ async function createChat(title){
       if (existingChat) {
         return `${title} already exists`;
       }
-      const chat = await Chat.create({
-        title: title
+      const room = await Room.create({
+        title,
+        createdBy
       });
-      return chat
+      return room
 }
 // Unir un usuario a un chat
-async function unirUsuarioAChat(userId, chatId) {
+async function unirUsuarioAChat(userId, roomId) {
   const user = await User.findByPk(userId);
-  const chat = await Chat.findByPk(chatId);
+  const room = await Chat.findByPk(roomId);
   console.log(user);
-  if (!user || !chat) {
+  if (!user || !room) {
     return 'The user has not been able to join the chat'
   }
-  await user.addChat(chat);
-  return `The ${user.email} has successfully joined the ${chat.title}`
+  await user.addChat(room);
+  return `The user ${user.email} has successfully joined the ${room.title}`
 }
 
 // Obtener chats de un usuario
 async function obtenerChatsDeUsuario(userId) {
   const usuario = await User.findByPk(userId, {
-    include: [{ model: Chat }],
+    include: [{ model: Room }],
   });
   if (!usuario) {
+    return 'the user is not registered'
     // Manejo de error si el usuario no existe
   }
-  const chats = usuario.Chats;
-  // Retornar la lista de chats
+   return usuario.Room;
+  
+
 }
 
 module.exports = { createChat, unirUsuarioAChat };
