@@ -16,8 +16,15 @@ module.exports = (socket) => {
         // Emitir un evento para notificar al cliente que se unió a la sala
         io.to(socket.id).emit('roomJoined', `Te has unido a la sala ${roomId}`);
 
-      io.emit('messageReceived', data);
+    //   io.emit('messageReceived', data);
     });
+
+    socket.on('sendMsj', async (msj) => {
+        console.log(msj);
+        io.sockets.emit('newMsj', {
+            msg: msj
+        })
+      });
 
     // Manejo de desconexiones
     socket.on('disconnect', () => {
