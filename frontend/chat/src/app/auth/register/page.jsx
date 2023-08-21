@@ -27,11 +27,11 @@ export default function Register() {
    //     body: lastName,
    //     userId: 1,}
    // let result = await fetchFunctions.postData('https://jsonplaceholder.typicode.com/posts', data)
-
+   router.push(`/auth/dashboard`)
    
   }
     return(  
-    <form onSubmit={handleSubmit}>
+    <form className="contarinerGral" onSubmit={handleSubmit}>
     <fieldset>
     <legend>Registrate</legend>
 

@@ -22,6 +22,7 @@ export default function RootLayout({ children }) {
       <div className='bodyLayout'>
         <Nav/>        
         {children}
+        
         </div>
       </body>
     </html>

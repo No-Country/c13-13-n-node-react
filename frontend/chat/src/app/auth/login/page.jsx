@@ -1,19 +1,33 @@
 "use client"
-
+import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState } from "react";
+import { useRouter } from "next/navigation"
 
 export default function Login() {
   const [email,setEmial] = useState("")
   const [password,setPassword] = useState("")
 
+  const  router = useRouter()
 
-
-  function handleSubmit() {
-    event.preventDefault();
-    alert(email +" "+ password)    
-  }
+    async function handleSubmit() {
+      event.preventDefault();
+      let data = { 
+         email: email,
+        password: password
+      }
+    let result = await fetchFunctions.POST("URL", data)
+  // API Test made it with 
+  // In this case was needed to send the next object called data:
+  // let data = {
+  //     title: email,
+  //     body: password,
+  //      userId: 1,}
+  //    let result = await fetchFunctions.POST('https://jsonplaceholder.typicode.com/posts', data)
+router.push(`/auth/dashboard`)
+    }
+  
     return(  
-    <form onSubmit={handleSubmit}>
+    <form className="contarinerGral" onSubmit={handleSubmit}>
     <fieldset>
     <legend>Login</legend>
 
