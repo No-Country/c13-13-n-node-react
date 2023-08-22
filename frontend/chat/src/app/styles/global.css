@@ -36,3 +36,15 @@
 .nav-link:hover{
    cursor: pointer;
 }
+
+.winsowChat{
+   width: 100%;
+   min-height: 300px;
+   border: solid black 3px;
+   display: flex;
+   flex-direction: column;
+   flex-wrap: wrap;
+   align-content: flex-start;
+   justify-content: flex-end;
+}
+
