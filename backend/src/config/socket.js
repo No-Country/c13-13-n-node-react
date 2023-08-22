@@ -21,12 +21,14 @@ module.exports = (socket) => {
     });
       
     //cuando se envia un mensaje
-    socket.on('sendMsj', async (msj) => {
-        console.log(msj);
-        io.sockets.emit('newMsj', {
-            msg: msj
-        })
+    socket.on('newMessage', async (data) => {
+        const { content, senderId, roomId } = data;
+        const message = await saveMessage(content, senderId, roomId);
+        if (message) {
+          io.to(roomId).emit('messageReceived', message);
+        }
       });
+   
       
     //cuando se conecta nuevo usuario
     socket.on('newUser', async (user) => {

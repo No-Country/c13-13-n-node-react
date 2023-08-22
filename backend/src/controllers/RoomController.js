@@ -2,7 +2,7 @@
 const { log } = require('console');
 const { User, Room } = require('../db');
 
-async function createChat(title,createdBy){
+async function createRoom(title,createdBy){
     const existingChat = await Room.findOne({
         where: {
             title: title,
@@ -18,29 +18,29 @@ async function createChat(title,createdBy){
       return room
 }
 // Unir un usuario a un chat
-async function unirUsuarioAChat(userId, roomId) {
+async function JoinUserToRoom(userId, roomId) {
   const user = await User.findByPk(userId);
-  const room = await Chat.findByPk(roomId);
+  const room = await Room.findByPk(roomId);
   console.log(user);
   if (!user || !room) {
     return 'The user has not been able to join the chat'
   }
-  await user.addChat(room);
+  await user.addRoom(room);
   return `The user ${user.email} has successfully joined the ${room.title}`
 }
 
 // Obtener chats de un usuario
-async function obtenerChatsDeUsuario(userId) {
-  const usuario = await User.findByPk(userId, {
+async function getUserRooms(userId) {
+  const user = await User.findByPk(userId, {
     include: [{ model: Room }],
   });
-  if (!usuario) {
+  if (!user) {
     return 'the user is not registered'
     // Manejo de error si el usuario no existe
   }
-   return usuario.Room;
+   return user.Room;
   
 
 }
 
-module.exports = { createChat, unirUsuarioAChat };
+module.exports = { createRoom, JoinUserToRoom, getUserRooms };

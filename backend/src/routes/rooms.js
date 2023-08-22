@@ -9,7 +9,7 @@ router.post('/newchat', async (req, res) => {
     return res.status(400).json({ error: 'Room title and createdBy is required' });
   }
   try {
-    const chat = await RoomController.createChat(title, createdBy);
+    const chat = await RoomController.createRoom(title, createdBy);
     res.status(201).json(chat);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -18,13 +18,13 @@ router.post('/newchat', async (req, res) => {
 
 router.post('/join', async (req, res) => {
   const { userId, chatId } = await req.body;
-  result = await RoomController.unirUsuarioAChat(userId, chatId);
+  result = await RoomController.JoinUserToRoom(userId, chatId);
   res.send(result);
 });
 
 router.get('/:usuarioId/chats', async (req, res) => {
   const { usuarioId } = req.params;
-  const chats = await RoomController.obtenerChatsDeUsuario(usuarioId);
+  const chats = await RoomController.getUserRooms(usuarioId);
   res.json(chats);
 });
 
