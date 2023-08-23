@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const RoomController = require('../controllers/RoomController');
 
-router.post('/newchat', async (req, res) => {
+router.post('/newroom', async (req, res) => {
   const { title, createdBy } = req.body;
   if (!title || !createdBy) {
     return res.status(400).json({ error: 'Room title and createdBy is required' });
@@ -16,16 +16,21 @@ router.post('/newchat', async (req, res) => {
   }
 });
 
+router.get('/all', async (req, res) => {
+  const allrooms = await RoomController.getAllRooms();
+  res.json(allrooms);
+});
+
 router.post('/join', async (req, res) => {
-  const { userId, chatId } = await req.body;
-  result = await RoomController.JoinUserToRoom(userId, chatId);
+  const { userId, roomId } = await req.body;
+  result = await RoomController.JoinUserToRoom(userId, roomId);
   res.send(result);
 });
 
-router.get('/:usuarioId/chats', async (req, res) => {
+router.get('/:usuarioId', async (req, res) => {
   const { usuarioId } = req.params;
-  const chats = await RoomController.getUserRooms(usuarioId);
-  res.json(chats);
+  const userRooms = await RoomController.getUserRooms(usuarioId);
+  res.json(userRooms);
 });
 
 module.exports = router;

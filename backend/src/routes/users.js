@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { createUser, getAllUsers, getUserID } = require("../controllers/Usercontroller");
+const { createUser, getAllUsers, getUserID,updateUser } = require("../controllers/Usercontroller");
 const router = Router();
 const authController = require('../controllers/authController');
 const User = require("../models/User");
@@ -44,7 +44,7 @@ router.get("/:id", async (req, res) => {
     res.status(400).send(error.message);
   }
 });
-// //eliminar permanentemente usuario
+// //eliminar permanentemente usuario (proximamente)
 // router.delete("/:id", async (req, res) => {
 //   try {
 //     const { id } = req.params;
@@ -56,38 +56,17 @@ router.get("/:id", async (req, res) => {
 // });
 
 // //modificar datos del usuario
+router.put("/", async (req, res) => {
+  try {
+    const { id, email, role, fullname, profile, avatar, status, birthdate } = req.body;
 
-// router.put("/", async (req, res) => {
-//   try {
-//     const {
-//       id,
-//       email,
-//       role,
-//       fullname,
-//       profile,
-//       avatar,
-//       status,
-//       birthdate,
-//     } = req.body;
+    let result = await updateUser( id, email, role, fullname, profile, avatar, status, birthdate);
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send(console.log(error.message));
+  }
+});
 
-//     let result = await updateUser(
-//       id,
-//       email,
-//       role,
-//       fullname,
-//       profile,
-//       avatar,
-//       status,
-//       birthdate,
-//     );
-//     res.status(200).send(result);
-//   } catch (error) {
-//     res.status(400).send(console.log(error.message));
-//   }
-// });
-
-
-// });
 
 
 
