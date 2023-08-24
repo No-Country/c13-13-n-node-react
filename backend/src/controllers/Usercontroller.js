@@ -3,16 +3,16 @@ const { User, Room } = require("../db");
 
 const updateUser = async function (id, email, role, fullname, profile, avatar, status, birthdate) {
 
-    if (!email, !role, !fullname) {
-      throw new Error('You must complete fields')
+    if (!id || !email || !role || !fullname) {
+      throw new Error('You must complete fields id, email, role and fullname')
     }
-    const searchUser = await User.findOne({
+    const userToUpdate = await User.findOne({
       where: {
         id: id,
       },
     });
   
-    if (searchUser) {
+    if (userToUpdate) {
       const updateUser = await User.update({
         email: email,
         role: role,
@@ -28,13 +28,13 @@ const updateUser = async function (id, email, role, fullname, profile, avatar, s
       });
   
      //envio email usuario baneado 
-     if(status === 'suspended'){
-     await userBaned(email, fullname)
-     }
-      return `New User ${email} was created and added successfully`
+    //  if(status === 'suspended'){
+    //  await userBaned(email, fullname)
+    //  }
+      return `User ${email} updated successfully`
     } else {
   
-      return `${email} email already exists`
+      return `The user ${email} is not found in the database`
     }
   }
 const getAllUsers = async function(){
@@ -94,4 +94,4 @@ const getUserID = async function (id) {
 
 
 
-module.exports = { getAllUsers, getUserID };
+module.exports = { getAllUsers, getUserID, updateUser };

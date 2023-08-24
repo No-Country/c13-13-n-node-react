@@ -14,10 +14,21 @@ module.exports = (sequelize) => {
           min: 0,
         },
       },
+      image: {
+        type: DataTypes.STRING,
+      },
       maxParticipants: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 10,
+        validate: {
+            min: 1,
+            max: 50,
+          }, // Establece el número máximo predeterminado
+      },
+      participants: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
         validate: {
             min: 1,
             max: 50,
