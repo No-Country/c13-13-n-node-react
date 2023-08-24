@@ -2,20 +2,25 @@
 const { log } = require('console');
 const { User, Room } = require('../db');
 
-async function createRoom(title,createdBy){
+async function createRoom( title, createdBy, maxParticipants ){
     const existingChat = await Room.findOne({
         where: {
             title: title,
         },
       });
+      //createdBy es el id del usuario que crea la sala y directamente seria el primer miembro
+      const user = await User.findByPk(createdBy);
+      if(!user){ return 'The user is not found in the database'}
       if (existingChat) {
         return `${title} already exists`;
       }
       const room = await Room.create({
         title,
-        createdBy
+        createdBy,
+        maxParticipants
       });
-      return room
+      await user.addRoom(room);
+      return `The user ${user.email} created and successfully joined the ${room.title} room`
 }
 //Obtener todas las salas disponibles
 async function getAllRooms(){
@@ -28,12 +33,32 @@ async function getAllRooms(){
 async function JoinUserToRoom(userId, roomId) {
   const user = await User.findByPk(userId);
   const room = await Room.findByPk(roomId);
-  console.log(user);
+  const userRooms = await User.findByPk(userId, {
+    include: [{ model: Room }],
+  });
+  const roomsArray = await userRooms.Rooms.map(e => e.id)
+  // console.log('salas del usuario', roomsArray);
   if (!user || !room) {
     return 'The user has not been able to join the chat'
   }
-  await user.addRoom(room);
-  return `The user ${user.email} has successfully joined the ${room.title}`
+
+  if (!roomsArray.find(r => r == roomId)) {
+    if (room.participants < room.maxParticipants) {
+      Room.update({
+        participants: room.participants + 1
+      }, {
+        where: {
+          id: roomId,
+        }
+      });
+      await user.addRoom(room);
+      return `The user ${user.email} has successfully joined the ${room.title}`
+    } else {
+      return 'Room is full'
+    }
+  } else {
+    return `the user ${user.email} is already in the room`
+  }
 }
 
 // Obtener salas de chat de un usuario
