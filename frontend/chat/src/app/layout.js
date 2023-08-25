@@ -15,7 +15,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head> 
-        <link rel="stylesheet" href="https://bootswatch.com/5/sketchy/bootstrap.min.css" />
+        {/* <link rel="stylesheet" href="https://bootswatch.com/5/sketchy/bootstrap.min.css" /> */}
+        <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.min.css" />
+        {/* <link rel="stylesheet" href="https://bootswatch.com/5/cosmo/bootstrap.min.css" /> */}
       </head>
     
       <body className={inter.className}>
