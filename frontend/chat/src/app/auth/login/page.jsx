@@ -12,36 +12,31 @@ export default function Login() {
 
   const router = useRouter();
 
-
   async function handleSubmit() {
     event.preventDefault();
     let data = {
       email: email,
       password: password,
     };
-    setICargando(true)
+    setICargando(true);
     let result = await fetchFunctions.POST(
       "https://c13-13-n-node-react-backend.onrender.com/auth/login",
       data
     );
-    setICargando(false)
+    setICargando(false);
     console.log(result);
 
     if (result.token) {
-      setIsLoggedIn(true)
+      setIsLoggedIn(true);
     } else {
-      alert("Usuario o Password incorrecto")
+      alert("Usuario o Password incorrecto");
     }
-
   }
 
-
   useEffect(() => {
-    console.log(isLoggedIn);
     if (isLoggedIn) {
       router.push("/auth/dashboard");
-    } 
-  
+    }
   }, [isLoggedIn]);
 
   return (
@@ -83,7 +78,7 @@ export default function Login() {
         <button type="submit" className="btn btn-primary">
           Submit
         </button>
-        {cargando && <p>cargando...</p>} {/* Mostrar mensaje de carga solo cuando cargando es true */}
+        {cargando && <p>cargando...</p>}
       </fieldset>
     </form>
   );
