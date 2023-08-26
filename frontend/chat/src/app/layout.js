@@ -15,6 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head> 
+      {/* <script src="sweetalert2.all.min.js"></script>  al parecer no seria necesario*/}
         {/* <link rel="stylesheet" href="https://bootswatch.com/5/sketchy/bootstrap.min.css" /> */}
         <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.min.css" />
         {/* <link rel="stylesheet" href="https://bootswatch.com/5/cosmo/bootstrap.min.css" /> */}
