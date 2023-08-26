@@ -1,15 +1,17 @@
 "use client"
 
 import * as fetchFunctions from "@/utils/fetch/fetch";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
   const [email,setEmial] = useState("")
   const [password,setPassword] = useState("");
   const [name,setName] = useState("");
   const [lastName,setLastName] = useState("")
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
+  const router = useRouter();
 
   async function handleSubmit() {
     event.preventDefault();
@@ -20,16 +22,20 @@ export default function Register() {
       password: password
     }
   let result = await fetchFunctions.POST("URL", data)
-   // API Test made it with 
-  //  In this case was needed to send the next object called data:
-   // let data = {
-   //     title: name,
-   //     body: lastName,
-   //     userId: 1,}
-   // let result = await fetchFunctions.postData('https://jsonplaceholder.typicode.com/posts', data)
+
    router.push(`/auth/dashboard`)
    
   }
+
+
+
+useEffect(()=>{
+if (isLoggedIn) {
+  useRouter.push("/dashboard")
+}else{
+alert("Usuario o Password incorreto")}
+},[isLoggedIn])
+
     return(  
     <form className="contarinerGral" onSubmit={handleSubmit}>
     <fieldset>
@@ -89,3 +95,12 @@ export default function Register() {
         
     )
 }
+
+
+   // API Test made it with 
+  //  In this case was needed to send the next object called data:
+   // let data = {
+   //     title: name,
+   //     body: lastName,
+   //     userId: 1,}
+   // let result = await fetchFunctions.postData('https://jsonplaceholder.typicode.com/posts', data)
