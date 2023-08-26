@@ -3,6 +3,8 @@
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export default function Register() {
   const [email, setEmial] = useState("");
@@ -10,39 +12,60 @@ export default function Register() {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const [cargando, setICargando] = useState(false);
+  const [formComplete, setFormComplete] = useState(false);
 
   const router = useRouter();
+  useEffect(() => {
+    // Verificar si todos los campos requeridos están completos
+    const isFormComplete = email !== "" && password !== "";
+    setFormComplete(isFormComplete);
+  }, [email, password]);
 
   async function handleSubmit() {
     event.preventDefault();
     let data = {
-      name: name,
-      lastName: lastName,
       email: email,
+      fullname: `${lastName}, ${name}`,
       password: password,
     };
+    
+    // console.log(data);
     setICargando(true);
     let result = await fetchFunctions.POST(
       "https://c13-13-n-node-react-backend.onrender.com/auth/register",
       data
     );
     setICargando(false);
-    console.log(result);
-
-    if (result.token) {
-      setIsLoggedIn(true);
+    if (result.error === `${email} email already exists`) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error en el Registro',
+        text: `El usuario con el correo electrónico ${email} ya está registrado.`,
+        width: '25em',
+        padding: '1rem'
+      });
+    } else if (result.passwordToken) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Registro Exitoso',
+        text: `¡Usuario ${email} registrado correctamente!`,
+      }).then((r) => {
+        console.log(r);
+        if (r.isConfirmed) {
+          router.push("/auth/dashboard");
+        }
+      });
     } else {
       alert("Usuario o Password incorrecto");
     }
   }
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      router.push("/auth/dashboard");
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     router.push("/auth/dashboard");
+  //   }
+  // }, [isLoggedIn]);
 
   return (
     <form className="contarinerGral" onSubmit={handleSubmit}>
@@ -110,7 +133,7 @@ export default function Register() {
             autoComplete="off"
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary" disabled={!formComplete}>
           Submit
         </button>
         {cargando && <p>cargando...</p>}
