@@ -15,14 +15,14 @@ export default function Profile() {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
       const [cookieName, cookieValue] = cookie.split("=");
-      if (cookieName === "UserData") {
+      if (cookieName === "userData") {
         const userDataString = decodeURIComponent(cookieValue);
         
         const userData = JSON.parse(userDataString);
         console.log(userData);
-        setName(userData.fullname);       
-        setAvatar(userData.avatar);
-        setEmail(userData.email);
+        setName(userData.user.fullname);       
+        setAvatar(userData.user.avatar);
+        setEmail(userData.user.email);
         break; // Detener el ciclo una vez que se encuentra la cookie
       }
     }
