@@ -1,6 +1,8 @@
 
 .bodyLayout{
    margin: 0px;
+   background-color: #faf7f7 ;
+   min-height: 100vh;
 }
 
 .contarinerGral{
