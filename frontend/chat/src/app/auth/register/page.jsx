@@ -61,11 +61,11 @@ export default function Register() {
     }
   }
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     router.push("/auth/dashboard");
-  //   }
-  // }, [isLoggedIn]);
+  /*useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/auth/dashboard");
+    }
+  }, [isLoggedIn]);**/
 
   return (
     <form className="contarinerGral" onSubmit={handleSubmit}>
