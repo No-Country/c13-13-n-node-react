@@ -22,9 +22,9 @@ export default function Home() {
     height="auto" />
 </div>
 <div style={{display:"flex", flexDirection:"column"}}>
-      <button type="button" class="btn btn-outline-dark" style={{marginBottom:"15px"}}>
+      <button type="button" className="btn btn-outline-dark" style={{marginBottom:"15px"}}>
         <a className="nav-link" onClick={() => { router.push(`/auth/login`) }} >Login</a></button>
-      <button type="button" class="btn btn-outline-dark">
+      <button type="button" className="btn btn-outline-dark">
         <a className="nav-link" onClick={() => { router.push(`/auth/register`) }}>Register</a></button>
 </div>
 

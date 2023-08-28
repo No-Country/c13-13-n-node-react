@@ -3,6 +3,7 @@
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { serialize } from "cookie";
 
 export default function Login() {
   const [email, setEmial] = useState("");
@@ -12,6 +13,7 @@ export default function Login() {
 
   const router = useRouter();
 
+
   async function handleSubmit() {
     event.preventDefault();
     let data = {
@@ -19,14 +21,16 @@ export default function Login() {
       password: password,
     };
     setICargando(true);
-    let result = await fetchFunctions.POST(
+    let dataResponse = await fetchFunctions.POST(
       "https://c13-13-n-node-react-backend.onrender.com/auth/login",
       data
     );
-    setICargando(false);
-    console.log(result);
 
-    if (result.token) {
+    setICargando(false);
+
+    if (dataResponse.token) {
+      document.cookie = serialize("userData", JSON.stringify(dataResponse));
+ 
       setIsLoggedIn(true);
     } else {
       alert("Usuario o Password incorrecto");
