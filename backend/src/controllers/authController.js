@@ -51,7 +51,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: 'Credenciales inválidas' });
     }
     const token = jwtUtils.generateToken({ userId: user.id, role:user.role });
-    res.json({ token });
+    res.json({ token, user });
   } catch (error) {
     res.status(500).json({ error: 'Error en el servidor' });
   }
