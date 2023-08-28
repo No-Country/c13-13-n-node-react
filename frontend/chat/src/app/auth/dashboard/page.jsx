@@ -15,6 +15,7 @@ export default function Dashboard() {
  
 
   const goToUserProfile = () => {
+    
   };
 
   async function handleSubmit() {
@@ -23,11 +24,14 @@ export default function Dashboard() {
 
 
   return (
-    <div className="containerGral">
+    <div className="containerGral" style={{display:"flex", flexDirection:"row", alignItems:"center", marginTop:"20px"}}>
       {" "}
+      <div style={{display:"flex", flexDirection:"column", alignItems:"center",marginLeft:"10%"}}>
       <Profile/>
-      <button onClick={goToUserProfile}>Ver Mi Perfil</button>
-      <h1 className="title">SALAS DISPONIBLES</h1>
+      <button type="button"onClick={goToUserProfile} class="btn btn-outline-warning">Editar Perfil</button>
+      </div>
+      <div style={{display:"flex", flexDirection:"column",alignItems:"center",marginLeft:"10%"}}>
+      <h3 className="title">SALAS DISPONIBLES</h3>
       <div className="containerSec">
         <button
           type="button"
@@ -39,9 +43,12 @@ export default function Dashboard() {
           SALA 1
         </button>
       </div>
-      <div className="containerTer">
-        <h1>CREAR UN CHAT</h1>
+      <h3>CREAR UN CHAT</h3>
+      <div className="containerSec">
+        
+        <button type="button" class="btn btn-outline-info">Crear Sala</button>
         <div className="d-grid gap-2"></div>
+      </div>
       </div>
     </div>
   );

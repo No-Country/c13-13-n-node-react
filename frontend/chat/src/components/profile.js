@@ -9,7 +9,7 @@ export default function Profile() {
   const [lastName, setLastName] = useState("Cargando..");
   const [avatar, setAvatar] = useState("Cargando..");
   const [email, setEmail] = useState("Cargando..");
-
+  const [birthdate, setBirthdate] = useState("Cargando..");
   useEffect(() => {
     // Obtener el valor de la cookie directamente
     const cookies = document.cookie.split("; ");
@@ -23,16 +23,22 @@ export default function Profile() {
         setName(userData.user.fullname);       
         setAvatar(userData.user.avatar);
         setEmail(userData.user.email);
+        setBirthdate(convertirFecha(userData.user.birthdate));
         break; // Detener el ciclo una vez que se encuentra la cookie
       }
     }
   }, []);
-
+  function convertirFecha(fecha) {
+    var fech = fecha.split('/');
+    return fech[2] + '-' + fech[1] + '-' + fech[0];
+}
   return (
     <div className="contarinerGral">
-      <p>{name}</p>
+      <p>Usuario: <strong>{name}</strong></p>
       <img src={avatar} style={{ width: "300px",  border: "1px solid black" }} alt="Avatar" />
-      <p>{email}</p>
+      <br></br>
+      <p>Email: <strong>{email}</strong></p>
+      <p>Fecha de nacimiento: <strong>{birthdate}</strong></p>
     </div>
   );
 }
