@@ -173,7 +173,7 @@ const handleEditClick = () => {
         </div>
         </div>
         
-        <div className="mb-3">
+        <div className="mb-3" style={{marginLeft:"20px"}}>
           <label htmlFor="avatar" className="form-label">
             Avatar (Image):
           </label>

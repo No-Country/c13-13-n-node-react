@@ -68,7 +68,7 @@ export default function Register() {
   }, [isLoggedIn]);**/
 
   return (
-    <form className="contarinerGral" onSubmit={handleSubmit}>
+    <form className="contarinerGral" onSubmit={handleSubmit} style={{marginTop:"20px"}}>
       <fieldset>
         <legend>Registrate</legend>
 
@@ -133,7 +133,7 @@ export default function Register() {
             autoComplete="off"
           />
         </div>
-        <button type="submit" className="btn btn-primary" disabled={!formComplete}>
+        <button type="submit" className="btn btn-primary" disabled={!formComplete} style={{marginTop:"20px"}}>
           Submit
         </button>
         {cargando && <p>cargando...</p>}
