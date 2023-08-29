@@ -1,12 +1,16 @@
 "use client";
+import { useEffect } from 'react'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap';
+// import 'bootstrap';
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Nav(params) {
   const router = useRouter();
+  useEffect(() => {
+    require('bootstrap');
+  }, []);
   return (
     <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
       <div className="container-fluid">
