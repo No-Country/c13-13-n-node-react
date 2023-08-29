@@ -14,15 +14,20 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head> 
-        <link rel="stylesheet" href="https://bootswatch.com/5/sketchy/bootstrap.min.css" />
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Lato&family=Lobster+Two&family=Quicksand:wght@300;500&display=swap" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css2?family=Lobster+Two&family=Quicksand:wght@300;500&display=swap" rel="stylesheet" />
+        {/* <script src="sweetalert2.all.min.js"></script>  al parecer no seria necesario*/}
+        {/* <link rel="stylesheet" href="https://bootswatch.com/5/sketchy/bootstrap.min.css" /> */}
+        <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.min.css" />
+        {/* <link rel="stylesheet" href="https://bootswatch.com/5/cosmo/bootstrap.min.css" /> */}
       </head>
-    
+
       <body className={inter.className}>
-      <div className='bodyLayout'>
-        <Nav/>        
-        {children}
-        
+        <div className='bodyLayout'>
+          <Nav />
+          {children}
+
         </div>
       </body>
     </html>
