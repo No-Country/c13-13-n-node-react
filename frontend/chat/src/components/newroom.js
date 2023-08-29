@@ -6,37 +6,37 @@ export default function newroom () {
   const [image, setImage] = useState("");
   const [maxParticipants, setMaxParticipants] = useState("");
   
-//   const handleTitleChange = (e) => {
-//     setTitle(e.target.value);
-//   };
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
 
-//   const handleImageChange = (e) => {
-//     setImage(e.target.value);
-//   };
+  const handleImageChange = (e) => {
+    setImage(e.target.value);
+  };
 
-//   const handleMaxParticipantsChange = (e) => {
-//     setMaxParticipants(e.target.value);
-//   };
+  const handleMaxParticipantsChange = (e) => {
+    setMaxParticipants(e.target.value);
+  };
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-//     // Aquí puedes realizar la lógica para enviar los datos al servidor
-//     const newRoomData = {
-//       title,
-//       image,
-//       maxParticipants,
-//       createdBy: user.id, // Asumiendo que user contiene el ID del usuario actual
-//     };
+    // Aquí puedes realizar la lógica para enviar los datos al servidor
+    const newRoomData = {
+      title,
+      image,
+      maxParticipants,
+      createdBy: user.id, // Asumiendo que user contiene el ID del usuario actual
+    };
 
-//     // Lógica para enviar newRoomData al servidor o realizar otras acciones
-//     console.log("Nueva sala creada:", newRoomData);
+    // Lógica para enviar newRoomData al servidor o realizar otras acciones
+    console.log("Nueva sala creada:", newRoomData);
 
-//     // Limpia los campos del formulario después de enviar
-//     setTitle("");
-//     setImage("");
-//     setMaxParticipants("");
-//   };
+    // Limpia los campos del formulario después de enviar
+    setTitle("");
+    setImage("");
+    setMaxParticipants("");
+  };
 
   return (
     <div>
