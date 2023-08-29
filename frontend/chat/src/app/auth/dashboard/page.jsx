@@ -31,40 +31,31 @@ export default function Dashboard() {
 
 
   return (
-    <div className="containerGral" style={{ display: "flex", flexDirection: "row", alignItems: "center", marginTop: "20px" }}>
+    <div className="containerGral" style={{display:"flex", flexDirection:"row", alignItems:"center", flexWrap:"wrap", justifyContent:"center"}}>
       {" "}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginLeft: "10%" }}>
-        <Profile />
-        <button type="button" onClick={goToUserProfile} class="btn btn-outline-warning">Editar Perfil</button>
+      <div style={{display:"flex", flexDirection:"column", alignItems:"center",marginRight:"10%", marginTop:"5%"}}>
+      <Profile/>
+      <button type="button"onClick={goToUserProfile} class="btn btn-outline-warning">Editar Perfil</button>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginLeft: "10%" }}>
-        <h3 className="title">SALAS DISPONIBLES</h3>
-        <div className="containerSec">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => {
-              getDataUser(); // Llamar a la función para obtener los datos del usuario
-            }}
-          >
-            SALA 1
-          </button>
-        </div>
-        {
-          newRoom ? (
-            <div>
-              <RoomComponent />
-              <button type="button" onClick={handleNewRoom} class="btn btn-outline-info">Atrás</button> </div>
-          )
-            : (<div> <h3>CREAR UN CHAT</h3>
-              <div className="containerSec">
-                <button type="button" onClick={handleNewRoom} class="btn btn-outline-info">Crear Sala</button>
-                <div className="d-grid gap-2"></div>
-              </div></div>)
-        }
-
-
-
+      <div style={{display:"flex", flexDirection:"column",alignItems:"center", justifyContent:"center",marginRight:"10%", marginTop:"5%"}}>
+      <h3 className="title">SALAS DISPONIBLES</h3>
+      <div className="containerSec">
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => {
+            getDataUser(); // Llamar a la función para obtener los datos del usuario
+          }}
+        >
+          SALA 1
+        </button>
+      </div>
+      <h3>CREAR UN CHAT</h3>
+      <div className="containerSec">
+        
+        <button type="button" class="btn btn-outline-info">Crear Sala</button>
+        <div className="d-grid gap-2"></div>
+      </div>
       </div>
     </div>
   );
