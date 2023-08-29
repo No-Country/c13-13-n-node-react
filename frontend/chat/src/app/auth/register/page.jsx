@@ -23,7 +23,7 @@ export default function Register() {
   }, [email, password]);
 
   async function handleSubmit() {
-    event.preventDefault();
+    e.preventDefault();
     let data = {
       email: email,
       fullname: `${lastName}, ${name}`,

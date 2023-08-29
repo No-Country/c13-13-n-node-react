@@ -4,23 +4,30 @@ import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState, useEffect } from "react";
 import { parse } from 'cookie';
 import Profile from "@/components/profile";
-
+import RoomComponent from "@/components/newroom";
 
 export default function Dashboard() {
   const [email, setEmail] = useState(""); // Corregido: Cambiado setEmial a setEmail
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [newRoom, setnewRoom] = useState("")
+
   const router = useRouter();
-//*
- 
+
+  //*
+
 
   const goToUserProfile = () => {
-    
+
   };
 
   async function handleSubmit() {
   }
 
+  async function handleNewRoom() {
+    event.preventDefault()
+    setnewRoom(!newRoom)
+  }
 
 
   return (
@@ -43,13 +50,21 @@ export default function Dashboard() {
           SALA 1
         </button>
       </div>
-      <h3>CREAR UN CHAT</h3>
-      <div className="containerSec">
-        
-        <button type="button" class="btn btn-outline-info">Crear Sala</button>
-        <div className="d-grid gap-2"></div>
-      </div>
+      {
+          newRoom ? (
+            <div>
+              <RoomComponent />
+              <button type="button" onClick={handleNewRoom} class="btn btn-outline-info">Atrás</button> </div>
+          )
+            : (<div> <h3>CREAR UN CHAT</h3>
+              <div className="containerSec">
+                <button type="button" onClick={handleNewRoom} class="btn btn-outline-info">Crear Sala</button>
+                <div className="d-grid gap-2"></div>
+              </div></div>)
+        }
+
       </div>
     </div>
   );
 }
+
