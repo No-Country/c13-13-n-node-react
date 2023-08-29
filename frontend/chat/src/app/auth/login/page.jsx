@@ -44,7 +44,7 @@ export default function Login() {
   }, [isLoggedIn]);
 
   return (
-    <form className="contarinerGral" onSubmit={handleSubmit}>
+    <form className="contarinerGral" onSubmit={handleSubmit} style={{marginTop:"20px"}}>
       <fieldset>
         <legend>Login</legend>
 
@@ -79,7 +79,7 @@ export default function Login() {
             autoComplete="off"
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary"style={{marginTop:"20px"}}>
           Submit
         </button>
         {cargando && <p>cargando...</p>}
