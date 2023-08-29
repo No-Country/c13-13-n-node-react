@@ -24,13 +24,13 @@ export default function Dashboard() {
 
 
   return (
-    <div className="containerGral" style={{display:"flex", flexDirection:"row", alignItems:"center", marginTop:"20px"}}>
+    <div className="containerGral" style={{display:"flex", flexDirection:"row", alignItems:"center", flexWrap:"wrap", justifyContent:"center"}}>
       {" "}
-      <div style={{display:"flex", flexDirection:"column", alignItems:"center",marginLeft:"10%"}}>
+      <div style={{display:"flex", flexDirection:"column", alignItems:"center",marginRight:"10%", marginTop:"5%"}}>
       <Profile/>
       <button type="button"onClick={goToUserProfile} class="btn btn-outline-warning">Editar Perfil</button>
       </div>
-      <div style={{display:"flex", flexDirection:"column",alignItems:"center",marginLeft:"10%"}}>
+      <div style={{display:"flex", flexDirection:"column",alignItems:"center", justifyContent:"center",marginRight:"10%", marginTop:"5%"}}>
       <h3 className="title">SALAS DISPONIBLES</h3>
       <div className="containerSec">
         <button
