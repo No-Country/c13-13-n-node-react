@@ -33,6 +33,7 @@ const userProfile = (
     status: '',
     birthdate: '',
   });
+  const router = useRouter()
 const [isEditing, setIsEditing] = useState(false);
 const [newAvatar, setNewAvatar] = useState(null);
 const [validationErrors, setValidationErrors] = useState({})
@@ -41,7 +42,7 @@ console.log(user)
 useEffect(() => {
   if (initialUserData) {
     const [lastname, name] = initialUserData.fullname.split(', ');
-    console.log(lastname, name);
+    // console.log(lastname, name);
     setUser((prevUser) => ({
       ...prevUser,
       email: initialUserData.email,
@@ -81,7 +82,7 @@ const handleEditClick = () => {
     // if (!validateFields()) {
     //   return;
     // }
-    console.log('Datos del usuario modificados:', user);
+    // console.log('Datos del usuario modificados:', user);
   };
 
   const validateFields = () => {
@@ -96,10 +97,14 @@ const handleEditClick = () => {
 
   return (
     <div className="container mt-5">
-      <h2>Profile:</h2>
+      <b style={{display:"flex"}}> <a className="nav-link btn btn-outline-primary" onClick={() => { router.push(`/auth/dashboard`) }} >
+        <i className="bi bi-arrow-left me-2"></i> Atrás
+      </a></b>
+      <hr />
+      {/* <h2>User profile:</h2> */}
       <form className="form" onSubmit={handleSubmit}>
       <div className="data-img">
-        <div className="datos">
+        <div className="datos" style={{marginRight:"5rem"}}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
             Email:
@@ -173,10 +178,10 @@ const handleEditClick = () => {
         </div>
         </div>
         
-        <div className="mb-3" style={{marginLeft:"20px"}}>
-          <label htmlFor="avatar" className="form-label">
+        <div className="mb-3" style={{display:"flex", flexDirection:"column"}}>
+          <label htmlFor="avatar" className="form-label" >
             Avatar (Image):
-          </label>
+          </label >
           {isEditing ? (
             <>
               <input
@@ -199,13 +204,15 @@ const handleEditClick = () => {
             Save Changes
           </button>
         ) : (
-          <button
+          <div style={{width:"100%", display:"flex",justifyContent:"center"}}><button
             type="button"
             className="btn btn-warning me-2"
             onClick={handleEditClick}
+            style={{width:"20%"}}
           >
             Edit
-          </button>
+          </button></div>
+          
         )}
         {isEditing && (
           <button
