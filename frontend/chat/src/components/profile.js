@@ -17,9 +17,8 @@ export default function Profile() {
       const [cookieName, cookieValue] = cookie.split("=");
       if (cookieName === "userData") {
         const userDataString = decodeURIComponent(cookieValue);
-        
         const userData = JSON.parse(userDataString);
-        console.log(userData);
+        // console.log(userData);
         setName(userData.user.fullname);       
         setAvatar(userData.user.avatar);
         setEmail(userData.user.email);
