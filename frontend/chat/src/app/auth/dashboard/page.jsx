@@ -40,7 +40,7 @@ export default function Dashboard() {
   }
 
   async function handleNewRoom() {
-    event.preventDefault()
+    e.preventDefault()
     setnewRoom(!newRoom)
   }
 

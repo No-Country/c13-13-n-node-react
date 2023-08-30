@@ -5,7 +5,7 @@ export default function newroom ({user}) {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [maxParticipants, setMaxParticipants] = useState("");
-  console.log(user);
+  // console.log(user);
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
@@ -30,7 +30,7 @@ export default function newroom ({user}) {
     };
 
     // Lógica para enviar newRoomData al servidor o realizar otras acciones
-    console.log("Nueva sala creada:", newRoomData);
+    // console.log("Nueva sala creada:", newRoomData);
 
     // Limpia los campos del formulario después de enviar
     setTitle("");
