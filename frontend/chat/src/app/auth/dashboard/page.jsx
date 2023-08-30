@@ -42,8 +42,10 @@ export default function Dashboard() {
   async function handleNewRoom() {
     setnewRoom(!newRoom)
   }
-
-
+  async function getDataUser() {
+    console.log("funcion entrar a sala")
+  }
+  
   return (
     <div className="containerGral" style={{display:"flex", flexDirection:"row", alignItems:"center", flexWrap:"wrap", justifyContent:"center"}}>
       {" "}
