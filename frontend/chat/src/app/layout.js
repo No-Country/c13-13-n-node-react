@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"></link>
+      {/* <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"></link> */}
         <link href="https://fonts.googleapis.com/css2?family=Lato&family=Lobster+Two&family=Quicksand:wght@300;500&display=swap" rel="stylesheet"></link>
         <link href="https://fonts.googleapis.com/css2?family=Lobster+Two&family=Quicksand:wght@300;500&display=swap" rel="stylesheet" />
         {/* <script src="sweetalert2.all.min.js"></script>  al parecer no seria necesario*/}

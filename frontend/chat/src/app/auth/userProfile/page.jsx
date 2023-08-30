@@ -4,7 +4,7 @@ import * as fetchFunctions from "@/utils/fetch/fetch";
 import React, { useState, useEffect } from 'react';
 import styles from './UserProfile.module.css';
 import { useRouter } from "next/navigation";
-
+import { BsArrowLeft } from "react-icons/bs";
 
 
 
@@ -37,7 +37,7 @@ const userProfile = (
 const [isEditing, setIsEditing] = useState(false);
 const [newAvatar, setNewAvatar] = useState(null);
 const [validationErrors, setValidationErrors] = useState({})
-console.log(user)
+// console.log(user)
 
 useEffect(() => {
   if (initialUserData) {
@@ -98,7 +98,7 @@ const handleEditClick = () => {
   return (
     <div className="container mt-5">
       <b style={{display:"flex"}}> <a className="nav-link btn btn-outline-primary" onClick={() => { router.push(`/auth/dashboard`) }} >
-        <i className="bi bi-arrow-left me-2"></i> Atrás
+      <BsArrowLeft className="me-2" /> Atrás
       </a></b>
       <hr />
       {/* <h2>User profile:</h2> */}
