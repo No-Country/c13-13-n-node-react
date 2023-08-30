@@ -10,15 +10,30 @@ export default function Dashboard() {
   const [email, setEmail] = useState(""); // Corregido: Cambiado setEmial a setEmail
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [newRoom, setnewRoom] = useState("")
+  const [newRoom, setnewRoom] = useState("");
+  const [currentUser, setCurrentUser] = useState({});
 
   const router = useRouter();
 
   //*
-
+  useEffect(() => {
+    // Obtener el valor de la cookie directamente
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.split("=");
+      if (cookieName === "userData") {
+        const userDataString = decodeURIComponent(cookieValue);
+        const userData = JSON.parse(userDataString);
+        setCurrentUser(userData)
+        // console.log(userData);
+        break; // Detener el ciclo una vez que se encuentra la cookie
+      }
+    }
+  }, []);
+console.log(currentUser);
 
   const goToUserProfile = () => {
-
+    router.push("/auth/userProfile");
   };
 
   async function handleSubmit() {
@@ -38,7 +53,17 @@ export default function Dashboard() {
       <button type="button"onClick={goToUserProfile} class="btn btn-outline-warning">Editar Perfil</button>
       </div>
       <div style={{display:"flex", flexDirection:"column",alignItems:"center", justifyContent:"center",marginRight:"10%", marginTop:"5%"}}>
-      <h3 className="title">SALAS DISPONIBLES</h3>
+      
+      {
+          newRoom ? (
+            <div style={{display:"flex", alignItems:"center", flexDirection:"column"}}>
+              <RoomComponent user={currentUser}/>
+              <hr></hr>
+              
+              <button type="button" onClick={handleNewRoom} class="btn btn-outline-info">Atrás</button> </div>
+          )
+            : (<div style={{display:"flex", alignItems:"center", flexDirection:"column"}}>
+              <h3 className="title">SALAS DISPONIBLES</h3>
       <div className="containerSec">
         <button
           type="button"
@@ -49,14 +74,8 @@ export default function Dashboard() {
         >
           SALA 1
         </button>
-      </div>
-      {
-          newRoom ? (
-            <div>
-              <RoomComponent />
-              <button type="button" onClick={handleNewRoom} class="btn btn-outline-info">Atrás</button> </div>
-          )
-            : (<div> <h3>CREAR UN CHAT</h3>
+      </div> 
+      <h3>CREAR UNA SALA</h3>
               <div className="containerSec">
                 <button type="button" onClick={handleNewRoom} class="btn btn-outline-info">Crear Sala</button>
                 <div className="d-grid gap-2"></div>

@@ -33,6 +33,7 @@ const userProfile = (
     status: '',
     birthdate: '',
   });
+  const router = useRouter()
 const [isEditing, setIsEditing] = useState(false);
 const [newAvatar, setNewAvatar] = useState(null);
 const [validationErrors, setValidationErrors] = useState({})
@@ -41,7 +42,7 @@ console.log(user)
 useEffect(() => {
   if (initialUserData) {
     const [lastname, name] = initialUserData.fullname.split(', ');
-    console.log(lastname, name);
+    // console.log(lastname, name);
     setUser((prevUser) => ({
       ...prevUser,
       email: initialUserData.email,
@@ -81,7 +82,7 @@ const handleEditClick = () => {
     // if (!validateFields()) {
     //   return;
     // }
-    console.log('Datos del usuario modificados:', user);
+    // console.log('Datos del usuario modificados:', user);
   };
 
   const validateFields = () => {
@@ -96,7 +97,11 @@ const handleEditClick = () => {
 
   return (
     <div className="container mt-5">
-      <h2>Profile:</h2>
+      <b style={{display:"flex"}}> <a className="nav-link btn btn-outline-primary" onClick={() => { router.push(`/auth/dashboard`) }} >
+        <i className="bi bi-arrow-left me-2"></i> Atrás
+      </a></b>
+      <hr />
+      {/* <h2>User profile:</h2> */}
       <form className="form" onSubmit={handleSubmit}>
       <div className="data-img">
         <div className="datos">
