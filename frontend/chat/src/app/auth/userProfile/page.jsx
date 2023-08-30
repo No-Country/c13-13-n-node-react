@@ -104,7 +104,7 @@ const handleEditClick = () => {
       {/* <h2>User profile:</h2> */}
       <form className="form" onSubmit={handleSubmit}>
       <div className="data-img">
-        <div className="datos">
+        <div className="datos" style={{marginRight:"5rem"}}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
             Email:
@@ -178,10 +178,10 @@ const handleEditClick = () => {
         </div>
         </div>
         
-        <div className="mb-3" style={{marginLeft:"20px"}}>
-          <label htmlFor="avatar" className="form-label">
+        <div className="mb-3" style={{display:"flex", flexDirection:"column"}}>
+          <label htmlFor="avatar" className="form-label" >
             Avatar (Image):
-          </label>
+          </label >
           {isEditing ? (
             <>
               <input
@@ -204,13 +204,15 @@ const handleEditClick = () => {
             Save Changes
           </button>
         ) : (
-          <button
+          <div style={{width:"100%", display:"flex",justifyContent:"center"}}><button
             type="button"
             className="btn btn-warning me-2"
             onClick={handleEditClick}
+            style={{width:"20%"}}
           >
             Edit
-          </button>
+          </button></div>
+          
         )}
         {isEditing && (
           <button
