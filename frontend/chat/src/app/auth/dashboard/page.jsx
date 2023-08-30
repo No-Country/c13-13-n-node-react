@@ -51,7 +51,7 @@ export default function Dashboard() {
       {" "}
       <div style={{display:"flex", flexDirection:"column", alignItems:"center",marginRight:"10%", marginTop:"5%"}}>
       <Profile/>
-      <button type="button"onClick={goToUserProfile} class="btn btn-outline-warning">Editar Perfil</button>
+      {/* <button type="button"onClick={goToUserProfile} class="btn btn-outline-warning">Editar Perfil</button> */}
       </div>
       <div style={{display:"flex", flexDirection:"column",alignItems:"center", justifyContent:"center",marginRight:"10%", marginTop:"5%"}}>
       
