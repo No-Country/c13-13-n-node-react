@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 export default function Profile() {
   const [name, setName] = useState("Cargando..");
   const [lastName, setLastName] = useState("Cargando..");
-  const [avatar, setAvatar] = useState("Cargando..");
+  const [avatar, setAvatar] = useState("https://res.cloudinary.com/dbwmesg3e/image/upload/v1693444695/NoCountry/drawing-2802_256_pjv8li.gif");
   const [email, setEmail] = useState("Cargando..");
   const [birthdate, setBirthdate] = useState("Cargando..");
   useEffect(() => {
