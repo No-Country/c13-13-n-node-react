@@ -114,6 +114,6 @@ export default function Nav(params) {
           </li>
         </ul>
       </div>
-    </nav>
+    </nav> 
   );
 }
