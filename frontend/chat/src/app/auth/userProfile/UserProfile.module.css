@@ -5,8 +5,8 @@
     margin-left: 10%;
 }
 .mt-5{
-display: flex;
-justify-content: flex-start;
+    display: flex;
+    justify-content: flex-start;
     align-items: flex-start;
 }
 form.data-img{

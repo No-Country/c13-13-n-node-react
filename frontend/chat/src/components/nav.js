@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from 'react'; 
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap';
 
 import Link from "next/link";
@@ -46,7 +46,7 @@ export default function Nav(params) {
             Tell me
           </div>
         </div>
-        {/* <button
+        <button
           className="navbar-toggler collapsed"
           type="button"
           data-bs-toggle="collapse"
@@ -55,7 +55,7 @@ export default function Nav(params) {
           aria-expanded="false"
           aria-label="Toggle navigation"
         ><span className="navbar-toggler-icon"></span>
-        </button> */}
+        </button>
         <div style={{display:"flex", flexDirection:"row", flexWrap:"nowrap"  }}>
        
         <div class="collapse navbar-collapse" id="navbarColor01">
