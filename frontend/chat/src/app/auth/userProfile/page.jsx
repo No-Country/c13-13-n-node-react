@@ -4,7 +4,7 @@ import * as fetchFunctions from "@/utils/fetch/fetch";
 import React, { useState, useEffect } from 'react';
 import styles from './UserProfile.module.css';
 import { useRouter } from "next/navigation";
-// import { BsArrowLeft } from "react-icons/bs";
+import { BsArrowLeft } from "react-icons/bs";
 
 
 
@@ -98,7 +98,7 @@ const handleEditClick = () => {
   return (
     <div className="container mt-5">
       <b style={{display:"flex"}}> <a className="nav-link btn btn-outline-primary" onClick={() => { router.push(`/auth/dashboard`) }} >
-      {/* <BsArrowLeft className="me-2" /> */}
+      <BsArrowLeft className="me-2" />
        Atrás
       </a></b>
       <hr />
