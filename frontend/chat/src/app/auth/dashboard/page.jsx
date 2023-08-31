@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState, useEffect } from "react";
-import { parse } from 'cookie';
+import { parse } from "cookie";
 import Profile from "@/components/profile";
 import RoomComponent from "@/components/newroom";
 
@@ -30,61 +30,113 @@ export default function Dashboard() {
   //     }
   //   }
   // }, []);
-// console.log(currentUser);
+  // console.log(currentUser);
 
   const goToUserProfile = () => {
     router.push("/auth/userProfile");
   };
 
-  async function handleSubmit() {
-  }
+  async function handleSubmit() {}
 
   async function handleNewRoom() {
-    setnewRoom(!newRoom)
+    setnewRoom(!newRoom);
   }
   async function getDataUser() {
-    console.log("funcion entrar a sala")
+    console.log("funcion entrar a sala");
   }
-  
+
   return (
-    <div className="containerGral" style={{display:"flex", flexDirection:"row", alignItems:"center", flexWrap:"wrap", justifyContent:"center"}}>
+    <div
+      className="containerGral"
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        flexWrap: "wrap",
+        justifyContent: "center",
+      }}
+    >
       {" "}
-      <div style={{display:"flex", flexDirection:"column", alignItems:"center",marginRight:"10%", marginTop:"5%"}}>
-      <Profile/>
-      <button type="button"onClick={goToUserProfile} class="btn btn-outline-warning">Editar Perfil</button>
-      </div>
-      <div style={{display:"flex", flexDirection:"column",alignItems:"center", justifyContent:"center",marginRight:"10%", marginTop:"5%"}}>
-      
-      {
-          newRoom ? (
-            <div style={{display:"flex", alignItems:"center", flexDirection:"column"}}>
-              <RoomComponent user={currentUser}/>
-              <hr></hr>
-              
-              <button type="button" onClick={handleNewRoom} class="btn btn-outline-info">Atrás</button> </div>
-          )
-            : (<div style={{display:"flex", alignItems:"center", flexDirection:"column"}}>
-              <h3 className="title">SALAS DISPONIBLES</h3>
-      <div className="containerSec">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginRight: "10%",
+          marginTop: "5%",
+        }}
+      >
+        <Profile />
         <button
           type="button"
-          className="btn btn-primary"
-          onClick={() => {
-            getDataUser(); // Llamar a la función para obtener los datos del usuario
-          }}
+          onClick={goToUserProfile}
+          className="btn btn-outline-warning"
         >
-          SALA 1
+          Editar Perfil
         </button>
-      </div> 
-      <h3>CREAR UNA SALA</h3>
-              <div className="containerSec">
-                <button type="button" onClick={handleNewRoom} class="btn btn-outline-info">Crear Sala</button>
-                <div className="d-grid gap-2"></div>
-              </div></div>)
-        }
-
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          marginRight: "10%",
+          marginTop: "5%",
+        }}
+      >
+        {newRoom ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <RoomComponent user={currentUser} />
+            <hr></hr>
+            <button
+              type="button"
+              onClick={handleNewRoom}
+              className="btn btn-outline-info"
+            >
+              Atrás
+            </button>{" "}
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <h3 className="title">SALAS DISPONIBLES</h3>
+            <div className="containerSec">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  getDataUser(); // Llamar a la función para obtener los datos del usuario
+                }}
+              >
+                SALA 1
+              </button>
+            </div>
+            <h3>CREAR UNA SALA</h3>
+            <div className="containerSec">
+              <button
+                type="button"
+                onClick={handleNewRoom}
+                className="btn btn-outline-info"
+              >
+                Crear Sala
+              </button>
+              <div className="d-grid gap-2"></div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
-

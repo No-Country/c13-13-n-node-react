@@ -3,8 +3,8 @@
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.css';
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 
 export default function Register() {
   const [email, setEmial] = useState("");
@@ -29,7 +29,7 @@ export default function Register() {
       fullname: `${lastName}, ${name}`,
       password: password,
     };
-    
+
     // console.log(data);
     setICargando(true);
     let result = await fetchFunctions.POST(
@@ -39,16 +39,16 @@ export default function Register() {
     setICargando(false);
     if (result.error === `${email} email already exists`) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error en el Registro',
+        icon: "error",
+        title: "Error en el Registro",
         text: `El usuario con el correo electrónico ${email} ya está registrado.`,
-        width: '25em',
-        padding: '1rem'
+        width: "25em",
+        padding: "1rem",
       });
     } else if (result.passwordToken) {
       Swal.fire({
-        icon: 'success',
-        title: 'Registro Exitoso',
+        icon: "success",
+        title: "Registro Exitoso",
         text: `¡Usuario ${email} registrado correctamente!`,
       }).then((r) => {
         console.log(r);
@@ -68,7 +68,11 @@ export default function Register() {
   }, [isLoggedIn]);**/
 
   return (
-    <form className="contarinerGral" onSubmit={handleSubmit} style={{marginTop:"20px"}}>
+    <form
+      className="contarinerGral"
+      onSubmit={handleSubmit}
+      style={{ marginTop: "20px" }}
+    >
       <fieldset>
         <legend>Registrate</legend>
 
@@ -133,7 +137,12 @@ export default function Register() {
             autoComplete="off"
           />
         </div>
-        <button type="submit" className="btn btn-primary" disabled={!formComplete} style={{marginTop:"20px"}}>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={!formComplete}
+          style={{ marginTop: "20px" }}
+        >
           Submit
         </button>
         {cargando && <p>cargando...</p>}

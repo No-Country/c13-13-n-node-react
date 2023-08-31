@@ -13,7 +13,6 @@ export default function Login() {
 
   const router = useRouter();
 
-
   async function handleSubmit() {
     event.preventDefault();
     let data = {
@@ -30,7 +29,7 @@ export default function Login() {
 
     if (dataResponse.token) {
       document.cookie = serialize("userData", JSON.stringify(dataResponse));
- 
+
       setIsLoggedIn(true);
     } else {
       alert("Usuario o Password incorrecto");
@@ -44,7 +43,11 @@ export default function Login() {
   }, [isLoggedIn]);
 
   return (
-    <form className="contarinerGral" onSubmit={handleSubmit} style={{marginTop:"20px"}}>
+    <form
+      className="contarinerGral"
+      onSubmit={handleSubmit}
+      style={{ marginTop: "20px" }}
+    >
       <fieldset>
         <legend>Login</legend>
 
@@ -79,10 +82,14 @@ export default function Login() {
             autoComplete="off"
           />
         </div>
-        <button type="submit" className="btn btn-primary"style={{marginTop:"20px"}}>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          style={{ marginTop: "20px" }}
+        >
           Submit
         </button>
-        
+
         {cargando && <p>cargando...</p>}
       </fieldset>
     </form>

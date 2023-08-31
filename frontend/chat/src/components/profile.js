@@ -7,7 +7,9 @@ import { useState, useEffect } from "react";
 export default function Profile() {
   const [name, setName] = useState("Cargando..");
   const [lastName, setLastName] = useState("Cargando..");
-  const [avatar, setAvatar] = useState("https://res.cloudinary.com/dbwmesg3e/image/upload/v1693444695/NoCountry/drawing-2802_256_pjv8li.gif");
+  const [avatar, setAvatar] = useState(
+    "https://res.cloudinary.com/dbwmesg3e/image/upload/v1693444695/NoCountry/drawing-2802_256_pjv8li.gif"
+  );
   const [email, setEmail] = useState("Cargando..");
   const [birthdate, setBirthdate] = useState("Cargando..");
   useEffect(() => {
@@ -19,7 +21,7 @@ export default function Profile() {
         const userDataString = decodeURIComponent(cookieValue);
         const userData = JSON.parse(userDataString);
         // console.log(userData);
-        setName(userData.user.fullname);       
+        setName(userData.user.fullname);
         setAvatar(userData.user.avatar);
         setEmail(userData.user.email);
         setBirthdate(convertirFecha(userData.user.birthdate));
@@ -28,16 +30,26 @@ export default function Profile() {
     }
   }, []);
   function convertirFecha(fecha) {
-    var fech = fecha.split('/');
-    return fech[2] + '-' + fech[1] + '-' + fech[0];
-}
+    var fech = fecha.split("/");
+    return fech[2] + "-" + fech[1] + "-" + fech[0];
+  }
   return (
     <div className="contarinerGral">
-      <p>Usuario: <strong>{name}</strong></p>
-      <img src={avatar} style={{ width: "300px",  border: "1px solid black" }} alt="Avatar" />
+      <p>
+        Usuario: <strong>{name}</strong>
+      </p>
+      <img
+        src={avatar}
+        style={{ width: "300px", border: "1px solid black" }}
+        alt="Avatar"
+      />
       <br></br>
-      <p>Email: <strong>{email}</strong></p>
-      <p>Fecha de nacimiento: <strong>{birthdate}</strong></p>
+      <p>
+        Email: <strong>{email}</strong>
+      </p>
+      <p>
+        Fecha de nacimiento: <strong>{birthdate}</strong>
+      </p>
     </div>
   );
 }

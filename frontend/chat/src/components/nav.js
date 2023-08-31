@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from 'react'; 
+import { useEffect } from "react";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap';
 
@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 export default function Nav(params) {
   const router = useRouter();
   useEffect(() => {
-    require('bootstrap');
+    require("bootstrap");
   }, []);
   return (
     <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
@@ -46,70 +46,68 @@ export default function Nav(params) {
             Tell me
           </div>
         </div>
-        <button
-          className="navbar-toggler collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarColor01"
-          aria-controls="navbarColor01"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        ><span className="navbar-toggler-icon"></span>
-        </button>
-        <div style={{display:"flex", flexDirection:"row", flexWrap:"nowrap"  }}>
-       
-        <div class="collapse navbar-collapse" id="navbarColor01">
 
-          <ul className="navbar-nav me-auto">
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                onClick={() => {
-                  router.push(`/auth/login`);
-                }}
-              >
-                Login
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                onClick={() => {
-                  router.push(`/auth/register`);
-                }}
-              >
-                Register
-              </a>
-            </li>
+        <div
+          style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap" }}
+        >
+          <div className="collapse navbar-collapse" id="navbarColor01">
+            <ul className="navbar-nav me-auto">
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  onClick={() => {
+                    router.push(`/auth/login`);
+                  }}
+                >
+                  Login
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  onClick={() => {
+                    router.push(`/auth/register`);
+                  }}
+                >
+                  Register
+                </a>
+              </li>
 
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                onClick={() => {
-                  router.push(`/about`);
-                }}
-              >
-                About Us
-              </a>
-            </li>
-          </ul>
-
-        </div>
-        <div>
-          <form className="d-flex">
-            <input
-              className="form-control me-sm-2"
-              type="search"
-              placeholder="Search"
-            />
-            <button className="btn btn-secondary my-2 my-sm-0" type="submit">
-              Search
-            </button>
-          </form>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation" style={{marginTop:"5px" }}>
-            <span class="navbar-toggler-icon"></span>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  onClick={() => {
+                    router.push(`/about`);
+                  }}
+                >
+                  About Us
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <form className="d-flex">
+              <input
+                className="form-control me-sm-2"
+                type="search"
+                placeholder="Search"
+              />
+              <button className="btn btn-secondary my-2 my-sm-0" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+          <button
+            className="navbar-toggler collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
           </button>
-        </div>
         </div>
       </div>
     </nav>
