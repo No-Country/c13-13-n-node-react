@@ -39,22 +39,22 @@ const [newAvatar, setNewAvatar] = useState(null);
 const [validationErrors, setValidationErrors] = useState({})
 // console.log(user)
 
-// useEffect(() => {
-//   if (initialUserData) {
-//     const [lastname, name] = initialUserData.fullname.split(', ');
-//     // console.log(lastname, name);
-//     setUser((prevUser) => ({
-//       ...prevUser,
-//       email: initialUserData.email,
-//       lastname: lastname,
-//       name: name,
-//       profile: initialUserData.profile,
-//     avatar: initialUserData.avatar,
-//     status: initialUserData.status,
-//     birthdate: initialUserData.birthdate,
-//     }));
-//   }
-// }, []);
+useEffect(() => {
+  if (initialUserData) {
+    const [lastname, name] = initialUserData.fullname.split(', ');
+    // console.log(lastname, name);
+    setUser((prevUser) => ({
+      ...prevUser,
+      email: initialUserData.email,
+      lastname: lastname,
+      name: name,
+      profile: initialUserData.profile,
+    avatar: initialUserData.avatar,
+    status: initialUserData.status,
+    birthdate: initialUserData.birthdate,
+    }));
+  }
+}, []);
 
 const handleEditClick = () => {
   setIsEditing(true);
