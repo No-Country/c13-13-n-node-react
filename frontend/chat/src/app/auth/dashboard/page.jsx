@@ -16,20 +16,20 @@ export default function Dashboard() {
   const router = useRouter();
 
   //*
-  useEffect(() => {
-    // Obtener el valor de la cookie directamente
-    const cookies = document.cookie.split("; ");
-    for (const cookie of cookies) {
-      const [cookieName, cookieValue] = cookie.split("=");
-      if (cookieName === "userData") {
-        const userDataString = decodeURIComponent(cookieValue);
-        const userData = JSON.parse(userDataString);
-        setCurrentUser(userData)
-        // console.log(userData);
-        break; // Detener el ciclo una vez que se encuentra la cookie
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Obtener el valor de la cookie directamente
+  //   const cookies = document.cookie.split("; ");
+  //   for (const cookie of cookies) {
+  //     const [cookieName, cookieValue] = cookie.split("=");
+  //     if (cookieName === "userData") {
+  //       const userDataString = decodeURIComponent(cookieValue);
+  //       const userData = JSON.parse(userDataString);
+  //       setCurrentUser(userData)
+  //       // console.log(userData);
+  //       break; // Detener el ciclo una vez que se encuentra la cookie
+  //     }
+  //   }
+  // }, []);
 // console.log(currentUser);
 
   const goToUserProfile = () => {
