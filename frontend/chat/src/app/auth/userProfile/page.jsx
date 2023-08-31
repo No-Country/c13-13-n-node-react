@@ -168,7 +168,7 @@ const userProfile = () =>
                   value={user.status}
                   onChange={handleChange}
                   className="form-control"
-                  readOnly="true"
+                  readOnly={true}
                 />
               </div>
               <div className="mb-3">
