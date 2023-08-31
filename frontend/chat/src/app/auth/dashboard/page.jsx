@@ -16,20 +16,20 @@ export default function Dashboard() {
   const router = useRouter();
 
   //*
-  useEffect(() => {
-    // Obtener el valor de la cookie directamente
-    const cookies = document.cookie.split("; ");
-    for (const cookie of cookies) {
-      const [cookieName, cookieValue] = cookie.split("=");
-      if (cookieName === "userData") {
-        const userDataString = decodeURIComponent(cookieValue);
-        const userData = JSON.parse(userDataString);
-        setCurrentUser(userData)
-        // console.log(userData);
-        break; // Detener el ciclo una vez que se encuentra la cookie
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Obtener el valor de la cookie directamente
+  //   const cookies = document.cookie.split("; ");
+  //   for (const cookie of cookies) {
+  //     const [cookieName, cookieValue] = cookie.split("=");
+  //     if (cookieName === "userData") {
+  //       const userDataString = decodeURIComponent(cookieValue);
+  //       const userData = JSON.parse(userDataString);
+  //       setCurrentUser(userData)
+  //       // console.log(userData);
+  //       break; // Detener el ciclo una vez que se encuentra la cookie
+  //     }
+  //   }
+  // }, []);
 // console.log(currentUser);
 
   const goToUserProfile = () => {
@@ -51,7 +51,7 @@ export default function Dashboard() {
       {" "}
       <div style={{display:"flex", flexDirection:"column", alignItems:"center",marginRight:"10%", marginTop:"5%"}}>
       <Profile/>
-      {/* <button type="button"onClick={goToUserProfile} class="btn btn-outline-warning">Editar Perfil</button> */}
+      <button type="button"onClick={goToUserProfile} class="btn btn-outline-warning">Editar Perfil</button>
       </div>
       <div style={{display:"flex", flexDirection:"column",alignItems:"center", justifyContent:"center",marginRight:"10%", marginTop:"5%"}}>
       
