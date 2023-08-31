@@ -119,7 +119,7 @@ const handleEditClick = () => {
             className={`form-control ${validationErrors.email && 'is-invalid'}`}
             readOnly={!isEditing}
           />
-          <div class="invalid-feedback">You must enter an email</div>
+          <div className="invalid-feedback">You must enter an email</div>
         </div>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
