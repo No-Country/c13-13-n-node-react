@@ -50,53 +50,6 @@ export default function Nav(params) {
         <div
           style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap" }}
         >
-          <div className="collapse navbar-collapse" id="navbarColor01">
-            <ul className="navbar-nav me-auto">
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  onClick={() => {
-                    router.push(`/auth/login`);
-                  }}
-                >
-                  Login
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  onClick={() => {
-                    router.push(`/auth/register`);
-                  }}
-                >
-                  Register
-                </a>
-              </li>
-
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  onClick={() => {
-                    router.push(`/about`);
-                  }}
-                >
-                  About Us
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <form className="d-flex">
-              <input
-                className="form-control me-sm-2"
-                type="search"
-                placeholder="Search"
-              />
-              <button className="btn btn-secondary my-2 my-sm-0" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
           <button
             className="navbar-toggler collapsed"
             type="button"
@@ -109,6 +62,57 @@ export default function Nav(params) {
             <span className="navbar-toggler-icon"></span>
           </button>
         </div>
+      </div>
+
+      <div
+        className="collapse navbar-collapse"
+        id="navbarColor01"
+        style={{
+          width: "30%",
+        }}
+      >
+        <ul
+          className="navbar-nav me-auto"
+          style={{
+            display: "flex",
+
+            flexWrap: "nowrap",
+            alignContent: "center",
+            textAlign: "center",
+          }}
+        >
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              onClick={() => {
+                router.push(`/auth/login`);
+              }}
+            >
+              Login
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              onClick={() => {
+                router.push(`/auth/register`);
+              }}
+            >
+              Register
+            </a>
+          </li>
+
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              onClick={() => {
+                router.push(`/about`);
+              }}
+            >
+              About Us
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
   );
