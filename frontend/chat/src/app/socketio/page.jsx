@@ -1,31 +1,23 @@
-"use client"
-import { useEffect, useState } from "react"
-import io from "socket.io-client"
+"use client";
+import { useEffect, useState } from "react";
+import io from "socket.io-client";
 //const socket =io.connect ("PORT")
 
 export default function Socket() {
-const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("");
 
+  const sendMessage = () => {
+    // socket.emit("send_message",{message: "testing"})
+    alert("msaje enviado" + " " + message);
+  };
 
-
-    const sendMessage =()=>{
-       // socket.emit("send_message",{message: "testing"})
-       alert("msaje enviado" + " " + message); 
-    }
-
-
-    /**useEffect(()=>{
+  /**useEffect(()=>{
         socket.on("receive_message",(data)=>{
             alert(data.message)
         })
     },[socket]) */
 
-
-
-
-
-
-    /**How it should be on the backend
+  /**How it should be on the backend
     io.on("connection", (socket)=>{
         console.log(`User Connected: ${socket.io}`);
 
@@ -37,25 +29,25 @@ const [message, setMessage] = useState("")
         })
     })*/
 
-
-    return(
-        
-        <div className="contarinerGral">
-
-        <div className="winsowChat">
-        <h2 >Diego Dimitroff </h2>
-        <h5 >Mensaje enviado...</h5>
-        </div>
-        <input 
-            className="form-control" 
-            id="disabledInput" 
-            type="text" 
-            placeholder="Mensaje.." 
-            value={message}
-            onChange={(e)=>{setMessage(e.target.value)}}/>
-        <button type="button" onClick={sendMessage} className="btn btn-primary">Enviar mensaje</button>
-      
-        </div>
-
-    )
+  return (
+    <div className="contarinerGral">
+      <div className="winsowChat">
+        <h2>Diego Dimitroff </h2>
+        <h5>Mensaje enviado...</h5>
+      </div>
+      <input
+        className="form-control"
+        id="disabledInput"
+        type="text"
+        placeholder="Mensaje.."
+        value={message}
+        onChange={(e) => {
+          setMessage(e.target.value);
+        }}
+      />
+      <button type="button" onClick={sendMessage} className="btn btn-primary">
+        Enviar mensaje
+      </button>
+    </div>
+  );
 }

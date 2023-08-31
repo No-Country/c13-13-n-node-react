@@ -1,14 +1,14 @@
-.data-img{
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-left: 10%;
+.data-img {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-left: 10%;
 }
-.mt-5{
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+.mt-5 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
-form.data-img{
-    display: flex;
+form.data-img {
+  display: flex;
 }
