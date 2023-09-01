@@ -2,7 +2,7 @@
 const { log } = require('console');
 const { User, Room } = require('../db');
 
-async function createRoom( title, createdBy, maxParticipants ){
+async function createRoom( title, createdBy, maxParticipants, image ){
     const existingChat = await Room.findOne({
         where: {
             title: title,
@@ -17,7 +17,8 @@ async function createRoom( title, createdBy, maxParticipants ){
       const room = await Room.create({
         title,
         createdBy,
-        maxParticipants
+        maxParticipants,
+        image
       });
       await user.addRoom(room);
       return `The user ${user.email} created and successfully joined the ${room.title} room`
