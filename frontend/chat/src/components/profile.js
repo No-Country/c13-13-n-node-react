@@ -45,7 +45,6 @@ return fech[2] + "-" + fech[1] + "-" + fech[0];
 
 
 
-console.log(Cookies.get('userData'));
 function logOut() {
   if (Cookies.get('userData')) {
     Cookies.remove('userData');

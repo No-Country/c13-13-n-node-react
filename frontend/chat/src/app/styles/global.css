@@ -13,11 +13,12 @@
 
 .containerSec{
    display: flex;
-   flex-direction: row;
+   flex-direction: column;
    flex-wrap: wrap;
    justify-content: space-around;
    padding: 10px;
    margin: 10px;
+   align-items: center;
 }
 
 .containerTer{

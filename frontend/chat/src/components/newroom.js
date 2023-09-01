@@ -5,7 +5,7 @@ export default function newroom({ user }) {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [maxParticipants, setMaxParticipants] = useState("");
-  // console.log(user);
+
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
@@ -23,19 +23,23 @@ export default function newroom({ user }) {
 
     // Aquí puedes realizar la lógica para enviar los datos al servidor
     const newRoomData = {
-      title,
-      image,
-      maxParticipants,
-      createdBy: user.id, // Asumiendo que user contiene el ID del usuario actual
+      title: title,
+      image:image,
+      maxParticipants:maxParticipants,
+      createdBy: "user.id"
     };
 
-    // Lógica para enviar newRoomData al servidor o realizar otras acciones
-    // console.log("Nueva sala creada:", newRoomData);
-
-    // Limpia los campos del formulario después de enviar
-    setTitle("");
-    setImage("");
-    setMaxParticipants("");
+    console.log(newRoomData);
+    const fetchData = async () => {
+      try {
+        const dataResponse = await fetchFunctions.GET(
+          "https://c13-13-n-node-react-backend.onrender.com/rooms/all"
+        );
+        setRooms(dataResponse);
+      } catch (error) {
+        console.error("Error al cargar las salas:", error);
+      }
+    };
   };
 
   return (

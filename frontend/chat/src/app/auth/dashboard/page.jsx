@@ -1,15 +1,11 @@
 "use client";
-
-import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState, useEffect } from "react";
-import { parse } from "cookie";
 import Profile from "@/components/profile";
 import RoomComponent from "@/components/newroom";
+import Rooms from "../rooms/rooms";
 
 export default function Dashboard() {
-const [email, setEmail] = useState(""); // Corregido: Cambiado setEmial a setEmail
-const [password, setPassword] = useState("");
-const [name, setName] = useState("");
+
 const [newRoom, setnewRoom] = useState("");
 const [currentUser, setCurrentUser] = useState({});
 
@@ -99,29 +95,21 @@ return (
             flexDirection: "column",
           }}
         >
-          <h3 className="title">SALAS DISPONIBLES</h3>
-          <div className="containerSec">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => {
-                getDataUser(); 
-              }}
-            >
-              SALA 1
-            </button>
-          </div>
-          <h3>CREAR UNA SALA</h3>
-          <div className="containerSec">
-            <button
-              type="button"
-              onClick={handleNewRoom}
-              className="btn btn-outline-info"
-            >
-              Crear Sala
-            </button>
-            <div className="d-grid gap-2"></div>
-          </div>
+            <div className="containerSec">
+              <h3 className="title">SALAS DISPONIBLES</h3>
+                <Rooms/>
+            </div>
+              
+            <div className="containerSec">
+              <h3>CREAR UNA SALA</h3>
+                <button
+                  type="button"
+                  onClick={handleNewRoom}
+                  className="btn btn-outline-info"
+                >
+                  Crear Sala
+                </button>
+            </div>
         </div>
       )}
     </div>
