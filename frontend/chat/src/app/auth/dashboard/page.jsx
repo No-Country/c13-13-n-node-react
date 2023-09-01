@@ -11,6 +11,7 @@ const [currentUser, setCurrentUser] = useState({});
 
 
 
+
 //*
 // useEffect(() => {
 //   // Obtener el valor de la cookie directamente
@@ -95,13 +96,14 @@ return (
             flexDirection: "column",
           }}
         >
+          <h3 className="title">SALAS DISPONIBLES</h3>
             <div className="containerSec">
-              <h3 className="title">SALAS DISPONIBLES</h3>
+              
                 <Rooms/>
             </div>
               
-            <div className="containerSec">
-              <h3>CREAR UNA SALA</h3>
+            <div style={{display:"flex",flexDirection:"column", alignContent:"center", alignItems:"center"}}>
+              <h3 >CREAR UNA SALA</h3>
                 <button
                   type="button"
                   onClick={handleNewRoom}

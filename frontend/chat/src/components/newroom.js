@@ -1,10 +1,35 @@
 "use client";
 import React, { useState } from "react";
+import Cookies from 'js-cookie';
+import * as fetchFunctions from "@/utils/fetch/fetch";
+import { useRouter } from "next/navigation";
 
-export default function newroom({ user }) {
+export default function NewRoom({ user }) {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
-  const [maxParticipants, setMaxParticipants] = useState("");
+  const [cargando, setCargando] = useState(false);
+  const [maxParticipants, setMaxParticipants] = useState("");    
+  const router = useRouter(); 
+
+  const fetchData = async (data) => {
+    try {
+     setCargando(true)
+      const dataResponse = await fetchFunctions.POST(
+        "https://c13-13-n-node-react-backend.onrender.com/rooms/newroom",
+        data
+      );
+      setCargando( false) 
+      
+      console.log(dataResponse);
+      
+      router.push(`/auth/dashboard`);
+      } catch (error) {
+      console.error("Error al crear la sala:", error);
+    }
+   
+  };
+
+
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -20,26 +45,19 @@ export default function newroom({ user }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Aquí puedes realizar la lógica para enviar los datos al servidor
+    const cookie = Cookies.get('userData')
     const newRoomData = {
       title: title,
       image:image,
       maxParticipants:maxParticipants,
-      createdBy: "user.id"
+      createdBy: JSON.parse(cookie).user.id
     };
 
-    console.log(newRoomData);
-    const fetchData = async () => {
-      try {
-        const dataResponse = await fetchFunctions.GET(
-          "https://c13-13-n-node-react-backend.onrender.com/rooms/all"
-        );
-        setRooms(dataResponse);
-      } catch (error) {
-        console.error("Error al cargar las salas:", error);
-      }
-    };
+
+    fetchData(newRoomData)
+    
+    
+    
   };
 
   return (
@@ -98,6 +116,7 @@ export default function newroom({ user }) {
           Crear Sala
         </button>
       </form>
+      {cargando ? ("Cargando...") : ("")}
     </div>
   );
 }
