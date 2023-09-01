@@ -2,26 +2,17 @@
 //(id, email, role, fullname, profile, avatar, status, birthdate)
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import React, { useState, useEffect } from "react";
-import styles from "./UserProfile.module.css";
+import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
 import { BsArrowLeft } from "react-icons/bs";
 
 const userProfile = () =>
-  // {initialUserData}
+
   {
-    const initialUserData = {
-      id: 1,
-      email: "javierpedernera@gmail.com",
-      role: "admin",
-      fullname: "Pedernera, Javier",
-      profile: "perfil de usuario",
-      avatar: "https://cdn-icons-png.flaticon.com/512/1995/1995515.png",
-      status: "active",
-      passwordToken:
-        "$2b$10$5WhhhtPllQich50HURkpmON7QyFJq/Gdl5EDTkkxy5f3RIsXGycmi",
-      birthdate: "2023-08-25",
-      Rooms: [],
-    };
+    const userData = Cookies.get("userData")
+    const initialUserData = JSON.parse(userData)
+    console.log(initialUserData);
+   
 
     const [user, setUser] = useState({
       email: "",
@@ -40,17 +31,15 @@ const userProfile = () =>
 
     useEffect(() => {
       if (initialUserData) {
-        const [lastname, name] = initialUserData.fullname.split(", ");
-        // console.log(lastname, name);
+ 
+
         setUser((prevUser) => ({
           ...prevUser,
-          email: initialUserData.email,
-          lastname: lastname,
-          name: name,
-          profile: initialUserData.profile,
-          avatar: initialUserData.avatar,
-          status: initialUserData.status,
-          birthdate: initialUserData.birthdate,
+          email: initialUserData.user.email,
+          profile: initialUserData.user.profile,
+          avatar: initialUserData.user.avatar,
+          status: initialUserData.user.status,
+    
         }));
       }
     }, []);
@@ -109,9 +98,8 @@ const userProfile = () =>
         </b>
         <hr />
         {/* <h2>User profile:</h2> */}
-        <form className="form" onSubmit={handleSubmit}>
-          <div className="data-img">
-            <div className="datos" style={{ marginRight: "5rem" }}>
+        <form className="form" style={{alignContent: "center"}} onSubmit={handleSubmit}>      
+            <div className="datos" >
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">
                   Email:
@@ -189,10 +177,10 @@ const userProfile = () =>
 
             <div
               className="mb-3"
-              style={{ display: "flex", flexDirection: "column" }}
+              style={{ display: "flex", flexDirection: "column",alignContent:"center",flexWrap:"wrap" }}
             >
               <label htmlFor="avatar" className="form-label">
-                Avatar (Image):
+                Avatar :
               </label>
               {isEditing ? (
                 <>
@@ -211,43 +199,46 @@ const userProfile = () =>
                 <img className="avatar" src={user.avatar} alt="Avatar" />
               )}
             </div>
-          </div>
-          {/* Agregar más campos aquí */}
-          {isEditing ? (
-            <button
-              type="submit"
-              className="btn btn-primary me-2"
-              disabled={true}
-            >
-              Save Changes
-            </button>
-          ) : (
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <button
-                type="button"
-                className="btn btn-warning me-2"
-                onClick={handleEditClick}
-                style={{ width: "20%" }}
-              >
-                Edit
-              </button>
-            </div>
-          )}
-          {isEditing && (
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setIsEditing(false)}
-            >
-              Cancel
-            </button>
-          )}
+         
+             <div>  
+                {isEditing ? (
+                  <button
+                    type="submit"
+                    className="btn btn-primary me-2"
+                  
+                    style={{ minWidth: "auto" }}
+                  >
+                    Guardar Cambios
+                  </button>
+                ) : (
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <button
+                      type="button"
+                      className="btn btn-warning me-2"
+                      onClick={handleEditClick}
+                      style={{ width: "auto" }}
+                    >
+                      Editar
+                    </button>
+                  </div>
+                )}
+                {isEditing && (
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    style={{ minWidth: "auto" }}
+                    onClick={() => setIsEditing(false)}
+                  >
+                    Cancel
+                  </button>
+                )}
+                </div> 
         </form>
       </div>
     );

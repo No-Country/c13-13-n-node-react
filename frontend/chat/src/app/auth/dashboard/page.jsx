@@ -53,7 +53,8 @@ return (
         alignItems: "center",
         flexWrap: "wrap",
         justifyContent: "center",
-        alignItems:"flex-end"
+        alignItems:"flex-end",
+        
       }}
     >
       <Profile />
@@ -66,8 +67,10 @@ return (
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        marginRight: "10%",
-        marginTop: "5%",
+        boxShadow: "0px 0px 20px 8px #bce1d6" ,
+        margin: "2%",
+        padding: "2%"
+
       }}
     >
       {newRoom ? (
@@ -102,7 +105,7 @@ return (
               type="button"
               className="btn btn-primary"
               onClick={() => {
-                getDataUser(); // Llamar a la función para obtener los datos del usuario
+                getDataUser(); 
               }}
             >
               SALA 1
