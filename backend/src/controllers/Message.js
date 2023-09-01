@@ -13,7 +13,9 @@ async function saveMessage(content, senderId, roomId) {
 
 async function getAllMessages(roomId) {
   try {
-    const messages = await Message.findAll({ roomId });
+    const messages = await Message.findAll({ where: {
+      roomId: roomId,
+  }, });
     return messages;
   } catch (error) {
     console.error('Error al traer los mensajes:', error.message);
