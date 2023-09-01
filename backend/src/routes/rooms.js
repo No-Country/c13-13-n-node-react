@@ -4,12 +4,12 @@ const router = express.Router();
 const RoomController = require('../controllers/RoomController');
 
 router.post('/newroom', async (req, res) => {
-  const { title, createdBy, maxParticipants } = req.body;
+  const { title, createdBy, maxParticipants, image } = req.body;
   if (!title || !createdBy) {
     return res.status(400).json({ error: 'Room title and createdBy is required' });
   }
   try {
-    const chat = await RoomController.createRoom(title, createdBy, maxParticipants);
+    const chat = await RoomController.createRoom(title, createdBy, maxParticipants, image);
     res.status(201).json(chat);
   } catch (error) {
     res.status(500).json({ error: error.message });
