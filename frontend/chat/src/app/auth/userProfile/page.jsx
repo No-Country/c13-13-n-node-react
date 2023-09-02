@@ -10,8 +10,9 @@ const userProfile = () =>
 
   {
     const userData = Cookies.get("userData")
-    const initialUserData = JSON.parse(userData)
-    console.log(initialUserData);
+    // console.log(userData);
+    const initialUserData = userData? JSON.parse(userData) : null
+    // console.log(initialUserData);
    
 
     const [user, setUser] = useState({
@@ -31,8 +32,6 @@ const userProfile = () =>
 
     useEffect(() => {
       if (initialUserData) {
- 
-
         setUser((prevUser) => ({
           ...prevUser,
           email: initialUserData.user.email,
@@ -41,6 +40,8 @@ const userProfile = () =>
           status: initialUserData.user.status,
     
         }));
+      }else{
+        router.push(`/`)
       }
     }, []);
 
