@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { saveMessage, getAllMessages, deleteMessage } = require("../controllers/Message");
+const { saveMessage, getAllMessages, deleteMessage,editMessage } = require("../controllers/Message");
 const router = Router();
 
 // crear nuevo mensaje
