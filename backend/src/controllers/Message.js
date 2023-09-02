@@ -36,7 +36,7 @@ async function deleteMessage(messageId) {
       throw new Error(`The message ${messageId} cannot be found to delete`)
   } else {
     const messageDelete =  await Message.update({
-        status: 'delete'
+        status: 'deleted'
       },{
         where: {
               id: messageId
@@ -45,6 +45,28 @@ async function deleteMessage(messageId) {
       return (`The product ${messageId} was successfully removed`,messageDelete)
   }
 }
+async function editMessage(messageId, content) {
+  if (!messageId) {
+      throw new Error('You must enter the message to edit')
+  }
+  const searchMessage = await Message.findOne({
+      where: {
+          id: messageId,
+      },
+  });
+  if (!searchMessage) {
+      throw new Error(`The message ${messageId} cannot be found to edit`)
+  } else {
+    const messageEdited =  await Message.update({
+        content:content,
+        status: 'edited'
+      },{
+        where: {
+              id: messageId
+          }}
+      )
+      return (`The product ${messageId} was successfully edited`,messageEdited)
+  }
+}
 
-
-module.exports = { saveMessage, getAllMessages,deleteMessage  };
+module.exports = { saveMessage, getAllMessages,deleteMessage, editMessage };

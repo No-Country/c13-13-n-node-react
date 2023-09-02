@@ -23,7 +23,15 @@ router.get("/:roomId", async (req, res) => {
     res.status(400).send(error.message);
   }
 });
-
+router.put("/edit", async (req, res) => {
+  try {
+    const { messageId, content } = req.body;
+    let result = await editMessage(messageId, content);
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
 router.put("/:messageId", async (req, res) => {
   try {
     const { messageId } = req.params;
@@ -34,5 +42,6 @@ router.put("/:messageId", async (req, res) => {
     res.status(400).send(error.message);
   }
 });
+editMessage
 
 module.exports = router;
