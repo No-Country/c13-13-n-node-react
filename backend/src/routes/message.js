@@ -42,6 +42,5 @@ router.put("/:messageId", async (req, res) => {
     res.status(400).send(error.message);
   }
 });
-editMessage
 
 module.exports = router;
