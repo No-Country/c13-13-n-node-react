@@ -32,5 +32,14 @@ router.get('/:usuarioId', async (req, res) => {
   const userRooms = await RoomController.getUserRooms(usuarioId);
   res.json(userRooms);
 });
+// editar eliminar, fijar y modificar salas
+router.put('/update/:roomId', async (req, res) => {
+  //status: 'active', 'deleted', 'edited', 'fixed'
+  const { roomId } = req.params;
+  const {title, maxParticipants, image, status } = req.body
+  // console.log(roomId, title, maxParticipants, image, status)
+  const updatedRoom= await RoomController.updateRoom(roomId, title, maxParticipants, image, status );
+  res.json(updatedRoom);
+});
 
 module.exports = router;

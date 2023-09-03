@@ -35,6 +35,10 @@ module.exports = (sequelize) => {
             max: 50,
           }, // Establece el número máximo predeterminado
       },
+      status: {
+        type: DataTypes.ENUM('active', 'deleted', 'edited', 'fixed'),
+        defaultValue: 'active',
+      },
       createdBy: {
         type: DataTypes.INTEGER, // ID del usuario que creó la sala
         allowNull: false,
