@@ -47,7 +47,7 @@ return fech[2] + "-" + fech[1] + "-" + fech[0];
 
 function logOut() {
   if (Cookies.get('userData')) {
-    Cookies.remove('userData');
+    Cookies.remove('userData', { path: '/' });
     router.push("/");
   } else {
     console.log("La cookie 'userData' no existe.");

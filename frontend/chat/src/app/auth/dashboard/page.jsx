@@ -3,31 +3,28 @@ import { useState, useEffect } from "react";
 import Profile from "@/components/profile";
 import RoomComponent from "@/components/newroom";
 import Rooms from "../rooms/rooms";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
 
 const [newRoom, setnewRoom] = useState("");
 const [currentUser, setCurrentUser] = useState({});
+const router = useRouter();
 
 
+    const userData = Cookies.get("userData")
+    // console.log(userData);
+    const initialUserData = userData? JSON.parse(userData) : null
+    // console.log(initialUserData);
 
-
-//*
-// useEffect(() => {
-//   // Obtener el valor de la cookie directamente
-//   const cookies = document.cookie.split("; ");
-//   for (const cookie of cookies) {
-//     const [cookieName, cookieValue] = cookie.split("=");
-//     if (cookieName === "userData") {
-//       const userDataString = decodeURIComponent(cookieValue);
-//       const userData = JSON.parse(userDataString);
-//       setCurrentUser(userData)
-//       // console.log(userData);
-//       break; // Detener el ciclo una vez que se encuentra la cookie
-//     }
-//   }
-// }, []);
-// console.log(currentUser);
+    useEffect(() => {
+      if (initialUserData) {
+        setCurrentUser(initialUserData)
+      }else{
+        router.push(`/`)
+      }
+    }, []);
 
 
 
