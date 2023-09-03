@@ -1,5 +1,5 @@
 // controladores/ChatController.js
-const { log } = require('console');
+const { log, error } = require('console');
 const { User, Room } = require('../db');
 
 async function createRoom( title, createdBy, maxParticipants, image ){
@@ -75,4 +75,40 @@ async function getUserRooms(userId) {
    return user.Rooms;
 }
 
-module.exports = { createRoom, JoinUserToRoom, getUserRooms, getAllRooms };
+
+async function updateRoom( roomId, title, maxParticipants, image, status ){
+  //status: 'active', 'deleted', 'edited', 'fixed'
+  const existingChat = await Room.findOne({
+      where: {
+          id: roomId,
+      },
+    });
+
+    if (existingChat) {
+      try{
+        const room = await Room.update({
+      title: title,
+      maxParticipants: maxParticipants,
+      image: image,
+      status: status
+    }, {
+      where: {
+        id: roomId,
+      }
+    });
+    const newRoom = await Room.findOne({
+      where: {
+          id: roomId,
+      },
+    });
+      return  newRoom;
+      }catch (error){
+       return error
+      }
+       
+    }else{
+     return `the room ${title} does not exist in the database`
+    }
+}
+
+module.exports = { createRoom, JoinUserToRoom, getUserRooms, getAllRooms, updateRoom };
