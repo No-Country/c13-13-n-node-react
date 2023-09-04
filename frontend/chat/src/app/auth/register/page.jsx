@@ -1,47 +1,65 @@
 "use client";
-
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
+
 export default function Register() {
-  const [email, setEmial] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    lastName: "",
+    email: "",
+    password: "",
+    birthdate: "",
+    avatar:null
+  });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [cargando, setICargando] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formComplete, setFormComplete] = useState(false);
 
   const router = useRouter();
+
   useEffect(() => {
     // Verificar si todos los campos requeridos están completos
-    const isFormComplete = email !== "" && password !== "";
+    const isFormComplete =
+      formData.name !== "" &&
+      formData.lastName !== "" &&
+      formData.email !== "" &&
+      formData.password !== "" &&
+      formData.birthdate !== ""&&
+      formData.avatar !== null;
     setFormComplete(isFormComplete);
-  }, [email, password]);
-
-  async function handleSubmit() {
+  }, [formData]);
+console.log(formData);
+  async function handleSubmit(e) {
     e.preventDefault();
-    let data = {
-      email: email,
-      fullname: `${lastName}, ${name}`,
-      password: password,
-    };
 
-    // console.log(data);
-    setICargando(true);
-    let result = await fetchFunctions.POST(
+    const formToSend = {
+      email:formData.email,
+      role:"common", 
+     fullname: `${formData.lastName}, ${formData.name}`,
+     profile:"", 
+     avatar:formData.avatar,
+     birthdate: formData.birthdate,
+     password:formData.password
+    }
+    console.log(formToSend);
+    // Enviar formData como objeto de datos
+    setLoading(true);
+    const result = await fetchFunctions.POST(
       "https://c13-13-n-node-react-backend.onrender.com/auth/register",
-      data
+      // "http://localhost:3001/auth/register",
+      formToSend
     );
-    setICargando(false);
-    if (result.error === `${email} email already exists`) {
+    setLoading(false);
+
+    if (result.error === `${formData.email} email already exists`) {
       Swal.fire({
         icon: "error",
         title: "Error en el Registro",
-        text: `El usuario con el correo electrónico ${email} ya está registrado.`,
+        text: `El usuario con el correo electrónico ${formData.email} ya está registrado.`,
         width: "25em",
         padding: "1rem",
       });
@@ -49,9 +67,9 @@ export default function Register() {
       Swal.fire({
         icon: "success",
         title: "Registro Exitoso",
-        text: `¡Usuario ${email} registrado correctamente!`,
+        text: `¡Usuario ${formData.email} registrado correctamente!`,
       }).then((r) => {
-        console.log(r);
+        // console.log(r);
         if (r.isConfirmed) {
           router.push("/auth/dashboard");
         }
@@ -61,63 +79,97 @@ export default function Register() {
     }
   }
 
-  /*useEffect(() => {
-    if (isLoggedIn) {
-      router.push("/auth/dashboard");
-    }
-  }, [isLoggedIn]);**/
+  // Manejar cambios en los campos del formulario
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleAvatarChange = async (e) => {
+    e.preventDefault();
+    const file = e.target.files[0]
+    // console.log(file)
+    const formData = new FormData();
+    // console.log(file)
+    formData.append('file', file);
+    formData.append('upload_preset', 'TellMeChat')
+    formData.append('api_key', 317454741746325);
+    setLoading(true)
+    const res = await fetch('https://api.cloudinary.com/v1_1/TellMe/image/upload',
+        {
+            method: "POST",
+            body: formData
+        })
+        const cloudinaryData = await res.json();
+        const uploadedUrl = cloudinaryData.secure_url
+    console.log('soy la url nueva',uploadedUrl)
+    setLoading(false)
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      avatar: uploadedUrl,
+    }));
+}
+
 
   return (
+    <div>
     <form
       className="contarinerGral"
       onSubmit={handleSubmit}
       style={{ marginTop: "20px" }}
     >
-      <fieldset>
-        <legend>Registrate</legend>
-
+      
+      <fieldset style={{display:"flex", flexDirection:"row", flexWrap:"wrap",justifyContent:"space-between"}}>
+        <legend>Regístrate</legend>
+<div className="datos">
         <div className="form-group">
-          <label htmlFor="exampleInputEmail1" className="form-label mt-4">
+          <label htmlFor="exampleInputname1" className="form-label mt-4">
             Nombre
           </label>
           <input
             type="text"
             className="form-control"
             id="exampleInputname1"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
             aria-describedby="nameHelp"
-            placeholder="Enter name"
+            placeholder="Ingrese su nombre"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="exampleInputEmail1" className="form-label mt-4">
+          <label htmlFor="exampleInputlastName1" className="form-label mt-4">
             Apellido
           </label>
           <input
             type="text"
             className="form-control"
             id="exampleInputlastName1"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleInputChange}
             aria-describedby="lastNameHelp"
-            placeholder="Enter lastName"
+            placeholder="Ingrese su apellido"
           />
         </div>
 
         <div className="form-group">
           <label htmlFor="exampleInputEmail1" className="form-label mt-4">
-            Email address
+            Email
           </label>
           <input
             type="email"
             className="form-control"
             id="exampleInputEmail1"
-            value={email}
-            onChange={(e) => setEmial(e.target.value)}
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
             aria-describedby="emailHelp"
-            placeholder="Enter email"
+            placeholder="Ingrese su correo electrónico"
           />
         </div>
 
@@ -129,32 +181,68 @@ export default function Register() {
             type="password"
             className="form-control"
             id="exampleInputPassword1"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            placeholder="Password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
+            placeholder="Contraseña"
             autoComplete="off"
           />
         </div>
+
+        <div className="form-group">
+          <label htmlFor="exampleInputBirthdate1" className="form-label mt-4">
+            Fecha de Nacimiento
+          </label>
+          <input
+            type="date"
+            className="form-control"
+            id="exampleInputBirthdate1"
+            name="birthdate"
+            value={formData.birthdate}
+            onChange={handleInputChange}
+          />
+        </div>
+        </div>
+<div className="imagen" style={{display:"flex", flexDirection:"column", flexWrap:"wrap", alignItems:"flex-start"}}>
+        <div className="form-group">
+          <label htmlFor="exampleInputAvatar" className="form-label mt-4">
+            Imagen de perfil
+          </label>
+          <input
+            type="file"
+            className="form-control"
+            id="exampleInputAvatar"
+            name="avatar"
+            accept="image/*"
+            onChange={handleAvatarChange}
+            required
+          />
+        </div>
+        {formData.avatar?
+(<div>
+      <img src={formData.avatar} alt="" style={{ width: "200px", height:"200px", marginTop:"10%" }}/>
+    </div>): <img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693605320/NoCountry/no-product-image-400x400_1_ypw1vg.png" alt="" style={{ width: "200px", height:"200px", marginTop:"10%" }}/>
+    }
+    
+    </div> 
+      </fieldset>
+       {!loading? (
         <button
           type="submit"
           className="btn btn-primary"
           disabled={!formComplete}
           style={{ marginTop: "20px" }}
         >
-          Submit
-        </button>
-        {cargando && <p>cargando...</p>}
-      </fieldset>
+          Registrarse
+        </button>):
+        (
+        <img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" style={{ width: "110px", height:"110px",  }} alt="cargando..." />
+        )
+         }
     </form>
+  
+    
+    </div>
+
   );
 }
-
-// API Test made it with
-//  In this case was needed to send the next object called data:
-// let data = {
-//     title: name,
-//     body: lastName,
-//     userId: 1,}
-// let result = await fetchFunctions.postData('https://jsonplaceholder.typicode.com/posts', data)
