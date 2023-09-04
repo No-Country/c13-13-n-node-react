@@ -22,11 +22,13 @@ module.exports = (socket) => {
       
     //cuando se envia un mensaje
     socket.on('newMessage', async (data) => {
-        const { content, senderId, roomId } = data;
+
+      socket.broadcast.emit('message', data)
+      /**  const { content, senderId, roomId } = data;
         const message = await saveMessage(content, senderId, roomId);
         if (message) {
           io.to(roomId).emit('messageReceived', message);
-        }
+        } */
       });
    
       

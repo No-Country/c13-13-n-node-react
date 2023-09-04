@@ -1,15 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
-//const socket =io.connect ("PORT")
+const socket =io.connect ("https://c13-13-n-node-react-backend.onrender.com")
 
 export default function Socket() {
   const [message, setMessage] = useState("");
 
-  const sendMessage = () => {
-    // socket.emit("send_message",{message: "testing"})
-    alert("msaje enviado" + " " + message);
-  };
+
 
   /**useEffect(()=>{
         socket.on("receive_message",(data)=>{
@@ -29,12 +26,29 @@ export default function Socket() {
         })
     })*/
 
+
+    const handleSubmit = (e) =>{
+      e.preventDefault()
+      socket.emit("newMessage",message)
+      alert("msaje enviado" + " " + message);
+    }
+
+    useEffect(()=>{
+      socket.on("message",(message)=>{
+        console.log(message)
+    })
+,[]    })
+
+
+
   return (
     <div className="contarinerGral">
       <div className="winsowChat">
         <h2>Diego Dimitroff </h2>
         <h5>Mensaje enviado...</h5>
       </div>
+
+      <form onSubmit={handleSubmit}>
       <input
         className="form-control"
         id="disabledInput"
@@ -45,9 +59,10 @@ export default function Socket() {
           setMessage(e.target.value);
         }}
       />
-      <button type="button" onClick={sendMessage} className="btn btn-primary">
+      <button className="btn btn-primary">
         Enviar mensaje
       </button>
+      </form>
     </div>
   );
 }
