@@ -1,5 +1,5 @@
 "use client";
-
+import { useAuth } from '../contexts/AuthContext';
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -7,6 +7,8 @@ import Cookies from 'js-cookie';
 
 
 export default function Profile() {
+
+const { setUser } = useAuth();
 const [name, setName] = useState("Cargando..");
 const [lastname, setLastName] = useState("Cargando..");
 const [openNavBar, setOpenNavBar] = useState(false);
@@ -47,7 +49,9 @@ return fech[2] + "-" + fech[1] + "-" + fech[0];
 
 function logOut() {
   if (Cookies.get('userData')) {
+    Cookies.remove('userData', { path: '/auth' });
     Cookies.remove('userData', { path: '/' });
+    setUser(null)
     router.push("/");
   } else {
     console.log("La cookie 'userData' no existe.");

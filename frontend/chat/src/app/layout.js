@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import Nav from "@/components/nav";
-
 import "./styles/global.css";
+import { AuthProvider } from '../contexts/AuthContext';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,10 +33,12 @@ return (
     </head>
 
     <body className={inter.className}>
+<AuthProvider>
       <div className="bodyLayout">
         <Nav />
         {children}
       </div>
+</AuthProvider>
     </body>
   </html>
 );
