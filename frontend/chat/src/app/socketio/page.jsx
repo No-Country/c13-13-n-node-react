@@ -30,7 +30,7 @@ export default function Socket() {
     const handleSubmit = (e) =>{
       e.preventDefault()
       socket.emit("newMessage",message)
-      alert("msaje enviado" + " " + message);
+
     }
 
     useEffect(()=>{
