@@ -1,15 +1,15 @@
 "use client";
+import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
+  const { user } = useAuth();
   return (
     <main className="contarinerGral">
       <br></br>
-      <h2>Proyecto Tell me</h2>
-      {/* <p>Unite al chat con tus amigos.</p>
-      <p><small>Crea tu propia sala de chat.</small></p> */}
+      <h2 >Proyecto Tell me</h2>
       <div className="alert alert-info">
         <div className="container">
           <p>
@@ -25,17 +25,17 @@ export default function Home() {
         style={{ display: "flex", alignItems: "flex-end" }}
       >
         <img
-          src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693187366/NoCountry/Unete_con_tus_amigos_rvz1ns.gif"
+          src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693743322/NoCountry/Unete_con_tus_amigos_final_hnmrrd.gif"
           alt="GIF"
-          width="300" // Ajusta el ancho deseado
+          width="300"
           height="auto"
         />
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      {!user ? (<div style={{ display: "flex", flexDirection: "column", marginTop: "2% " }}>
         <button
           type="button"
-          className="btn btn-outline-dark"
-          style={{ marginBottom: "15px" }}
+          className="btn btn-outline-primary"
+          style={{ marginBottom: "5px" }}
         >
           <a
             className="nav-link"
@@ -46,17 +46,20 @@ export default function Home() {
             Login
           </a>
         </button>
-        <button type="button" className="btn btn-outline-dark">
+        <button type="button" className="btn btn-outline-primary" style={{ marginBottom: "5px" }}>
           <a
             className="nav-link"
             onClick={() => {
               router.push(`/auth/register`);
             }}
+
           >
             Register
           </a>
         </button>
-      </div>
+      </div>) : <div></div>
+      }
+
     </main>
   );
 }

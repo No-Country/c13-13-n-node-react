@@ -1,5 +1,5 @@
 "use client";
-
+import { useAuth } from '../../../contexts/AuthContext';
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -10,7 +10,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cargando, setICargando] = useState(false);
-
+  const { setUser } = useAuth();
   const router = useRouter();
 
   async function handleSubmit() {
@@ -24,12 +24,10 @@ export default function Login() {
       "https://c13-13-n-node-react-backend.onrender.com/auth/login",
       data
     );
-
     setICargando(false);
-
     if (dataResponse.token) {
       document.cookie = serialize("userData", JSON.stringify(dataResponse));
-
+      setUser(dataResponse.user)
       setIsLoggedIn(true);
     } else {
       alert("Usuario o Password incorrecto");

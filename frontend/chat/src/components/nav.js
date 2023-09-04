@@ -2,12 +2,16 @@
 import { useEffect, useState } from "react";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap';
-
+import { useAuth } from '../contexts/AuthContext';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
+
+
 export default function Nav(params) {
+  const { user } = useAuth();
+  // console.log(user);
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -23,7 +27,7 @@ export default function Nav(params) {
           setCurrentUser(null);
           setIsAuthenticated(false);
         }
-      }, []);
+      }, [user]);
       // console.log(initialUserData?.user.fullname);
 
   useEffect(() => {
@@ -93,9 +97,8 @@ export default function Nav(params) {
           className="navbar-nav me-auto"
           style={{
             display: "flex",
-
             flexWrap: "nowrap",
-            alignContent: "center",
+            alignContent:"center",
             textAlign: "center",
           }}
         >
@@ -126,19 +129,20 @@ export default function Nav(params) {
               onClick={() => {
                 router.push(`/about`);
               }}
+
             >
               About Us
             </a>
           </li>
-          <li className="img-item">
+          <li className="nav-item" >
           <img
           src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693665338/NoCountry/PineTools.com_usuario_no_registrado_hi0lcz.png"
           alt="logged out"
-          width="30"
+          width="30px"
           padding-left="20px"
-          height="30"
+          height="30px"
           // className="d-inline-block align-center"
-          style={{ marginLeft: "25%" }}
+          // style={{ marginLeft: "35%" }}
           />
           </li>
         </ul>):(
@@ -146,7 +150,6 @@ export default function Nav(params) {
           className="navbar-nav me-auto"
           style={{
             display: "flex",
-
             flexWrap: "nowrap",
             alignContent: "center",
             textAlign: "center",
@@ -177,11 +180,11 @@ export default function Nav(params) {
          <img
           src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693665338/NoCountry/PineTools.com_Dise%C3%B1o_sin_t%C3%ADtulo_7_jpxdc7.png"
           alt="logged in"
-          width="30"
+          width="30px"
           padding-left="20px"
-          height="30"
+          height="30px"
           className="d-inline-block align-center"
-          style={{ marginLeft: "25%" }}
+          // style={{ marginLeft: "35%" }}
           />
           </li>
           </ul>   
