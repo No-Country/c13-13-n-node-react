@@ -9,7 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.11.2",
     "bootstrap": "^5.3.1",
+    "cloudinary-core": "^2.13.0",
+    "cloudinary-react": "^1.8.1",
     "cookie": "^0.5.0",
     "js-cookie": "^3.0.5",
     "next": "13.4.18",
