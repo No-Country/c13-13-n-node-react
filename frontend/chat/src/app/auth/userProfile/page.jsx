@@ -11,9 +11,8 @@ const userProfile = () =>
   {
     const userData = Cookies.get("userData")
     // console.log(userData);
-    const initialUserData = userData? JSON.parse(userData) : null
+    const initialUserData = userData?JSON.parse(userData) : null
     // console.log(initialUserData);
-   
 
     const [user, setUser] = useState({
       email: "",
@@ -32,13 +31,17 @@ const userProfile = () =>
 
     useEffect(() => {
       if (initialUserData) {
+        const [lastname, name] = initialUserData.user.fullname.split(", ");
+        // console.log(lastname, name);
         setUser((prevUser) => ({
           ...prevUser,
           email: initialUserData.user.email,
+          lastname: lastname,
+          name: name,
           profile: initialUserData.user.profile,
           avatar: initialUserData.user.avatar,
           status: initialUserData.user.status,
-    
+          birthdate: initialUserData.user.birthdate,
         }));
       }else{
         router.push(`/`)
@@ -63,14 +66,16 @@ const userProfile = () =>
         setNewAvatar(file);
       }
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      // Logica para hacer el PUT en la base de datos, recordar unir lastname, name.
-      // if (!validateFields()) {
-      //   return;
-      // }
-      // console.log('Datos del usuario modificados:', user);
+      // setLoading(true);
+      // const result = await fetchFunctions.POST(
+      //   "https://c13-13-n-node-react-backend.onrender.com/auth/register",
+      //   formToSend
+      // );
+      // setLoading(false);
+      // console.log('Datos del usuario modificados:', result);
     };
 
     const validateFields = () => {
@@ -99,8 +104,9 @@ const userProfile = () =>
         </b>
         <hr />
         {/* <h2>User profile:</h2> */}
-        <form className="form" style={{alignContent: "center"}} onSubmit={handleSubmit}>      
-            <div className="datos" >
+        <form className="form" style={{display: "flex", flexDirection: "column"}} onSubmit={handleSubmit}> 
+        <div style={{display: "flex", flexDirection: "row",alignContent: "center", width:"100%", justifyContent:"space-around"}}>     
+            <div className="datos" style={{ display: "flex", flexDirection: "column",alignContent:"center",flexWrap:"wrap" }}>
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">
                   Email:
@@ -200,9 +206,10 @@ const userProfile = () =>
                 <img className="avatar" src={user.avatar} alt="Avatar" />
               )}
             </div>
-         
+         </div>
              <div>  
                 {isEditing ? (
+                  <div style={{ minWidth: "100%", display:"flex", justifyContent:"center" }}>
                   <button
                     type="submit"
                     className="btn btn-primary me-2"
@@ -211,6 +218,15 @@ const userProfile = () =>
                   >
                     Guardar Cambios
                   </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    style={{ minWidth: "auto" }}
+                    onClick={() => setIsEditing(false)}
+                  >
+                    Cancel
+                  </button>
+                  </div>
                 ) : (
                   <div
                     style={{
@@ -228,16 +244,6 @@ const userProfile = () =>
                       Editar
                     </button>
                   </div>
-                )}
-                {isEditing && (
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    style={{ minWidth: "auto" }}
-                    onClick={() => setIsEditing(false)}
-                  >
-                    Cancel
-                  </button>
                 )}
                 </div> 
         </form>
