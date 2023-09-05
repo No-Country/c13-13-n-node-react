@@ -3,8 +3,8 @@ const { conn } = require("./src/db.js");
 // Sincronización de todos los modelos:
 const port = process.env.PORT || 8080;
 
-//conn.sync({ force: false }).then(() => {
+conn.sync({ force: false }).then(() => {
   app.listen(port, async () => {
     console.log(`%s listening at ${port}`);
   });
-//});
+});
