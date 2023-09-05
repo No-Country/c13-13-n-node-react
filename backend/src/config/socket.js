@@ -2,12 +2,12 @@ const socketIO = require('socket.io');
 const { unirUsuarioAChat } = require('../controllers/RoomController');
 const { register, login } = require('../controllers/authController');
 
-module.exports = (socket) => {
-  const io = socketIO(socket);
+module.exports = (io) => {
+ 
   let usersOnline = []
-  io.on('connection', (socket) => {
-    console.log('Usuario conectado: ' + socket.id);
 
+  io.on('connection', (socket) => {
+    //console.log('Usuario conectado: ' + socket.id);
     // Escucha eventos personalizados desde el cliente
     socket.on('joinRoom', async (userId, roomId) => {
       // Procesar el mensaje recibido y retransmitirlo a otros clientes
@@ -22,7 +22,9 @@ module.exports = (socket) => {
       
     //cuando se envia un mensaje
     socket.on('newMessage', async (data) => {
-
+      
+      let user = {id:socket.id, menssage: data }
+      console.log(user);
       socket.broadcast.emit('message', data)
       /**  const { content, senderId, roomId } = data;
         const message = await saveMessage(content, senderId, roomId);

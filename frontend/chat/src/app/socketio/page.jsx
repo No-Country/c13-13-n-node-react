@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
-const socket =io.connect ("https://c13-13-n-node-react-backend.onrender.com")
+const socket = io.connect ("http://localhost:8080")
 
 export default function Socket() {
   const [message, setMessage] = useState("");
+  const [messageReceived, setMessageReceived] = useState("");
 
 
 
@@ -28,24 +29,25 @@ export default function Socket() {
 
 
     const handleSubmit = (e) =>{
-      e.preventDefault()
+      e.preventDefault()     
       socket.emit("newMessage",message)
+
 
     }
 
     useEffect(()=>{
-      socket.on("message",(message)=>{
-        console.log(message)
+      socket.on("message",(message)=>{     
+        setMessageReceived(message)
     })
-,[]    })
+,[socket]    })
 
 
 
   return (
     <div className="contarinerGral">
       <div className="winsowChat">
-        <h2>Diego Dimitroff </h2>
-        <h5>Mensaje enviado...</h5>
+
+        <h5>{messageReceived}</h5>
       </div>
 
       <form onSubmit={handleSubmit}>
