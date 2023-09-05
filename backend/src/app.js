@@ -4,24 +4,24 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const routes = require("./routes/index.js");
 const cors = require ("cors")
+const config = require("./config/globalEnviroment.js")
+
+
 
 require("./db.js");
+console.log(config.URL);
 
 const app = express();
+
 app.use(cors());
 
 const server = require("http").Server(app);
 const socketio = require("socket.io")(server,{
   cors:{
-    origin: "http://localhost:3000",
+    origin: config.URL || "https://c13-13-n-node-react-backend.onrender.com",
     methods: ["GET", "POST"],
   }
 });
-
-
-
-
-
 
 require("./config/socket.js")(socketio);
 
