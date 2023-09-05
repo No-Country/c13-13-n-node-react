@@ -22,9 +22,7 @@ module.exports = (io) => {
       
     //cuando se envia un mensaje
     socket.on('newMessage', async (data) => {
-      
-      let user = {id:socket.id, menssage: data }
-      console.log(user);
+
       socket.broadcast.emit('message', data)
       /**  const { content, senderId, roomId } = data;
         const message = await saveMessage(content, senderId, roomId);
