@@ -18,6 +18,7 @@ export default function Register() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formComplete, setFormComplete] = useState(false);
+  const [loadingImage, setloadingImage] = useState(false);
 
   const router = useRouter();
 
@@ -97,7 +98,7 @@ console.log(formData);
     formData.append('file', file);
     formData.append('upload_preset', 'TellMeChat')
     formData.append('api_key', 317454741746325);
-    setLoading(true)
+    setloadingImage(true)
     const res = await fetch('https://api.cloudinary.com/v1_1/TellMe/image/upload',
         {
             method: "POST",
@@ -106,7 +107,7 @@ console.log(formData);
         const cloudinaryData = await res.json();
         const uploadedUrl = cloudinaryData.secure_url
     console.log('soy la url nueva',uploadedUrl)
-    setLoading(false)
+    setloadingImage(false)
     setFormData((prevFormData) => ({
       ...prevFormData,
       avatar: uploadedUrl,
@@ -115,14 +116,15 @@ console.log(formData);
 
 
   return (
-    <div>
+    <div> 
+      
     <form
       className="contarinerGral"
       onSubmit={handleSubmit}
-      style={{ marginTop: "20px" }}
+      style={{ marginTop: "20px"  }}
     >
-      
-      <fieldset style={{display:"flex", flexDirection:"row", flexWrap:"wrap",justifyContent:"space-between"}}>
+      {loading && <div style={{ display: "flex", width: "100%", justifyContent: "center" }} ><img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1694041638/NoCountry/download-unscreen_j7cfgc.gif" alt="" style={{ width: "22%", height: "auto", marginTop: "10%", position: "fixed", alignContent: "center", zIndex:"1"}} /></div>}
+      <fieldset style={{display:"flex", flexDirection:"row", flexWrap:"wrap",justifyContent:"space-between", filter:loading?"blur(1px)":null}}>
         <legend>Regístrate</legend>
 <div className="datos">
         <div className="form-group">
@@ -203,6 +205,9 @@ console.log(formData);
           />
         </div>
         </div>
+
+
+{loadingImage? ( <img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" style={{ width: "200px", height:"200px", marginTop:"10%"  }} alt="cargando..." />) :(
 <div className="imagen" style={{display:"flex", flexDirection:"column", flexWrap:"wrap", alignItems:"flex-start"}}>
         <div className="form-group">
           <label htmlFor="exampleInputAvatar" className="form-label mt-4">
@@ -223,10 +228,10 @@ console.log(formData);
       <img src={formData.avatar} alt="" style={{ width: "200px", height:"200px", marginTop:"10%" }}/>
     </div>): <img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693605320/NoCountry/no-product-image-400x400_1_ypw1vg.png" alt="" style={{ width: "200px", height:"200px", marginTop:"10%" }}/>
     }
-    
     </div> 
+)}
       </fieldset>
-       {!loading? (
+       {loading? (
         <button
           type="submit"
           className="btn btn-primary"
@@ -236,13 +241,9 @@ console.log(formData);
           Registrarse
         </button>):
         (
-        <img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" style={{ width: "110px", height:"110px",  }} alt="cargando..." />
-        )
-         }
+          <div></div>
+        )}
     </form>
-  
-    
     </div>
-
   );
 }
