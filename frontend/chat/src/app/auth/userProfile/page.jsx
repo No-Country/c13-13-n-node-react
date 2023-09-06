@@ -135,7 +135,7 @@ console.log(del);
         formToSend
       ); 
       console.log(result);
-        const newCookieData = {token: token, formToSend}
+        const newCookieData = {token: token, user:formToSend}
      Cookies.set("userData", JSON.stringify(newCookieData));
 
      
