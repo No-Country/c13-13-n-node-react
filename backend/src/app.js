@@ -3,22 +3,35 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const routes = require("./routes/index.js");
+const cors = require ("cors")
+const config = require("./config/globalEnviroment.js")
+
+
 
 require("./db.js");
+console.log(config.URL);
 
-const server = express();
+const app = express();
 
-const app = require("http").Server(server);
-const socketio = require("socket.io")(app);
+app.use(cors());
+
+const server = require("http").Server(app);
+const socketio = require("socket.io")(server,{
+  cors:{
+    origin: config.URL || "https://c13-13-n-node-react-backend.onrender.com",
+    methods: ["GET", "POST"],
+  }
+});
+
 require("./config/socket.js")(socketio);
 
-server.name = "API";
+app.name = "API";
 
-server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-server.use(bodyParser.json({ limit: "50mb" }));
-server.use(cookieParser());
-server.use(morgan("dev"));
-server.use((req, res, next) => {
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(cookieParser());
+app.use(morgan("dev"));
+app.use((req, res, next) => {
   //Al deployar se cambia esta línea por la de abajo
   res.header("Access-Control-Allow-Origin", "*");
   // res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
@@ -32,10 +45,10 @@ server.use((req, res, next) => {
   next();
 });
 
-server.use("/", routes);
+app.use("/", routes);
 
 // Error catching endware.
-server.use((err, req, res, next) => {
+app.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
   const status = err.status || 500;
   const message = err.message || err;
@@ -43,4 +56,4 @@ server.use((err, req, res, next) => {
   res.status(status).send(message);
 });
 
-module.exports = app;
+module.exports = server;

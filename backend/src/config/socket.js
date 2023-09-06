@@ -2,12 +2,12 @@ const socketIO = require('socket.io');
 const { unirUsuarioAChat } = require('../controllers/RoomController');
 const { register, login } = require('../controllers/authController');
 
-module.exports = (socket) => {
-  const io = socketIO(socket);
+module.exports = (io) => {
+ 
   let usersOnline = []
-  io.on('connection', (socket) => {
-    console.log('Usuario conectado: ' + socket.id);
 
+  io.on('connection', (socket) => {
+    //console.log('Usuario conectado: ' + socket.id);
     // Escucha eventos personalizados desde el cliente
     socket.on('joinRoom', async (userId, roomId) => {
       // Procesar el mensaje recibido y retransmitirlo a otros clientes
