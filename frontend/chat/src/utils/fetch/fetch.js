@@ -39,3 +39,20 @@ return result
       return error
     }
       }
+
+      export const DELETE = async (url , data) => {
+        try {
+          const response = await fetch(url, {
+            method: 'DELETE',
+            body: JSON.stringify(data),
+            headers: {
+              'Content-type': 'application/json; charset=UTF-8',
+            },
+          })
+        const result = await response.json();
+        return result
+        } catch (error) {
+          console.log("ERROR");
+          return error
+        }
+          }
