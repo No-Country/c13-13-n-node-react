@@ -5,14 +5,16 @@ import React, { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
 import { BsArrowLeft } from "react-icons/bs";
+import { useAuth } from '../../../contexts/AuthContext';
 
 const userProfile = () =>
 
   {
+    
     const userData = Cookies.get("userData")
     // console.log(userData);
     const initialUserData = userData?JSON.parse(userData) : null
-    // console.log(initialUserData);
+    // console.log(initialUserData.user);
 
     const [user, setUser] = useState({
       email: "",
@@ -27,10 +29,16 @@ const userProfile = () =>
     const [isEditing, setIsEditing] = useState(false);
     const [newAvatar, setNewAvatar] = useState(null);
     const [validationErrors, setValidationErrors] = useState({});
-    // console.log(user)
+    const [loading, setLoading] = useState(false);
+    const [userImage, setuserImage] = useState('');
+    const [userId, setuserId] = useState('');
+    const [token, settoken] = useState('');
 
     useEffect(() => {
       if (initialUserData) {
+        setuserId(initialUserData.user.id)
+        settoken(initialUserData.token)
+        setuserImage(initialUserData.user.avatar)
         const [lastname, name] = initialUserData.user.fullname.split(", ");
         // console.log(lastname, name);
         setUser((prevUser) => ({
@@ -50,32 +58,92 @@ const userProfile = () =>
 
     const handleEditClick = () => {
       setIsEditing(true);
+      // console.log(user)
     };
 
-    const handleChange = (e) => {
-      validateFields();
-      const { name, value } = e.target;
-      setUser((prevUser) => ({
-        ...prevUser,
-        [name]: value,
-      }));
-    };
-    const handleAvatarChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        setNewAvatar(file);
-      }
-    };
-    const handleSubmit = async (e) => {
+    const handleAvatarChange = async (e) => {
       e.preventDefault();
 
-      // setLoading(true);
-      // const result = await fetchFunctions.POST(
-      //   "https://c13-13-n-node-react-backend.onrender.com/auth/register",
-      //   formToSend
-      // );
-      // setLoading(false);
-      // console.log('Datos del usuario modificados:', result);
+const array = userImage.split("/")
+const [publicID, etc] = array[array.length-1].split(".")
+console.log(publicID)
+//borrar la imagen anterior ------------------------------------------------
+const del = await fetchFunctions.DELETE(
+  `https://c13-13-n-node-react-backend.onrender.com/users/eliminar-imagen/${publicID}`
+  // `http://localhost:3001/users/eliminar-imagen/${publicID}`
+);
+console.log(del);
+//-------------------------------------------------------------------------------
+
+      const file = e.target.files[0]
+      // console.log(file)
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'TellMeChat')
+      formData.append('api_key', 317454741746325);
+      formData.append('public_id',`${publicID}`);
+      setLoading(true)
+      const res = await fetch('https://api.cloudinary.com/v1_1/TellMe/image/upload',
+          {
+              method: "POST",
+              body: formData
+          })
+          // console.log('soy respuesta:',res);
+          const cloudinaryData = await res.json();
+          const uploadedUrl = cloudinaryData.secure_url
+      // console.log('soy la url nueva',uploadedUrl)
+      setLoading(false)
+      setUser((prevUser) => ({
+        ...prevUser,
+        avatar: uploadedUrl,
+      }));
+
+      validateFields();
+    };
+
+    console.log('user fuera',user)
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setUser({
+        ...user,
+        [name]: value,
+      });
+    };
+
+    // console.log(user);
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const newFullname=`${user.lastname}, ${user.name}`
+      const formToSend = {
+        id:userId,
+        email:user.email,
+        role:"common", 
+       fullname: newFullname,
+       profile:"", 
+       avatar:user.avatar,
+       status:user.status,
+       birthdate: user.birthdate
+      }
+
+
+      console.log('user en submit',formToSend)
+      setLoading(true);
+      const result = await fetchFunctions.PUT(
+        "https://c13-13-n-node-react-backend.onrender.com/users",
+        // "http://localhost:3001/users",
+        formToSend
+      ); 
+      console.log(result);
+        const newCookieData = {token: token, formToSend}
+     Cookies.set("userData", JSON.stringify(newCookieData));
+
+     
+      window.location.reload();
+      // console.log(newCookieData);
+
+       setLoading(false);
+      // id, email, role, fullname, profile, avatar, status, birthdate 
     };
 
     const validateFields = () => {
@@ -105,7 +173,7 @@ const userProfile = () =>
         <hr />
         {/* <h2>User profile:</h2> */}
         <form className="form" style={{display: "flex", flexDirection: "column"}} onSubmit={handleSubmit}> 
-        <div style={{display: "flex", flexDirection: "row",alignContent: "center", width:"100%", justifyContent:"space-around"}}>     
+        <div style={{display: "flex", flexDirection: "row",alignContent: "center", width:"100%", justifyContent:"space-around",flexWrap:"wrap"}}>     
             <div className="datos" style={{ display: "flex", flexDirection: "column",alignContent:"center",flexWrap:"wrap" }}>
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">
@@ -182,32 +250,33 @@ const userProfile = () =>
               </div>
             </div>
 
-            <div
-              className="mb-3"
-              style={{ display: "flex", flexDirection: "column",alignContent:"center",flexWrap:"wrap" }}
-            >
-              <label htmlFor="avatar" className="form-label">
-                Avatar :
-              </label>
-              {isEditing ? (
-                <>
-                  <input
-                    type="file"
-                    id="avatar"
-                    name="avatar"
-                    onChange={handleAvatarChange}
-                    className="form-control mb-2"
-                  />
-                  {newAvatar && (
-                    <img src={newAvatar} alt="New Avatar" className="mb-2" />
-                  )}
-                </>
-              ) : (
-                <img className="avatar" src={user.avatar} alt="Avatar" />
-              )}
-            </div>
+
+            <div className="imagen" style={{display:"flex", flexDirection:"column", flexWrap:"wrap", alignItems:"flex-start"}}>
+        <div className="form-group">
+          <label htmlFor="exampleInputAvatar" className="form-label mt-4">
+            Imagen de perfil
+          </label>
+          {isEditing && <input
+            type="file"
+            className="form-control"
+            id="exampleInputAvatar"
+            name="avatar"
+            accept="image/*"
+            onChange={handleAvatarChange}
+            required
+          />}
+        </div>
+        {user.avatar?
+(<div>
+      <img src={user.avatar} alt="" style={{ width: "200px", height:"200px", marginTop:"10%" }}/>
+    </div>): <img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693605320/NoCountry/no-product-image-400x400_1_ypw1vg.png" alt="" style={{ width: "200px", height:"200px", marginTop:"10%" }}/>
+    }
+    
+    </div> 
+           
          </div>
-             <div>  
+         {loading?(
+        <div style={{display:"flex", alignItems:"center", justifyContent:"center"}} ><img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" style={{ width: "110px", height:"110px"}} alt="cargando..." /></div> ):(<div>  
                 {isEditing ? (
                   <div style={{ minWidth: "100%", display:"flex", justifyContent:"center" }}>
                   <button
@@ -245,7 +314,8 @@ const userProfile = () =>
                     </button>
                   </div>
                 )}
-                </div> 
+                </div> )}
+             
         </form>
       </div>
     );

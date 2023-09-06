@@ -31,7 +31,7 @@ const [cookieName, cookieValue] = cookie.split("=");
 if (cookieName === "userData") {
 const userDataString = decodeURIComponent(cookieValue);
 const userData = JSON.parse(userDataString);
-console.log(userData.user.birthdate);
+// console.log(userData.user.birthdate);
 setName(userData.user.fullname);
 setAvatar(userData.user.avatar);
 setEmail(userData.user.email);
