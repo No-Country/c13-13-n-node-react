@@ -37,7 +37,7 @@ export default function Socket() {
   return (
     <div className="App">
       <div style={{marginTop:"5%", display:"flex", justifyContent:"center"}}>
-        <span class={isConnected ? "badge rounded-pill bg-info" : "badge rounded-pill bg-warning"}>{isConnected ? "CONECTADO" : "NO CONECTADO"}</span>
+        <span className={isConnected ? "badge rounded-pill bg-info" : "badge rounded-pill bg-warning"}>{isConnected ? "CONECTADO" : "NO CONECTADO"}</span>
       </div>
       
      
@@ -62,14 +62,14 @@ export default function Socket() {
       </div>
 
       <form onSubmit={handleSubmit}> 
-      <div class="input-group mb-3" style={{display:"flex", width:"80%", margin:"2%",flexDirection:"row"}}>
+      <div className="input-group mb-3" style={{display:"flex", width:"80%", margin:"2%",flexDirection:"row"}}>
         <input
-        type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"
+        type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"
           onChange={(e) => setNuevoMensaje(e.target.value)}
           value={nuevoMensaje} 
         style={{}}
         />
-        <button class="btn btn-primary" type="button" id="button-addon2">Enviar</button> 
+        <button className="btn btn-primary" type="button" id="button-addon2">Enviar</button> 
       </div>
         
     
