@@ -46,7 +46,8 @@ export default function Login() {
       onSubmit={handleSubmit}
       style={{ marginTop: "20px" }}
     >
-      <fieldset>
+      
+      <fieldset style={{filter:cargando?"blur(1px)":null}}>
         <legend>Login</legend>
 
         <div className="form-group">
@@ -90,6 +91,7 @@ export default function Login() {
 
         {cargando && <p>cargando...</p>}
       </fieldset>
+      {cargando && <div style={{ display: "flex", width: "100%", justifyContent: "center" }} ><img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1694041638/NoCountry/download-unscreen_j7cfgc.gif" alt="" style={{ width: "22%", height: "auto", position: "fixed", alignContent: "center", zIndex:"1"}} /></div>}
     </form>
   );
 }
