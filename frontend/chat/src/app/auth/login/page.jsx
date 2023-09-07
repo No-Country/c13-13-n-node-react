@@ -89,7 +89,6 @@ export default function Login() {
           Submit
         </button>
 
-        {cargando && <p>cargando...</p>}
       </fieldset>
       {cargando && <div style={{ display: "flex", width: "100%", justifyContent: "center" }} ><img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1694041638/NoCountry/download-unscreen_j7cfgc.gif" alt="" style={{ width: "22%", height: "auto", position: "fixed", alignContent: "center", zIndex:"1"}} /></div>}
     </form>
