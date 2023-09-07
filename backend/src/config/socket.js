@@ -6,47 +6,65 @@ module.exports = (io) => {
  
   let usersOnline = []
 
-  io.on('connection', (socket) => {
+  // io.on('connection', (socket) => {
     //console.log('Usuario conectado: ' + socket.id);
     // Escucha eventos personalizados desde el cliente
-    socket.on('joinRoom', async (userId, roomId) => {
-      // Procesar el mensaje recibido y retransmitirlo a otros clientes
-      await unirUsuarioAChat(userId, roomId)
-
-      socket.join(roomId);
-        // Emitir un evento para notificar al cliente que se unió a la sala
-        io.to(socket.id).emit('roomJoined', `Te has unido a la sala ${roomId}`);
-
-    //   io.emit('messageReceived', data);
-    });
-      
-    //cuando se envia un mensaje
-    socket.on('newMessage', async (data) => {
-
-      socket.broadcast.emit('message', data)
-      /**  const { content, senderId, roomId } = data;
-        const message = await saveMessage(content, senderId, roomId);
-        if (message) {
-          io.to(roomId).emit('messageReceived', message);
-        } */
+    io.on('connection', (socket) => {
+      console.log('Se ha conectado un cliente');
+  
+      socket.broadcast.emit('chat_message', {
+          usuario: 'INFO',
+          mensaje: 'Se ha conectado un nuevo usuario'
       });
-   
-      
-    //cuando se conecta nuevo usuario
-    socket.on('newUser', async (user) => {
-        console.log(user);
-        socket.nickname = user
-        usersOnline.push(socket.nickname)
-
-        io.sockets.emit('usersNames', usersOnline)
+  
+      socket.on('chat_message', (data) => {
+          io.emit('chat_message', data);
       });
-
-
-    // Manejo de desconexiones
-    socket.on('disconnect', () => {
-      console.log('Usuario desconectado: ' + socket.id);
-    });
   });
 
-  return io;
+
+
+
+
+
+  //   socket.on('joinRoom', async (userId, roomId) => {
+  //     // Procesar el mensaje recibido y retransmitirlo a otros clientes
+  //     await unirUsuarioAChat(userId, roomId)
+
+  //     socket.join(roomId);
+  //       // Emitir un evento para notificar al cliente que se unió a la sala
+  //       io.to(socket.id).emit('roomJoined', `Te has unido a la sala ${roomId}`);
+
+  //   //   io.emit('messageReceived', data);
+  //   });
+      
+  //   //cuando se envia un mensaje
+  //   socket.on('newMessage', async (data) => {
+
+  //     socket.broadcast.emit('message', data)
+  //     /**  const { content, senderId, roomId } = data;
+  //       const message = await saveMessage(content, senderId, roomId);
+  //       if (message) {
+  //         io.to(roomId).emit('messageReceived', message);
+  //       } */
+  //     });
+   
+      
+  //   //cuando se conecta nuevo usuario
+  //   socket.on('newUser', async (user) => {
+  //       console.log(user);
+  //       socket.nickname = user
+  //       usersOnline.push(socket.nickname)
+
+  //       io.sockets.emit('usersNames', usersOnline)
+  //     });
+
+
+  //   // Manejo de desconexiones
+  //   socket.on('disconnect', () => {
+  //     console.log('Usuario desconectado: ' + socket.id);
+  //   });
+  // });
+
+  // return io;
 };
