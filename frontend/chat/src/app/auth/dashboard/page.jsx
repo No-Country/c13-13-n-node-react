@@ -1,17 +1,20 @@
 "use client";
 import { useState, useEffect } from "react";
 import Profile from "@/components/profile";
-import RoomComponent from "@/components/newroom";
+import NewRoomComponent from "@/components/newroom";
 import Rooms from "../rooms/rooms";
+import SelectedRoom from "../rooms/selectedRoom";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { transition } from "@cloudinary/url-gen/actions/effect";
 
 export default function Dashboard() {
 
 const [newRoom, setnewRoom] = useState("");
 const [currentUser, setCurrentUser] = useState({});
-const router = useRouter();
+const [currentRoom, setcurrentRoom] = useState(null);
 
+const router = useRouter();
 
     const userData = Cookies.get("userData")
     // console.log(userData);
@@ -32,11 +35,19 @@ async function handleSubmit() {}
 
 async function handleNewRoom() {
   setnewRoom(!newRoom);
+  setcurrentRoom(null)
 }
 async function getDataUser() {
   console.log("funcion entrar a sala");
 }
+async function   selectedRoomId(e){
+      e.preventDefault(); 
+  console.log(e.target.value); 
+      setcurrentRoom(e.target.value);
+      console.log(currentRoom);
+    }
 
+    console.log(currentRoom);
 return (
   <>
       <div
@@ -58,13 +69,13 @@ return (
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
+        flexDirection: "row",
+        // alignItems: "center",
+        // minHeight:"400px",
+        justifyContent: currentRoom? "flex-start": "center",
         boxShadow: "0px 0px 20px 8px #bce1d6" ,
         margin: "2%",
         padding: "2%"
-
       }}
     >
       {newRoom ? (
@@ -75,7 +86,7 @@ return (
             flexDirection: "column",
           }}
         >
-          <RoomComponent user={currentUser} />
+          <NewRoomComponent user={currentUser} />
           <hr></hr>
           <button
             type="button"
@@ -93,14 +104,16 @@ return (
             flexDirection: "column",
           }}
         >
-          <h3 className="title">SALAS DISPONIBLES</h3>
+          <div style={{display:"flex", flexDirection:"row"}}>
+          <div>
+          <h5 className="title"><p class="text-primary">SALAS DISPONIBLES</p></h5>
             <div className="containerSec">
               
-                <Rooms/>
+                <Rooms user={currentUser} selectedRoomId={selectedRoomId}/>
             </div>
               
             <div style={{display:"flex",flexDirection:"column", alignContent:"center", alignItems:"center"}}>
-              <h3 >CREAR UNA SALA</h3>
+              <h6><p class="text-info">CREAR UNA SALA</p></h6>
                 <button
                   type="button"
                   onClick={handleNewRoom}
@@ -109,7 +122,13 @@ return (
                   Crear Sala
                 </button>
             </div>
-        </div>
+
+            </div>
+            {currentRoom && (
+            <SelectedRoom user={currentUser} currentRoom={currentRoom}/> 
+             )}
+             </div>
+        </div>    
       )}
     </div>
   </>
