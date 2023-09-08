@@ -18,7 +18,7 @@ app.use(cors());
 const server = require("http").Server(app);
 const socketio = require("socket.io")(server,{
   cors:{
-    origin: config.URL || "https://c13-13-n-node-react-backend.onrender.com",
+    origin: config.URL || "*",
     methods: ["GET", "POST"],
   }
 });
