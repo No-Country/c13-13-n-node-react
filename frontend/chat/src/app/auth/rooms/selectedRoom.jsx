@@ -12,7 +12,7 @@ export default function selectedRoom({user, currentRoom}) {
   const [nuevoMensaje, setNuevoMensaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
 
-  console.log(user, currentRoom)
+  // console.log(user, currentRoom)
 
   useEffect(() => {
    
@@ -51,7 +51,7 @@ export default function selectedRoom({user, currentRoom}) {
       </div>
       
      
-      <div style={{ margin: "2%", heigh:"100%", display:"flex", minHeight:"300px", border:"solid 1px #BCE1D6", minWidth:"500px" }}>
+      <div style={{ margin: "2%", heigh:"100%", display:"flex", minHeight:"300px", border:"solid 1px #BCE1D6", minWidth:"350px", maxWidth:"500px", flexDirection:"column" }}>
         <ul className="list-group">
           {mensajes.map((mensaje) => (
             <li
@@ -71,16 +71,16 @@ export default function selectedRoom({user, currentRoom}) {
         </ul>
       </div>
 
-      <form onSubmit={handleSubmit}> 
-      <div className="input-group mb-3" style={{display:"flex", width:"80%", margin:"2%",flexDirection:"row"}}>
+      <form className="input-group mb-3" style={{display:"flex", width:"100%", margin:"2%",flexDirection:"row"}} onSubmit={handleSubmit}> 
+     
         <input
         type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"
           onChange={(e) => setNuevoMensaje(e.target.value)}
           value={nuevoMensaje} 
-        style={{width:"100%"}}
+        style={{width:"80%"}}
         />
-        <button className="btn btn-primary" type="button" id="button-addon2">Enviar</button> 
-      </div>
+        <button className="btn btn-primary" style={{width:"20%"}} type="button" onClick={handleSubmit} id="button-addon2">Enviar</button> 
+  
         
     
       </form>

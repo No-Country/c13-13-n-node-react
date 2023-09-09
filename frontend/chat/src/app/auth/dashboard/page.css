@@ -1,0 +1,16 @@
+
+
+.dashboard-container{
+    display: flex;
+    flex-direction: row;
+}
+
+@media (max-width: 600px) {
+    .dashboard-container {
+      /* Estilos específicos para pantallas pequeñas */
+      /* Por ejemplo: */
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  }

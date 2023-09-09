@@ -46,7 +46,7 @@ console.log(formData);
      birthdate: formData.birthdate,
      password:formData.password
     }
-    console.log(formToSend);
+    // console.log(formToSend);
     // Enviar formData como objeto de datos
     setLoading(true);
     const result = await fetchFunctions.POST(
