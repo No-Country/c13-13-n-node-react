@@ -19,7 +19,7 @@ useEffect(() => {
   if(user){
     setcurrentUser(user)
   }
-  console.log(currentUser);
+  // console.log(currentUser);
     const fetchData = async () => {
       try {
         const dataResponse = await fetchFunctions.GET(
@@ -42,7 +42,7 @@ useEffect(() => {
 //     setcurrentRoom(e.target.value);
 //     console.log(currentRoom);
 //   }
-console.log(currentRoom);
+// console.log(currentRoom);
 
 return (
     <>

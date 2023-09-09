@@ -7,6 +7,7 @@ import SelectedRoom from "../rooms/selectedRoom";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { transition } from "@cloudinary/url-gen/actions/effect";
+import "./page.css";
 
 export default function Dashboard() {
 
@@ -20,7 +21,6 @@ const router = useRouter();
     // console.log(userData);
     const initialUserData = userData? JSON.parse(userData) : null
     // console.log(initialUserData);
-
     useEffect(() => {
       if (initialUserData) {
         setCurrentUser(initialUserData)
@@ -28,8 +28,6 @@ const router = useRouter();
         router.push(`/`)
       }
     }, []);
-
-
 
 async function handleSubmit() {}
 
@@ -42,12 +40,10 @@ async function getDataUser() {
 }
 async function   selectedRoomId(e){
       e.preventDefault(); 
-  console.log(e.target.value); 
+  // console.log(e.target.value); 
       setcurrentRoom(e.target.value);
-      console.log(currentRoom);
     }
-
-    console.log(currentRoom);
+      // console.log(currentRoom);
 return (
   <>
       <div
@@ -100,20 +96,20 @@ return (
         <div
           style={{
             display: "flex",
-            alignItems: "center",
+            alignItems: currentRoom? "normal": "center",
+            width:"100%",
             flexDirection: "column",
           }}
         >
-          <div style={{display:"flex", flexDirection:"row"}}>
-          <div>
-          <h5 className="title"><p class="text-primary">SALAS DISPONIBLES</p></h5>
-            <div className="containerSec">
-              
+          <div style={{display:"flex", flexDirection:"row", flexWrap:"wrap"}}>
+          <div style={{display:"flex", justifyContent:"flex-start",flexDirection:"column",margin:"5%"}}>
+          <p class="text-primary" style={{textAlign:"center"}}>SALAS DISPONIBLES</p>
+            <div className="dashboard-container" >
                 <Rooms user={currentUser} selectedRoomId={selectedRoomId}/>
             </div>
               
-            <div style={{display:"flex",flexDirection:"column", alignContent:"center", alignItems:"center"}}>
-              <h6><p class="text-info">CREAR UNA SALA</p></h6>
+            <div style={{display:"flex",flexDirection:"column", alignContent:"center", alignItems:"center", marginTop:"20%"}}>
+              <p class="text-info" style={{textAlign:"center"}}>CREAR UNA SALA</p>
                 <button
                   type="button"
                   onClick={handleNewRoom}
