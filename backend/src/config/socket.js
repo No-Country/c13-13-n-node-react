@@ -10,16 +10,20 @@ module.exports = (io) => {
     //console.log('Usuario conectado: ' + socket.id);
     // Escucha eventos personalizados desde el cliente
     io.on('connection', (socket) => {
-      console.log('Se ha conectado un cliente');
+      console.log('Usuario conectado: ' + socket.id);
   
       socket.broadcast.emit('chat_message', {
           usuario: 'INFO',
-          mensaje: 'Se ha conectado un nuevo usuario'
+          mensaje: 'Se ha conectado un usuario'
       });
   
       socket.on('chat_message', (data) => {
           io.emit('chat_message', data);
       });
+
+
+
+
   });
 
 
