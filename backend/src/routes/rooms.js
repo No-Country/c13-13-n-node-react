@@ -24,7 +24,8 @@ router.get('/all', async (req, res) => {
 router.post('/join', async (req, res) => {
   const { userId, roomId } = await req.body;
   result = await RoomController.JoinUserToRoom(userId, roomId);
-  res.send(result);
+  console.log(result);
+  res.json(result);
 });
 //salas donde esta activo el usuario
 router.get('/:usuarioId', async (req, res) => {
