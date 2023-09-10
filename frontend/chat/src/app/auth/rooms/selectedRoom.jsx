@@ -11,9 +11,9 @@ export default function selectedRoom({user, currentRoom, roomsUser}) {
   const [isConnected, setIsConnected] = useState(false);
   const [nuevoMensaje, setNuevoMensaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
+  const [roomFull, setroomFull] = useState(null);
 
-  console.log(user, currentRoom, roomsUser)
-
+console.log("estos son los mensajes", mensajes)
   useEffect(() => {
    
     socket.on("connect", setIsConnected(true));
@@ -22,6 +22,7 @@ export default function selectedRoom({user, currentRoom, roomsUser}) {
 // }
 // console.log(currentUser);
     socket.on("chat_message", (data) => {
+
       setMensajes((mensajes) => [...mensajes, data]);
     });
 
@@ -31,35 +32,47 @@ export default function selectedRoom({user, currentRoom, roomsUser}) {
     };
   }, []);
 
-useEffect(()=>{
+  useEffect(()=>{
+    if(currentRoom && user){
+      
+         const joinuser = async () => {
+         const data = {
+        userId: user.user.id.toString(),
+        roomId: currentRoom.id.toString()
+      } 
+      const datasocket = {
+         username:user.user.fullname, 
+          roomId:currentRoom.id  
+      } 
+        try {
+  //         const dataResponse = await fetchFunctions.POST(
+  //           "https://c13-13-n-node-react-backend.onrender.com/rooms/join", data
+  //         );
+  const dataResponse = await fetchFunctions.POST(
+              "http://localhost:8080/rooms/join", data
+            );
+            console.log(datasocket); 
+socket.emit("join_room", datasocket);
+        //  console.log(dataResponse);   
+         if(dataResponse === "Room is full"){setroomFull(true)}else{setroomFull(false)}
+        } catch (error) {
+          console.error("Error al cargar las salas:", error);
+        }
+      };
 
-
-  if(currentRoom && user){
-    
-    const data = {
-      userId: user.id,
-      roomId: roomsUser.id
+      joinuser();
+      
     }
-       const fetchData = async () => {
-      try {
-        const dataResponse = await fetchFunctions.GET(
-          "https://c13-13-n-node-react-backend.onrender.com/rooms/join", data
-        );
-        console.log(dataResponse);
-      } catch (error) {
-        console.error("Error al cargar las salas:", error);
-      }
-    };
-    fetchData();
-    socket.emit("join_room", { roomName: currentRoom.title, username: user.user.fullname });
-  }
-}, []);
+  }, [currentRoom]);
 
-  const enviarMensaje = () => {
-    socket.emit("chat_message", {
+  const enviarMensaje = async () => {
+const data = {
+      room: currentRoom.id,
       usuario: user.user.fullname,
       mensaje: nuevoMensaje,
-    });
+    }
+    console.log(data); 
+    await socket.emit("chat_message", data);
     setNuevoMensaje(""); 
   };
 
@@ -70,14 +83,16 @@ useEffect(()=>{
 
   return (
     <div className="App">
-      <div style={{marginTop:"5%", display:"flex", justifyContent:"center"}}>
+{
+  roomFull? ( <div style={{ margin: "2%", heigh:"100%", display:"flex", minHeight:"300px", border:"solid 1px #BCE1D6", minWidth:"350px", maxWidth:"500px", flexDirection:"column", justifyContent:"center",textAlign:"center" }}> No te puedes unir porque la sala está completa </div> ):
+  ( <div>    <div style={{marginTop:"5%", display:"flex", justifyContent:"center"}}>
         <span className={isConnected ? "badge rounded-pill bg-info" : "badge rounded-pill bg-warning"}>{isConnected ? "Conectado a la sala " + currentRoom.title : "NO CONECTADO"}</span>
       </div>
       
      
       <div style={{ margin: "2%", heigh:"100%", display:"flex", minHeight:"300px", border:"solid 1px #BCE1D6", minWidth:"350px", maxWidth:"500px", flexDirection:"column" }}>
         <ul className="list-group">
-          {mensajes.map((mensaje) => (
+          {mensajes.length? (mensajes.map((mensaje) => (
             <li
               key={mensaje.usuario} // Agregar una clave única
               className={
@@ -91,7 +106,7 @@ useEffect(()=>{
               </span>{" "}
               {mensaje.mensaje}
             </li>
-            ))}
+            ))): <div></div>}
         </ul>
       </div>
 
@@ -108,6 +123,9 @@ useEffect(()=>{
         
     
       </form>
+
+      </div>)}
+ 
     </div>
   );
 }
