@@ -18,13 +18,14 @@ module.exports = (io) => {
       });
   
       socket.on('chat_message', (data) => {
-          io.emit('chat_message', data);
+        const {room, usuario, mensaje } = data;
+        io.to(room).emit('chat_message', data);
       });
-      
-      socket.on("join_room",  ({ roomName, username }) => {
-        socket.join(roomName); // Unirse a la sala
+
+      socket.on("join_room",  ({ username, roomId }) => {
+        socket.join(roomId); // Unirse a la sala
         // Puedes enviar un mensaje o emitir un evento para notificar a los otros usuarios que alguien se unió a la sala
-        io.to(roomName).emit("user_joined", `${username} se unió a la sala.`);
+        io.to(roomId).emit("user_joined", `${username} se unió a la sala.`);
       });
 
 
