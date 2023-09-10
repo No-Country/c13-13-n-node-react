@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import {io} from "socket.io-client";
 const socket = io("https://c13-13-n-node-react-backend.onrender.com")
-
+import * as fetchFunctions from "@/utils/fetch/fetch";
 //Aca esta toda la logica de Socket.io del chat
 
 export default function selectedRoom({user, currentRoom, roomsUser}) {
