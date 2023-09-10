@@ -5,14 +5,14 @@ const socket = io("https://c13-13-n-node-react-backend.onrender.com")
 
 //Aca esta toda la logica de Socket.io del chat
 
-export default function selectedRoom({user, currentRoom}) {
+export default function selectedRoom({user, currentRoom, roomsUser}) {
 
 
   const [isConnected, setIsConnected] = useState(false);
   const [nuevoMensaje, setNuevoMensaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
 
-  // console.log(user, currentRoom)
+  console.log(user, currentRoom, roomsUser)
 
   useEffect(() => {
    
@@ -31,6 +31,30 @@ export default function selectedRoom({user, currentRoom}) {
     };
   }, []);
 
+useEffect(()=>{
+
+
+  if(currentRoom && user){
+    
+    const data = {
+      userId: user.id,
+      roomId: roomsUser.id
+    }
+       const fetchData = async () => {
+      try {
+        const dataResponse = await fetchFunctions.GET(
+          "https://c13-13-n-node-react-backend.onrender.com/rooms/join", data
+        );
+        console.log(dataResponse);
+      } catch (error) {
+        console.error("Error al cargar las salas:", error);
+      }
+    };
+    fetchData();
+    socket.emit("join_room", { roomName: currentRoom.title, username: user.user.fullname });
+  }
+}, []);
+
   const enviarMensaje = () => {
     socket.emit("chat_message", {
       usuario: user.user.fullname,
@@ -47,7 +71,7 @@ export default function selectedRoom({user, currentRoom}) {
   return (
     <div className="App">
       <div style={{marginTop:"5%", display:"flex", justifyContent:"center"}}>
-        <span className={isConnected ? "badge rounded-pill bg-info" : "badge rounded-pill bg-warning"}>{isConnected ? "CONECTADO" : "NO CONECTADO"}</span>
+        <span className={isConnected ? "badge rounded-pill bg-info" : "badge rounded-pill bg-warning"}>{isConnected ? "Conectado a la sala " + currentRoom.title : "NO CONECTADO"}</span>
       </div>
       
      
@@ -67,7 +91,7 @@ export default function selectedRoom({user, currentRoom}) {
               </span>{" "}
               {mensaje.mensaje}
             </li>
-          ))}
+            ))}
         </ul>
       </div>
 
