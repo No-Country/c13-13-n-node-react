@@ -7,28 +7,70 @@ import SelectedRoom from "../rooms/selectedRoom";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { transition } from "@cloudinary/url-gen/actions/effect";
+import * as fetchFunctions from "@/utils/fetch/fetch";
 import "./page.css";
-
-export default function Dashboard() {
+import { useAuth } from '../../../contexts/AuthContext';
+export default function  Dashboard () {
 
 const [newRoom, setnewRoom] = useState("");
 const [currentUser, setCurrentUser] = useState({});
 const [currentRoom, setcurrentRoom] = useState(null);
-
+const [allRooms, setallRooms] = useState();
+const [userRooms, setuserRooms] = useState();
+const [cargando, setCargando] = useState(false);
+const { user } = useAuth();
 const router = useRouter();
 
     const userData = Cookies.get("userData")
-    // console.log(userData);
     const initialUserData = userData? JSON.parse(userData) : null
     // console.log(initialUserData);
-    useEffect(() => {
-      if (initialUserData) {
-        setCurrentUser(initialUserData)
-      }else{
-        router.push(`/`)
-      }
+    useEffect(async () => {
+      const fetchData = async () => {
+        try {
+          if (initialUserData) {
+            setCurrentUser(initialUserData);
+          } else {
+            router.push(`/`);
+            return; // Salir de la función si no hay datos de usuario
+          }
+    
+          setCargando(true);
+          const userId = initialUserData.user.id; // Asegúrate de ajustar esto según tu estructura de datos
+          const userRoomsUrl = `https://c13-13-n-node-react-backend.onrender.com/rooms/${userId}`;
+          const userRoomsResponse = await fetchFunctions.GET(userRoomsUrl);
+          setuserRooms(userRoomsResponse);
+          const allRoomsResponse = await fetchFunctions.GET(
+            "https://c13-13-n-node-react-backend.onrender.com/rooms/all"
+          );
+          setallRooms(allRoomsResponse);
+          setCargando(false);
+        } catch (error) {
+          console.error("Error al cargar las salas:", error);
+        }
+      };
+      fetchData();
     }, []);
+    
+      // useEffect(async () => {
+      //   console.log(user);
+      //   const fetchRoomsUser = async () => {
+      //     try {
+      //       setCargando(true)
+      //       const roomsUserResponse = await fetchFunctions.GET(
+      //        "https://c13-13-n-node-react-backend.onrender.com/rooms/"+ user.id
+      //       );
+      //       setCargando(false)
+      //       setuserRooms(roomsUserResponse);
+      //     } catch (error) {
+      //       console.error("Error al cargar las salas del usuario:", error);
+      //     }
+      //   }
+      //   fetchRoomsUser();
+      //     }, []);
+// console.log(currentUser);
+// console.log(userRooms);
 
+// console.log(allRooms);
 async function handleSubmit() {}
 
 async function handleNewRoom() {
@@ -40,8 +82,8 @@ async function getDataUser() {
 }
 async function   selectedRoomId(e){
       e.preventDefault(); 
-  // console.log(e.target.value); 
-      setcurrentRoom(e.target.value);
+  const actualroom =  await allRooms.find((r) => r.id == e.target.value);
+      setcurrentRoom(actualroom);
     }
       // console.log(currentRoom);
 return (
@@ -66,8 +108,6 @@ return (
       style={{
         display: "flex",
         flexDirection: "row",
-        // alignItems: "center",
-        // minHeight:"400px",
         justifyContent: currentRoom? "flex-start": "center",
         boxShadow: "0px 0px 20px 8px #bce1d6" ,
         margin: "2%",
@@ -103,13 +143,12 @@ return (
         >
           <div style={{display:"flex", flexDirection:"row", flexWrap:"wrap"}}>
           <div style={{display:"flex", justifyContent:"flex-start",flexDirection:"column",margin:"5%"}}>
-          <p class="text-primary" style={{textAlign:"center"}}>SALAS DISPONIBLES</p>
-            <div className="dashboard-container" >
-                <Rooms user={currentUser} selectedRoomId={selectedRoomId}/>
-            </div>
-              
+          <p className="text-primary" style={{textAlign:"center"}}>SALAS DISPONIBLES</p>
+          {cargando? (<div style={{display:"flex", justifyContent:"center", width:"100%"}}> <img style={{width:"15%"}} src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" alt="" /></div>):( <div className="dashboard-container" >
+                <Rooms user={currentUser} selectedRoomId={selectedRoomId} rooms={allRooms} roomsUser={userRooms}/>
+            </div>) }
             <div style={{display:"flex",flexDirection:"column", alignContent:"center", alignItems:"center", marginTop:"20%"}}>
-              <p class="text-info" style={{textAlign:"center"}}>CREAR UNA SALA</p>
+              <p className="text-info" style={{textAlign:"center"}}>CREAR UNA SALA</p>
                 <button
                   type="button"
                   onClick={handleNewRoom}
@@ -121,7 +160,7 @@ return (
 
             </div>
             {currentRoom && (
-            <SelectedRoom user={currentUser} currentRoom={currentRoom}/> 
+            <SelectedRoom user={currentUser} currentRoom={currentRoom} roomsUser={userRooms}/> 
              )}
              </div>
         </div>    

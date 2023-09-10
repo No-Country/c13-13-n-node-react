@@ -84,7 +84,7 @@ router.delete('/eliminar-imagen/:publicId', async (req, res) => {
   try {
     // Utiliza la API de Cloudinary para eliminar la imagen
     const result = await cloudinary.uploader.destroy(Id);
-    console.log(result)
+    // console.log(result)
     if (result.result === 'ok') {
       // La imagen se eliminó con éxito
       res.status(200).json({ message: 'Imagen eliminada con éxito' });

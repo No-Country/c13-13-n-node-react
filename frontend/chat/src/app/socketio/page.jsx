@@ -124,8 +124,8 @@ export default function Socket() {
 //       <div style={{margin:"2%"}}>
 // <ul class="list-group">
 //         {mensajes.map(mensaje => (
-//           <li class={mensaje.usuario==socket.id?"list-group-item d-flex justify-content-between align-items-center":"list-group-item list-group-item-primary d-flex justify-content-between align-items-center"}>
-//              <span class="badge bg-primary rounded-pill">{mensaje.usuario}</span> {mensaje.mensaje}
+//           <li className={mensaje.usuario==socket.id?"list-group-item d-flex justify-content-between align-items-center":"list-group-item list-group-item-primary d-flex justify-content-between align-items-center"}>
+//              <span className="badge bg-primary rounded-pill">{mensaje.usuario}</span> {mensaje.mensaje}
 //             </li>
 //         ))}
 //       </ul>
