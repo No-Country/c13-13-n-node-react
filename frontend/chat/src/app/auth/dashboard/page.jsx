@@ -26,8 +26,8 @@ export default function Dashboard() {
 
   // const userData = Cookies.get("userData")
   // const initialUserData = userData? JSON.parse(userData) : null
-  // console.log(currentUser);
-
+  console.log('tus salas', userRooms);
+  console.log('todas las salas', allRooms);
   useEffect(() => {
     if (user) {
       // Si hay un usuario en el contexto, establece currentUser
@@ -52,10 +52,10 @@ export default function Dashboard() {
       setCargando(true);
       const userId = user.user.id; // Asegúrate de ajustar esto según tu estructura de datos
       const userRoomsUrl =
-      `https://c13-13-n-node-react-backend.onrender.com/rooms/${userId}`;
+        `https://c13-13-n-node-react-backend.onrender.com/rooms/${userId}`;
       // `http://localhost:8080/rooms/${userId}`;
       // console.log(userRoomsUrl);
-      
+
       const userRoomsResponse = await fetchFunctions.GET(userRoomsUrl);
       setuserRooms(userRoomsResponse);
       const allRoomsResponse = await fetchFunctions.GET(
@@ -144,7 +144,7 @@ export default function Dashboard() {
               <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column", margin: "5%" }}>
                 <p className="text-primary" style={{ textAlign: "center" }}>SALAS DISPONIBLES</p>
                 {cargando ? (<div style={{ display: "flex", justifyContent: "center", width: "100%" }}> <img style={{ width: "15%" }} src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" alt="" /></div>) : (<div className="dashboard-container" >
-                  <Rooms user={currentUser} selectedRoomId={selectedRoomId} rooms={allRooms} roomsUser={userRooms} />
+                  <Rooms user={currentUser} selectedRoomId={selectedRoomId} rooms={allRooms} roomsUser={userRooms} style={{ width: "100%" }} />
                 </div>)}
                 <div style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", marginTop: "20%" }}>
 
