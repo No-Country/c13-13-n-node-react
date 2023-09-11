@@ -14,8 +14,8 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const [mensajes, setMensajes] = useState([]);
   const [roomFull, setroomFull] = useState(null);
   const [infosala, setinfosala] = useState(false);
-console.log(user, currentRoom, roomsUser );
-  console.log("estos son los mensajes", mensajes)
+// console.log(user, currentRoom, roomsUser );
+  // console.log("estos son los mensajes", mensajes)
   useEffect(() => {
 
     socket.on("connect", setIsConnected(true));
@@ -81,8 +81,8 @@ console.log(user, currentRoom, roomsUser );
       senderId: user.user.id,
       roomId: currentRoom.id,
     }
-    console.log(dataDB);
-    console.log(data);
+    // console.log(dataDB);
+    // console.log(data);
     await socket.emit("chat_message", data);
     const messageDB = await fetchFunctions.POST(
       // "http://localhost:8080/message/save", dataDB
@@ -91,8 +91,7 @@ console.log(user, currentRoom, roomsUser );
     setNuevoMensaje("");
   };
 
-  const setInfoSala = (e) => {
-    e.preventDefault();
+  const setInfoSala = () => {
     setinfosala(!infosala)
   };
 
@@ -106,10 +105,11 @@ console.log(user, currentRoom, roomsUser );
       {
         roomFull ? (<div style={{ margin: "2%", heigh: "100%", display: "flex", minHeight: "300px", border: "solid 1px #BCE1D6", minWidth: "350px", maxWidth: "500px", flexDirection: "column", justifyContent: "center", textAlign: "center" }}> No te puedes unir porque la sala está completa </div>) :
           (<div style={{  display: "flex", flexDirection:"row", justifyContent: "center" }}>
-            <div>    <div style={{ marginTop: "5%", display: "flex", justifyContent: "center", borderRadius:"10px important!" }}>
+            <div>    
+              <div style={{ marginTop: "5%", display: "flex", justifyContent: "center", borderRadius:"10px important!" }}>
             <span style={{height:"30px", display:"flex", flexWrap:"wrap",alignContent:"center"}} className={isConnected ? "badge rounded-pill bg-info" : "badge rounded-pill bg-warning"}>{isConnected ? (
              <div>{"Conectado a la sala " + currentRoom.title }
-              <button style={{height:"30px",paddingLeft:"10px"}} type="button" class="btn btn-outline-info">Info sala <BsArrowRight className="me-2" /></button>
+              <button style={{height:"30px",paddingLeft:"10px",fontSize:"10px"}} type="button" onClick={setInfoSala} class="btn btn-outline-info">Info sala <BsArrowRight className="me-2" /></button>
              </div> ) : "NO CONECTADO"}</span>
           </div>
             <div style={{ margin: "2%", heigh: "100%", display: "flex", minHeight: "300px", border: "solid 1px #BCE1D6", minWidth: "350px", maxWidth: "500px", flexDirection: "column" }}>
@@ -144,7 +144,8 @@ console.log(user, currentRoom, roomsUser );
             </form>
 
           </div>
-          <div className="card border-info mb-3" style={{maxWidth: "20rem",margin:"2%", display:"flex", justifyContent:"center"}}>
+          
+        { infosala&& <div className="card border-info mb-3" style={{maxWidth: "20rem",margin:"2%", display:"flex", justifyContent:"center"}}>
   <div className="card-header">{currentRoom.title}</div>
   <div className="card-body">
     <h4 className="card-title">{currentRoom.profile}</h4>
@@ -152,7 +153,7 @@ console.log(user, currentRoom, roomsUser );
   </div>
   <hr />
   <img src={currentRoom.image} style={{ width: "40%",alignSelf:"center", margin:"2%" }} alt="" />
-</div>
+</div>}
           
           </div>
           )}
