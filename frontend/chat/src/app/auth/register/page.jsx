@@ -33,7 +33,7 @@ export default function Register() {
       formData.avatar !== null;
     setFormComplete(isFormComplete);
   }, [formData]);
-console.log(formData);
+// console.log(formData);
   async function handleSubmit(e) {
     e.preventDefault();
 

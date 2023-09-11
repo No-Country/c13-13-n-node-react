@@ -149,7 +149,13 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   <div className="card-header">{currentRoom.title}</div>
   <div className="card-body">
     <h4 className="card-title">{currentRoom.profile}</h4>
-    <p className="card-text"></p>
+    <p className="card-text"> 
+    Límite de usuarios: {currentRoom.maxParticipants}
+    <hr />
+    Usuarios actuales: {currentRoom.participants}
+    <hr />
+    Estado: {currentRoom.status}
+    </p>
   </div>
   <hr />
   <img src={currentRoom.image} style={{ width: "40%",alignSelf:"center", margin:"2%" }} alt="" />
