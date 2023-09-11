@@ -37,11 +37,11 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     if (currentRoom && user) {
       const joinuser = async () => {
         const data = {
-          userId: user.user.id.toString(),
+          userId: user.id.toString(),
           roomId: currentRoom.id.toString()
         }
         const datasocket = {
-          username: user.user.fullname,
+          username: user.fullname,
           roomId: currentRoom.id
         }
         const msjURL =
@@ -73,12 +73,12 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const enviarMensaje = async () => {
     const data = {
       room: currentRoom.id,
-      usuario: user.user.fullname,
+      usuario: user.fullname,
       mensaje: nuevoMensaje,
     }
     const dataDB = {
       content: nuevoMensaje,
-      senderId: user.user.id,
+      senderId: user.id,
       roomId: currentRoom.id,
     }
     // console.log(dataDB);
@@ -118,12 +118,12 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
                   <li
                     key={mensaje.usuario} // Agregar una clave única
                     className={
-                      mensaje.usuario !== user.user.fullname
+                      mensaje.usuario !== user.fullname
                         ? "list-group-item d-flex justify-content-between align-items-center"
                         : "list-group-item list-group-item-primary d-flex justify-content-between align-items-center"
                     }
                   >
-                   { mensaje.usuario !== user.user.fullname && <span className="badge bg-primary rounded-pill">
+                   { mensaje.usuario !== user.fullname && <span className="badge bg-primary rounded-pill">
                       {mensaje.usuario}
                     </span>}
                     {" "}
