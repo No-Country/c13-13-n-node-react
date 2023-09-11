@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 const socket = io("https://c13-13-n-node-react-backend.onrender.com")
 import * as fetchFunctions from "@/utils/fetch/fetch";
+import { BsArrowRight } from "react-icons/bs";
 //Aca esta toda la logica de Socket.io del chat
 
 export default function selectedRoom({ user, currentRoom, roomsUser }) {
@@ -12,7 +13,8 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const [nuevoMensaje, setNuevoMensaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
   const [roomFull, setroomFull] = useState(null);
-
+  const [infosala, setinfosala] = useState(false);
+console.log(user, currentRoom, roomsUser );
   console.log("estos son los mensajes", mensajes)
   useEffect(() => {
 
@@ -50,7 +52,6 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           const allMsj = await fetchFunctions.GET(msjURL);
           console.log(allMsj);
           if (allMsj) {
-
             setMensajes(allMsj)
           }
           const dataResponse = await fetchFunctions.POST("https://c13-13-n-node-react-backend.onrender.com/rooms/join", data);
@@ -90,7 +91,10 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     setNuevoMensaje("");
   };
 
-
+  const setInfoSala = (e) => {
+    e.preventDefault();
+    setinfosala(!infosala)
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -101,25 +105,28 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     <div className="App">
       {
         roomFull ? (<div style={{ margin: "2%", heigh: "100%", display: "flex", minHeight: "300px", border: "solid 1px #BCE1D6", minWidth: "350px", maxWidth: "500px", flexDirection: "column", justifyContent: "center", textAlign: "center" }}> No te puedes unir porque la sala está completa </div>) :
-          (<div>    <div style={{ marginTop: "5%", display: "flex", justifyContent: "center" }}>
-            <span className={isConnected ? "badge rounded-pill bg-info" : "badge rounded-pill bg-warning"}>{isConnected ? "Conectado a la sala " + currentRoom.title : "NO CONECTADO"}</span>
+          (<div style={{  display: "flex", flexDirection:"row", justifyContent: "center" }}>
+            <div>    <div style={{ marginTop: "5%", display: "flex", justifyContent: "center", borderRadius:"10px important!" }}>
+            <span style={{height:"30px", display:"flex", flexWrap:"wrap",alignContent:"center"}} className={isConnected ? "badge rounded-pill bg-info" : "badge rounded-pill bg-warning"}>{isConnected ? (
+             <div>{"Conectado a la sala " + currentRoom.title }
+              <button style={{height:"30px",paddingLeft:"10px"}} type="button" class="btn btn-outline-info">Info sala <BsArrowRight className="me-2" /></button>
+             </div> ) : "NO CONECTADO"}</span>
           </div>
-
-
             <div style={{ margin: "2%", heigh: "100%", display: "flex", minHeight: "300px", border: "solid 1px #BCE1D6", minWidth: "350px", maxWidth: "500px", flexDirection: "column" }}>
               <ul className="list-group">
                 {mensajes.length ? (mensajes.map((mensaje) => (
                   <li
                     key={mensaje.usuario} // Agregar una clave única
                     className={
-                      mensaje.usuario !== socket.id
+                      mensaje.usuario !== user.user.fullname
                         ? "list-group-item d-flex justify-content-between align-items-center"
                         : "list-group-item list-group-item-primary d-flex justify-content-between align-items-center"
                     }
                   >
-                    <span className="badge bg-primary rounded-pill">
+                   { mensaje.usuario !== user.user.fullname && <span className="badge bg-primary rounded-pill">
                       {mensaje.usuario}
-                    </span>{" "}
+                    </span>}
+                    {" "}
                     {mensaje.mensaje}
                   </li>
                 ))) : <div></div>}
@@ -127,7 +134,6 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
             </div>
 
             <form className="input-group mb-3" style={{ display: "flex", width: "100%", margin: "2%", flexDirection: "row" }} onSubmit={handleSubmit}>
-
               <input
                 type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"
                 onChange={(e) => setNuevoMensaje(e.target.value)}
@@ -135,12 +141,21 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
                 style={{ width: "80%" }}
               />
               <button className="btn btn-primary" style={{ width: "20%" }} type="button" onClick={handleSubmit} id="button-addon2">Enviar</button>
-
-
-
             </form>
 
-          </div>)}
+          </div>
+          <div className="card border-info mb-3" style={{maxWidth: "20rem",margin:"2%", display:"flex", justifyContent:"center"}}>
+  <div className="card-header">{currentRoom.title}</div>
+  <div className="card-body">
+    <h4 className="card-title">{currentRoom.profile}</h4>
+    <p className="card-text"></p>
+  </div>
+  <hr />
+  <img src={currentRoom.image} style={{ width: "40%",alignSelf:"center", margin:"2%" }} alt="" />
+</div>
+          
+          </div>
+          )}
 
     </div>
   );

@@ -167,7 +167,7 @@ export default function Nav(params) {
             </a>
           </li>
           <li className="nav-item">
-           <a
+           <a 
               className="nav-link"
               onClick={() => {
                 router.push("/auth/dashboard");
@@ -178,11 +178,11 @@ export default function Nav(params) {
           </li>
         <li>
          <img
-          src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693665338/NoCountry/PineTools.com_Dise%C3%B1o_sin_t%C3%ADtulo_7_jpxdc7.png"
+          src={currentUser.user.avatar}
           alt="logged in"
-          width="30px"
-          padding-left="20px"
-          height="30px"
+          style={{borderRadius:"50%", border:"2px solid white", marginLeft:"10px"}}
+          width="45px"
+          // padding-left="20px"
           className="d-inline-block align-center"
           // style={{ marginLeft: "35%" }}
           />
