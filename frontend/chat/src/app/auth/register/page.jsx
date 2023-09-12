@@ -220,7 +220,6 @@ export default function Register() {
             name="avatar"
             accept="image/*"
             onChange={handleAvatarChange}
-            required
           />
         </div>
         {formData.avatar?

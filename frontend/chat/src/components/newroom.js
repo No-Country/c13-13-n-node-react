@@ -14,7 +14,7 @@ export default function NewRoom({ user }) {
   const [formComplete, setFormComplete] = useState(false);   
   const [formData, setFormData] = useState({
     title: "",
-    createdBy: user.user.id,
+    createdBy: user.id,
     maxParticipants: "",
     image: "",
   });
