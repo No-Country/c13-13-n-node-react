@@ -4,6 +4,8 @@ import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { serialize } from "cookie";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 
 export default function Login() {
   const [email, setEmial] = useState("");
@@ -29,8 +31,27 @@ export default function Login() {
       document.cookie = serialize("userData", JSON.stringify(dataResponse));
       setUser(dataResponse.user)
       setIsLoggedIn(true);
+      Swal.fire({
+        position: 'top-center',
+        icon: 'success',
+        title: `Wellcome ${dataResponse.user.fullname}`,
+        showConfirmButton: false,
+        timer: 1500
+      })
+
     } else {
-      alert("Usuario o Password incorrecto");
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `Usuario o Password incorrecto`,
+        width: "20rem",
+        height:"20rem",
+        padding: "0.5rem",
+      }).then((r) => {
+        if (r.isConfirmed) {
+          router.push("/");
+        }})
     }
   }
 
