@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
 export default function NewRoom({ user }) {
-
+  const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY;
   const router = useRouter(); 
   const [cargando, setCargando] = useState(false);
   const [loadingImage, setloadingImage] = useState(false); 
@@ -18,7 +18,7 @@ export default function NewRoom({ user }) {
     maxParticipants: "",
     image: "",
   });
-
+  
   useEffect(() => {
     // Verificar si todos los campos requeridos están completos
     console.log(formData);
@@ -38,7 +38,7 @@ export default function NewRoom({ user }) {
     // console.log(file)
     formData.append('file', file);
     formData.append('upload_preset', 'TellMeChat')
-    formData.append('api_key', 317454741746325);
+    formData.append('api_key', cloudinaryApiKey);
     setloadingImage(true)
     const res = await fetch('https://api.cloudinary.com/v1_1/TellMe/image/upload',
         {

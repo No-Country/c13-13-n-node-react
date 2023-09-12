@@ -7,6 +7,7 @@ import "sweetalert2/dist/sweetalert2.css";
 
 
 export default function Register() {
+  const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY;
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
@@ -106,7 +107,7 @@ const handleAvatarChange = async (e) => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', 'TellMeChat'); // Reemplaza 'TellMeChat' con tu upload preset de Cloudinary
-    formData.append('api_key', 317454741746325); // Reemplaza 'YOUR_API_KEY' con tu API key de Cloudinary
+    formData.append('api_key', cloudinaryApiKey); // Reemplaza 'YOUR_API_KEY' con tu API key de Cloudinary
     const res = await fetch('https://api.cloudinary.com/v1_1/TellMe/image/upload', {
       method: 'POST',
       body: formData,

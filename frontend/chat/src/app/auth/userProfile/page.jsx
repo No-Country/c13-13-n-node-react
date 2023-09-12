@@ -8,7 +8,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import { useAuth } from '../../../contexts/AuthContext';
 
 const userProfile = () => {
-
+  const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY;
   const userData = Cookies.get("userData")
   // console.log(userData);
   const initialUserData = userData ? JSON.parse(userData) : null
@@ -67,7 +67,7 @@ const userProfile = () => {
 
     const array = userImage.split("/")
     const [publicID, etc] = array[array.length - 1].split(".")
-    console.log(publicID)
+    // console.log(publicID)
     setLoadingImage(true)
     //borrar la imagen anterior ------------------------------------------------
     const del = await fetchFunctions.DELETE(
@@ -82,7 +82,7 @@ const userProfile = () => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', 'TellMeChat')
-    formData.append('api_key', 317454741746325);
+    formData.append('api_key', cloudinaryApiKey);
     formData.append('public_id', `${publicID}`);
     const res = await fetch('https://api.cloudinary.com/v1_1/TellMe/image/upload',
       {
