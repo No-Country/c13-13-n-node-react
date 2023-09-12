@@ -33,7 +33,8 @@ export default function Register() {
       formData.avatar !== null;
     setFormComplete(isFormComplete);
   }, [formData]);
-  // console.log(formData);
+  console.log(formData);
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -89,30 +90,77 @@ export default function Register() {
     });
   };
 
-  const handleAvatarChange = async (e) => {
-    e.preventDefault();
-    const file = e.target.files[0]
-    // console.log(file)
+//sweet alert file:
+
+const handleAvatarChange = async (e) => {
+  const { value: file } = await Swal.fire({
+    title: 'Select image',
+    input: 'file',
+    inputAttributes: {
+      'accept': 'image/*',
+      'aria-label': 'Upload your profile picture'
+    },
+    showCancelButton: true,
+  });
+  if (file) {
     const formData = new FormData();
-    // console.log(file)
     formData.append('file', file);
-    formData.append('upload_preset', 'TellMeChat')
-    formData.append('api_key', 317454741746325);
-    setloadingImage(true)
-    const res = await fetch('https://api.cloudinary.com/v1_1/TellMe/image/upload',
-      {
-        method: "POST",
-        body: formData
-      })
-    const cloudinaryData = await res.json();
-    const uploadedUrl = cloudinaryData.secure_url
-    console.log('soy la url nueva', uploadedUrl)
-    setloadingImage(false)
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      avatar: uploadedUrl,
-    }));
+    formData.append('upload_preset', 'TellMeChat'); // Reemplaza 'TellMeChat' con tu upload preset de Cloudinary
+    formData.append('api_key', 317454741746325); // Reemplaza 'YOUR_API_KEY' con tu API key de Cloudinary
+    const res = await fetch('https://api.cloudinary.com/v1_1/TellMe/image/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (res.ok) {
+      const cloudinaryData = await res.json();
+      const uploadedUrl = cloudinaryData.secure_url;
+      // console.log(uploadedUrl);
+      // setloadingImage(false)
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          avatar: uploadedUrl,
+        }));
+      Swal.fire({
+        title: 'Your uploaded picture',
+        imageUrl: uploadedUrl,
+        imageAlt: 'The uploaded picture',
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error uploading image',
+        text: 'There was an error uploading the image.',
+      });
+    }
   }
+}
+// };
+  // const handleAvatarChange = async (e) => {
+  //   e.preventDefault();
+  //   const file = e.target.files[0]
+  //   // console.log(file)
+  //   const formData = new FormData();
+  //   // console.log(file)
+  //   formData.append('file', file);
+  //   formData.append('upload_preset', 'TellMeChat')
+  //   formData.append('api_key', 317454741746325);
+  //   setloadingImage(true)
+  //   const res = await fetch('https://api.cloudinary.com/v1_1/TellMe/image/upload',
+  //     {
+  //       method: "POST",
+  //       body: formData
+  //     })
+  //   const cloudinaryData = await res.json();
+  //   const uploadedUrl = cloudinaryData.secure_url
+  //   // console.log('soy la url nueva', uploadedUrl)
+  //   setloadingImage(false)
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     avatar: uploadedUrl,
+  //   }));
+  // }
+
   const handleCancel = () => {
     router.push("/");
     setFormData({
@@ -217,31 +265,15 @@ export default function Register() {
               />
             </div>
           </div>
-
-
           {loadingImage ? (
             <img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" style={{ width: "200px", height: "200px", marginTop: "10%" }} alt="cargando..." />
           ) : (formData.avatar ?
             (<div>
               <img src={formData.avatar} alt="" style={{ width: "200px", height: "200px", marginTop: "10%" }} />
             </div>) : (
-              <div>
-                <div className="imagen" style={{ display: "flex", flexDirection: "column", flexWrap: "wrap", alignItems: "flex-start" }}>
-                  <div className="form-group">
-                    <label htmlFor="exampleInputAvatar" className="form-label mt-4">
-                      Imagen de perfil
-                    </label>
-                    <input
-                      type="file"
-                      className="form-control"
-                      id="exampleInputAvatar"
-                      name="avatar"
-                      accept="image/*"
-                      onChange={handleAvatarChange}
-                    />
-                  </div>
-
-                  <img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693605320/NoCountry/no-product-image-400x400_1_ypw1vg.png" alt="" style={{ width: "200px", height: "200px", marginTop: "10%" }} /></div> </div>
+              <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}><img src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693605320/NoCountry/no-product-image-400x400_1_ypw1vg.png" alt="" style={{ width: "220px", height: "220px", marginTop: "10%" }} />
+              {!formData.avatar && <button style={{ marginTop: "10%" }} type="button" class="btn btn-outline-info btn-sm" onClick={handleAvatarChange}>Cargar foto de perfil</button>}
+              </div>
             )
           )}
           </div >
@@ -258,7 +290,7 @@ export default function Register() {
             </button>
             <button
             type="button"
-            className="btn btn-secondary"
+            className="btn btn-danger"
             onClick={handleCancel}
             style={{ marginTop: "20px", marginLeft: "10px" }}
           >
@@ -270,6 +302,7 @@ export default function Register() {
             )}</div>
         </fieldset>
       </form>
+  
     </div>
   );
 }
