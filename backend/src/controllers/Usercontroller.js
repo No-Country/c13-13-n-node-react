@@ -66,6 +66,26 @@ const getUserID = async function (id) {
    
 }
 
+const deleteUser = async function (id) {
+  if (!id) {
+      throw new Error('You must enter the User to delete')
+  }
+  const searchUser = await User.findOne({
+      where: {
+          id: id,
+      },
+  });
+  if (!searchUser) {
+      throw new Error(`The product ${id} cannot be found to delete`)
+  } else {
+      await User.destroy({
+          where: {
+              id: id
+          }
+      })
+      return `The User ${searchUser.email} was successfully removed`
+  }
+}
 // const createUser = async function (email, role, fullname, profile, avatar, birthdate) {
 //   if (!email) {
 //     throw new Error('You must complete email, role and fullname')
@@ -94,4 +114,4 @@ const getUserID = async function (id) {
 
 
 
-module.exports = { getAllUsers, getUserID, updateUser };
+module.exports = { getAllUsers, getUserID, updateUser, deleteUser };

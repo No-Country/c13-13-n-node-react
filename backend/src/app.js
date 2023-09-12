@@ -9,7 +9,7 @@ const config = require("./config/globalEnviroment.js")
 
 
 require("./db.js");
-console.log(config.URL);
+// console.log(config.URL);
 
 const app = express();
 
