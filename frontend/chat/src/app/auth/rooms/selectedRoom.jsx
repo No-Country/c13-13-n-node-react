@@ -14,6 +14,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const [mensajes, setMensajes] = useState([]);
   const [roomFull, setroomFull] = useState(null);
   const [infosala, setinfosala] = useState(false);
+  const [loading, setloading] = useState(false);
 // console.log(user, currentRoom, roomsUser );
   // console.log("estos son los mensajes", mensajes)
   useEffect(() => {
@@ -92,7 +93,9 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   };
 
   const setInfoSala = () => {
+    setloading(true)
     setinfosala(!infosala)
+    setloading(false)
   };
 
   const handleSubmit = (e) => {
@@ -145,7 +148,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
 
           </div>
           
-        { infosala&& <div className="card border-info mb-3" style={{maxWidth: "20rem",margin:"2%", display:"flex", justifyContent:"center"}}>
+        { infosala&&(<div className="card border-info mb-3" style={{maxWidth: "20rem",minWidth:"15rem",margin:"2%", display:"flex", justifyContent:"center"}}>
   <div className="card-header">{currentRoom.title}</div>
   <div className="card-body">
     <h4 className="card-title">{currentRoom.profile}</h4>
@@ -158,8 +161,9 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     </p>
   </div>
   <hr />
-  <img src={currentRoom.image} style={{ width: "40%",alignSelf:"center", margin:"2%" }} alt="" />
-</div>}
+  <img src={currentRoom.image} style={{ width: "40%",alignSelf:"center", margin:"2%" }} alt="imagen" />
+</div>)}
+{loading && (<div style={{ display: "flex", justifyContent: "center", width: "100%",height:"auto" }}> <img style={{ width: "20%", height:"20%" }} src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" alt="" /></div>)}
           
           </div>
           )}
