@@ -10,7 +10,7 @@ Stack/tecnologías: Front (React.js), Framework (next.js), Backend (node.js, exp
 
 Integrantes: Nuri Tasilla Uceda (PM), Diego Leonardo Vallejos Dimitroff Petcoff (Frontend) y Juan Javier Pedernera (Backend)
 
-Implementación de enlace: https://c13-13-n-node-react-n72y.vercel.app/auth/dashboard
+Implementación de enlace: https://c13-13-n-node-react-tellme.vercel.app/
 
 Instrucciones para ejecutar la aplicación:
 1 . Ingresar al enlace de implementación
