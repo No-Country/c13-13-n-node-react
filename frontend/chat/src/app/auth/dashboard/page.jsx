@@ -21,7 +21,7 @@ export default function Dashboard() {
   const [allRooms, setallRooms] = useState();
   const [userRooms, setuserRooms] = useState();
   const [cargando, setCargando] = useState(false);
-const [userID, setuserID] = useState(null);
+
   const router = useRouter();
 
   const userData = Cookies.get("userData")
@@ -33,15 +33,13 @@ const [userID, setuserID] = useState(null);
     if (user && !currentUser) {
       // Si hay un usuario en el contexto, establece currentUser
       setCurrentUser(user);
-      setuserID(user.id);
-      fetchData()
+      fetchData(user)
     }else if (initialUserData && !currentUser){
       const usuario = initialUserData.user
       // console.log(usuario);
 
       setCurrentUser(usuario);
-      setuserID(usuario.id);
-      fetchData()
+      fetchData(usuario)
     } else {
       router.push(`/`);
       return; // Salir de la función si no hay datos de usuario
@@ -49,17 +47,18 @@ const [userID, setuserID] = useState(null);
   }, [user, userData]);
 console.log(currentUser);
 
-  async function fetchData() {
+  async function fetchData(usuarioId) {
+    console.log(usuarioId);
     try {
       setCargando(true);
       
       // Asegúrate de ajustar esto según tu estructura de datos
 
-      if(userID){
-        // const userId =currentUser.id || user.id; 
-        console.log(userID);
+      if(usuarioId){
+        const userId =usuarioId.id; 
+        console.log(userId);
         const userRoomsUrl =
-        `https://c13-13-n-node-react-backend.onrender.com/rooms/${userID}`;
+        `https://c13-13-n-node-react-backend.onrender.com/rooms/${userId}`;
       // `http://localhost:8080/rooms/${userId}`;
       const userRoomsResponse = await fetchFunctions.GET(userRoomsUrl);
       setuserRooms(userRoomsResponse);
