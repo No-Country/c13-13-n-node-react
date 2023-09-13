@@ -7,6 +7,7 @@ import "sweetalert2/dist/sweetalert2.css";
 
 
 export default function Register() {
+  const Url= process.env.NEXT_PUBLIC_API_BASE_URL
   const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY;
   const [formData, setFormData] = useState({
     name: "",
@@ -52,8 +53,7 @@ export default function Register() {
     // Enviar formData como objeto de datos
     setLoading(true);
     const result = await fetchFunctions.POST(
-      "https://c13-13-n-node-react-backend.onrender.com/auth/register",
-      // "http://localhost:3001/auth/register",
+      `${Url}/auth/register`,
       formToSend
     );
     setLoading(false);
@@ -106,8 +106,8 @@ const handleAvatarChange = async (e) => {
   if (file) {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'TellMeChat'); // Reemplaza 'TellMeChat' con tu upload preset de Cloudinary
-    formData.append('api_key', cloudinaryApiKey); // Reemplaza 'YOUR_API_KEY' con tu API key de Cloudinary
+    formData.append('upload_preset', 'TellMeChat');
+    formData.append('api_key', cloudinaryApiKey); 
     const res = await fetch('https://api.cloudinary.com/v1_1/TellMe/image/upload', {
       method: 'POST',
       body: formData,
