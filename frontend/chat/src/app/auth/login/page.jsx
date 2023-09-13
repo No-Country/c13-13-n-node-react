@@ -15,7 +15,7 @@ export default function Login() {
   const [cargando, setICargando] = useState(false);
   const { setUser } = useAuth();
   const router = useRouter();
-console.log(Url);
+console.log(typeof(Url));
   async function handleSubmit() {
     event.preventDefault();
     let data = {
@@ -23,8 +23,10 @@ console.log(Url);
       password: password,
     };
     setICargando(true);
+    const fetchurl = `${Url}/login`
+    console.log(fetchurl);
     let dataResponse = await fetchFunctions.POST(
-      `${Url}/login`,
+      fetchurl,
       // "http://localhost:8080/auth/login",
       data
     );
