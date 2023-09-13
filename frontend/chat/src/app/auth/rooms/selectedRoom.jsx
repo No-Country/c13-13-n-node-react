@@ -53,14 +53,14 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
 
         try {
           const allMsj = await fetchFunctions.GET(msjURL);
-          console.log(allMsj);
+          // console.log(allMsj);
           if (allMsj) {
             setMensajes(allMsj)
           }
           const dataResponse = await fetchFunctions.POST("https://c13-13-n-node-react-backend.onrender.com/rooms/join", data);
           // const dataResponse = await fetchFunctions.POST("http://localhost:8080/rooms/join", data);
           console.log(datasocket);
-          socket.emit("join_room", datasocket);
+          if (dataResponse !== "Room is full"){socket.emit("join_room", datasocket)};
           //  console.log(dataResponse);   
           if (dataResponse === "Room is full") { setroomFull(true) } else { setroomFull(false) }
         } catch (error) {
