@@ -54,7 +54,7 @@ export default function Dashboard() {
       // }
 
       setCargando(true);
-      const userId = user.id; // Asegúrate de ajustar esto según tu estructura de datos
+      const userId = currentUser.id; // Asegúrate de ajustar esto según tu estructura de datos
       const userRoomsUrl =
         `https://c13-13-n-node-react-backend.onrender.com/rooms/${userId}`;
       // `http://localhost:8080/rooms/${userId}`;
