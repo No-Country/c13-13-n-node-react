@@ -23,7 +23,7 @@ console.log(typeof(Url));
       password: password,
     };
     setICargando(true);
-    const fetchurl = `${Url}/login`
+    const fetchurl = `${Url}/auth/login`
     console.log(fetchurl);
     let dataResponse = await fetchFunctions.POST(
       fetchurl,
