@@ -54,14 +54,15 @@ console.log(currentUser);
       // }
 
       setCargando(true);
-      const userId = currentUser? currentUser.id: "All"; // Asegúrate de ajustar esto según tu estructura de datos
-      const userRoomsUrl =
+      const userId = currentUser? currentUser.id: null; // Asegúrate de ajustar esto según tu estructura de datos
+
+      if(userId){const userRoomsUrl =
         `https://c13-13-n-node-react-backend.onrender.com/rooms/${userId}`;
       // `http://localhost:8080/rooms/${userId}`;
-      // console.log(userRoomsUrl);
-
       const userRoomsResponse = await fetchFunctions.GET(userRoomsUrl);
       setuserRooms(userRoomsResponse);
+      }
+
       const allRoomsResponse = await fetchFunctions.GET(
         "https://c13-13-n-node-react-backend.onrender.com/rooms/all"
         // "http://localhost:8080/rooms/all"
@@ -72,8 +73,8 @@ console.log(currentUser);
       console.error("Error al cargar las salas:", error);
     }
   }
-
-
+  console.log("salas del usuario",userRooms);
+  console.log("todas las salas",allRooms);
   async function handleSubmit() { }
 
   async function handleNewRoom() {
