@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
 export default function Login() {
+  const Url= process.env.API_BASE_URL
   const [email, setEmial] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,7 +24,7 @@ export default function Login() {
     };
     setICargando(true);
     let dataResponse = await fetchFunctions.POST(
-      "https://c13-13-n-node-react-backend.onrender.com/auth/login",
+      `${Url}/login`,
       // "http://localhost:8080/auth/login",
       data
     );
