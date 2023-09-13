@@ -19,7 +19,9 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   // console.log("estos son los mensajes", mensajes)
   useEffect(() => {
 
-    socket.on("connect", setIsConnected(true));
+    socket.on("connect", () => {
+      setIsConnected(true);
+    });
     // if (user){
     //   setcurrentUser(user)
     // }
@@ -72,6 +74,9 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   }, [currentRoom]);
 
   const enviarMensaje = async () => {
+    if (nuevoMensaje.trim() === "") {
+      return; // Evita enviar mensajes vacíos
+    }
     const data = {
       room: currentRoom.id,
       usuario: user.fullname,
