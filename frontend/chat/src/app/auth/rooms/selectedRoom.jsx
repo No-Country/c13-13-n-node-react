@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 const socket = io("https://c13-13-n-node-react-backend.onrender.com")
+// const socket = io("http://localhost:8080")
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import { BsArrowRight } from "react-icons/bs";
 //Aca esta toda la logica de Socket.io del chat
