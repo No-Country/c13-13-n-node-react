@@ -17,11 +17,15 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const [loading, setloading] = useState(false);
 // console.log(user, currentRoom, roomsUser );
   // console.log("estos son los mensajes", mensajes)
+
+  const handleConnect = async () => {
+    setIsConnected(true)
+  }
+
+
   useEffect(() => {
 
-    socket.on("connect", () => {
-      setIsConnected(true);
-    });
+    socket.on("connect", handleConnect);
     // if (user){
     //   setcurrentUser(user)
     // }
@@ -33,6 +37,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     return () => {
       socket.off("connect");
       socket.off("chat_message");
+      socket.off("join_room");
     };
   }, []);
 
@@ -54,7 +59,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
         try {
           const allMsj = await fetchFunctions.GET(msjURL);
           // console.log(allMsj);
-          if (allMsj) {
+          if (mensajes === [] ) {
             setMensajes(allMsj)
           }
           const dataResponse = await fetchFunctions.POST("https://c13-13-n-node-react-backend.onrender.com/rooms/join", data);
