@@ -52,15 +52,14 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           username: user.fullname,
           roomId: currentRoom.id
         }
-        const msjURL =
-          `https://c13-13-n-node-react-backend.onrender.com/message/${currentRoom.id}`
+        const msjURL =await `https://c13-13-n-node-react-backend.onrender.com/message/${currentRoom.id}`
         // `http://localhost:8080/message/${currentRoom.id}`
-
+        const allMsj = await fetchFunctions.GET(msjURL);
         if (mensajes === [] ) {
             setMensajes(allMsj)
           }
         try {
-          const allMsj = await fetchFunctions.GET(msjURL);
+          
           // console.log(allMsj);
           
           const dataResponse = await fetchFunctions.POST("https://c13-13-n-node-react-backend.onrender.com/rooms/join", data);
