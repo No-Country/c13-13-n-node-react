@@ -23,7 +23,7 @@ module.exports = (io) => {
       });
 
       socket.on("join_room", ({ username, roomId }) => {
-        socket.join(roomId); // Unirse a la sala
+        socket.join(roomId); 
         // Puedes enviar un mensaje o emitir un evento solo a la sala específica para notificar a los otros usuarios
         io.to(roomId).emit("user_joined", {
           usuario: 'INFO',
