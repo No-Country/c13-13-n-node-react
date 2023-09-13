@@ -15,7 +15,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 //guardar en URL https://c13-13-n-node-react-backend.onrender.com o http://localhost:8080
 
 export default function Dashboard() {
-  const Url= process.env.API_BASE_URL
+  const Url= process.env.NEXT_PUBLIC_API_BASE_URL
   const { user } = useAuth();
   const [newRoom, setnewRoom] = useState("");
   const [currentUser, setCurrentUser] = useState(null);

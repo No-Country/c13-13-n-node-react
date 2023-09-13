@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
 export default function Login() {
-  const Url= process.env.API_BASE_URL
+  const Url= process.env.NEXT_PUBLIC_API_BASE_URL
   const [email, setEmial] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
