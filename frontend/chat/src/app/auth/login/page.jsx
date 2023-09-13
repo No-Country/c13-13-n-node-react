@@ -27,7 +27,6 @@ console.log(typeof(Url));
     console.log(fetchurl);
     let dataResponse = await fetchFunctions.POST(
       fetchurl,
-      // "http://localhost:8080/auth/login",
       data
     );
     setICargando(false);

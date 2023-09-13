@@ -8,6 +8,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import { useAuth } from '../../../contexts/AuthContext';
 
 const userProfile = () => {
+  const Url= process.env.NEXT_PUBLIC_API_BASE_URL
   const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY;
   const userData = Cookies.get("userData")
   // console.log(userData);
@@ -71,10 +72,9 @@ const userProfile = () => {
     setLoadingImage(true)
     //borrar la imagen anterior ------------------------------------------------
     const del = await fetchFunctions.DELETE(
-      `https://c13-13-n-node-react-backend.onrender.com/users/eliminar-imagen/${publicID}`
-      // `http://localhost:3001/users/eliminar-imagen/${publicID}`
+      `${Url}/users/eliminar-imagen/${publicID}`
     );
-    console.log(del);
+    console.log(cloudinaryApiKey);
     //-------------------------------------------------------------------------------
 
     const file = e.target.files[0]
@@ -131,8 +131,7 @@ const userProfile = () => {
     console.log('user en submit', formToSend)
     setLoading(true);
     const result = await fetchFunctions.PUT(
-      "https://c13-13-n-node-react-backend.onrender.com/users",
-      // "http://localhost:3001/users",
+      `${Url}/users`,
       formToSend
     );
     console.log(result);

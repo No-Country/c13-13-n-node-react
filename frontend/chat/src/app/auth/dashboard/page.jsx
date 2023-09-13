@@ -51,18 +51,12 @@ export default function Dashboard() {
 
       setCargando(true);
       const userId = user.id || initialUserData.user.id; // Asegúrate de ajustar esto según tu estructura de datos
-      const userRoomsUrl =
-        `${Url}/rooms/${userId}`;
-      // `http://localhost:8080/rooms/${userId}`;
-      // console.log(userRoomsUrl);
+      const userRoomsUrl =`${Url}/rooms/${userId}`;
 
       if(userId){const userRoomsResponse = await fetchFunctions.GET(userRoomsUrl);
       setuserRooms(userRoomsResponse);}
 
-      const allRoomsResponse = await fetchFunctions.GET(
-        `${Url}/rooms/all`
-        // "http://localhost:8080/rooms/all"
-      );
+      const allRoomsResponse = await fetchFunctions.GET(`${Url}/rooms/all`);
       setallRooms(allRoomsResponse);
       setCargando(false);
     } catch (error) {
