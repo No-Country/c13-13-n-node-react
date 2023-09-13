@@ -56,12 +56,13 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           `https://c13-13-n-node-react-backend.onrender.com/message/${currentRoom.id}`
         // `http://localhost:8080/message/${currentRoom.id}`
 
+        if (mensajes === [] ) {
+            setMensajes(allMsj)
+          }
         try {
           const allMsj = await fetchFunctions.GET(msjURL);
           // console.log(allMsj);
-          if (mensajes === [] ) {
-            setMensajes(allMsj)
-          }
+          
           const dataResponse = await fetchFunctions.POST("https://c13-13-n-node-react-backend.onrender.com/rooms/join", data);
           // const dataResponse = await fetchFunctions.POST("http://localhost:8080/rooms/join", data);
           console.log(datasocket);
