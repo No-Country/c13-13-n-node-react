@@ -34,9 +34,9 @@ export default function Dashboard() {
       // Si hay un usuario en el contexto, establece currentUser
       setCurrentUser(user);
       fetchData(user)
-    }else if (initialUserData && !currentUser){
+    }else if (initialUserData && !user && !currentUser){
       const usuario = initialUserData.user
-      // console.log(usuario);
+      console.log(usuario);
       setCurrentUser(usuario);
       fetchData(usuario)
     } else {
@@ -47,14 +47,14 @@ export default function Dashboard() {
 // console.log(currentUser);
 
   async function fetchData(usuarioId) {
-    console.log(usuarioId);
+    // console.log(usuarioId);
     try {
       setCargando(true);
       // Asegúrate de ajustar esto según tu estructura de datos
 
       if(usuarioId){
         const userId =usuarioId.id; 
-        console.log(userId);
+        // console.log(userId);
         const userRoomsUrl =
         `https://c13-13-n-node-react-backend.onrender.com/rooms/${userId}`;
       // `http://localhost:8080/rooms/${userId}`;
