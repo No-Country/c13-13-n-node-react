@@ -24,11 +24,11 @@ export default function Dashboard() {
 
   const router = useRouter();
 
-  const userData = Cookies.get("userData")
+  
   // console.log('tus salas', userRooms);
   // console.log('todas las salas', allRooms);
   useEffect(() => {
-    
+    const userData = Cookies.get("userData")
     const initialUserData = userData? JSON.parse(userData) : null
     if (user && !currentUser) {
       // Si hay un usuario en el contexto, establece currentUser
@@ -37,21 +37,19 @@ export default function Dashboard() {
     }else if (initialUserData && !currentUser){
       const usuario = initialUserData.user
       // console.log(usuario);
-
       setCurrentUser(usuario);
       fetchData(usuario)
     } else {
       router.push(`/`);
       return; // Salir de la función si no hay datos de usuario
     }
-  }, [user, userData]);
-console.log(currentUser);
+  }, [user]);
+// console.log(currentUser);
 
   async function fetchData(usuarioId) {
     console.log(usuarioId);
     try {
       setCargando(true);
-      
       // Asegúrate de ajustar esto según tu estructura de datos
 
       if(usuarioId){
