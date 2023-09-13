@@ -16,7 +16,7 @@ const socket = io("https://c13-13-n-node-react-backend.onrender.com")
 export default function Dashboard() {
   const { user } = useAuth();
   const [newRoom, setnewRoom] = useState("");
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
   const [currentRoom, setcurrentRoom] = useState(null);
   const [allRooms, setallRooms] = useState();
   const [userRooms, setuserRooms] = useState();
@@ -30,11 +30,11 @@ export default function Dashboard() {
   useEffect(() => {
     
     const initialUserData = userData? JSON.parse(userData) : null
-    if (user) {
+    if (user && !currentUser) {
       // Si hay un usuario en el contexto, establece currentUser
       setCurrentUser(user);
       fetchData()
-    }else if (initialUserData){
+    }else if (initialUserData && !currentUser){
       setCurrentUser(initialUserData.user);
       fetchData()
     } else {

@@ -12,7 +12,7 @@ export default function Rooms({ user, selectedRoomId, rooms, roomsUser }) {
   const [currentUser, setcurrentUser] = useState({});
 
   // const { user } = useAuth();
-  // console.log(user);
+  console.log(user);
 
 
 
