@@ -47,7 +47,7 @@ export default function Login() {
         title: "Error",
         text: `Usuario o Password incorrecto`,
         width: "20rem",
-        height:"20rem",
+        // height:"20rem",
         padding: "0.5rem",
       }).then((r) => {
         if (r.isConfirmed) {
