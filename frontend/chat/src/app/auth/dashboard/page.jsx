@@ -10,8 +10,9 @@ import { transition } from "@cloudinary/url-gen/actions/effect";
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import "./page.css";
 import { useAuth } from '../../../contexts/AuthContext';
-import { io } from "socket.io-client";
-const socket = io("https://c13-13-n-node-react-backend.onrender.com")
+// import { io } from "socket.io-client";
+// const socket = io("https://c13-13-n-node-react-backend.onrender.com")
+//guardar en URL https://c13-13-n-node-react-backend.onrender.com o http://localhost:8080
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -21,46 +22,41 @@ export default function Dashboard() {
   const [allRooms, setallRooms] = useState();
   const [userRooms, setuserRooms] = useState();
   const [cargando, setCargando] = useState(false);
-
+  
   const router = useRouter();
 
-  
+  const userData = Cookies.get("userData")
+  const initialUserData = userData? JSON.parse(userData) : null
+
   // console.log('tus salas', userRooms);
   // console.log('todas las salas', allRooms);
   useEffect(() => {
-    const userData = Cookies.get("userData")
-    const initialUserData = userData? JSON.parse(userData) : null
-    if (user && !currentUser) {
+    if (user) {
       // Si hay un usuario en el contexto, establece currentUser
       setCurrentUser(user);
-      fetchData(user)
-    }else if (initialUserData && !currentUser){
-      const usuario = initialUserData.user
-      // console.log(usuario);
-      setCurrentUser(usuario);
-      fetchData(usuario)
+      fetchData()
     } else {
       router.push(`/`);
       return; // Salir de la función si no hay datos de usuario
     }
   }, [user]);
-// console.log(currentUser);
 
-  async function fetchData(usuarioId) {
-    console.log(usuarioId);
+
+  async function fetchData() {
     try {
-      setCargando(true);
-      // Asegúrate de ajustar esto según tu estructura de datos
+      if (!currentUser && initialUserData) {
+        setCurrentUser(initialUserData.user);
+      } 
 
-      if(usuarioId){
-        const userId =usuarioId.id; 
-        console.log(userId);
-        const userRoomsUrl =
+      setCargando(true);
+      const userId = user.id || initialUserData.user.id; // Asegúrate de ajustar esto según tu estructura de datos
+      const userRoomsUrl =
         `https://c13-13-n-node-react-backend.onrender.com/rooms/${userId}`;
       // `http://localhost:8080/rooms/${userId}`;
-      const userRoomsResponse = await fetchFunctions.GET(userRoomsUrl);
-      setuserRooms(userRoomsResponse);
-      }
+      // console.log(userRoomsUrl);
+
+      if(userId){const userRoomsResponse = await fetchFunctions.GET(userRoomsUrl);
+      setuserRooms(userRoomsResponse);}
 
       const allRoomsResponse = await fetchFunctions.GET(
         "https://c13-13-n-node-react-backend.onrender.com/rooms/all"
@@ -72,8 +68,8 @@ export default function Dashboard() {
       console.error("Error al cargar las salas:", error);
     }
   }
-  console.log("salas del usuario",userRooms);
-  console.log("todas las salas",allRooms);
+
+
   async function handleSubmit() { }
 
   async function handleNewRoom() {
@@ -147,7 +143,7 @@ export default function Dashboard() {
             <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
               <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column", margin: "5%" }}>
                 <p className="text-primary" style={{ textAlign: "center" }}>SALAS DISPONIBLES</p>
-                {cargando ? (<div style={{ display: "flex", justifyContent: "center", width: "100%" }}> <img style={{ width: "15%" }} src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" alt="" /></div>) : (<div className="dashboard-container" >
+                {cargando ? (<div style={{ display: "flex", justifyContent: "center", width: "100%" }}> <img style={{ width: "15%" }} src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" alt="" /></div>) : ( currentUser&&<div className="dashboard-container" >
                   <Rooms user={currentUser} selectedRoomId={selectedRoomId} rooms={allRooms} roomsUser={userRooms} style={{ width: "100%" }} />
                 </div>)}
                 <div style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", marginTop: "20%" }}>
