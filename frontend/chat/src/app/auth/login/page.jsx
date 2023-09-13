@@ -33,7 +33,7 @@ export default function Login() {
       setUser(dataResponse.user)
       setIsLoggedIn(true);
       Swal.fire({
-        position: 'center-start',
+        position: 'top-end',
         icon: 'success',
         title: `Wellcome ${dataResponse.user.fullname}`,
         showConfirmButton: false,

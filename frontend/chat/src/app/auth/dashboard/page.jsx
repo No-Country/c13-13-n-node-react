@@ -15,6 +15,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 //guardar en URL https://c13-13-n-node-react-backend.onrender.com o http://localhost:8080
 
 export default function Dashboard() {
+  const Url= process.env.API_BASE_URL
   const { user } = useAuth();
   const [newRoom, setnewRoom] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
@@ -51,7 +52,7 @@ export default function Dashboard() {
       setCargando(true);
       const userId = user.id || initialUserData.user.id; // Asegúrate de ajustar esto según tu estructura de datos
       const userRoomsUrl =
-        `https://c13-13-n-node-react-backend.onrender.com/rooms/${userId}`;
+        `${Url}/rooms/${userId}`;
       // `http://localhost:8080/rooms/${userId}`;
       // console.log(userRoomsUrl);
 
@@ -59,7 +60,7 @@ export default function Dashboard() {
       setuserRooms(userRoomsResponse);}
 
       const allRoomsResponse = await fetchFunctions.GET(
-        "https://c13-13-n-node-react-backend.onrender.com/rooms/all"
+        `${Url}/rooms/all`
         // "http://localhost:8080/rooms/all"
       );
       setallRooms(allRoomsResponse);
