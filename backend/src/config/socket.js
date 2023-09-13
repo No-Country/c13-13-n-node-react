@@ -12,21 +12,29 @@ module.exports = (io) => {
     io.on('connection', (socket) => {
       console.log('Usuario conectado: ' + socket.id);
   
-      socket.broadcast.emit('chat_message', {
-          usuario: 'INFO',
-          mensaje: 'Se ha conectado un usuario'
-      });
+      // socket.broadcast.emit('chat_message', {
+      //     usuario: 'INFO',
+      //     mensaje: 'Se ha conectado un usuario'
+      // });
   
       socket.on('chat_message', (data) => {
         const {room, usuario, mensaje } = data;
         io.to(room).emit('chat_message', data);
       });
 
-      socket.on("join_room",  ({ username, roomId }) => {
+      socket.on("join_room", ({ username, roomId }) => {
         socket.join(roomId); // Unirse a la sala
-        // Puedes enviar un mensaje o emitir un evento para notificar a los otros usuarios que alguien se unió a la sala
-        io.to(roomId).emit("user_joined", `${username} se unió a la sala.`);
+        // Puedes enviar un mensaje o emitir un evento solo a la sala específica para notificar a los otros usuarios
+        io.to(roomId).emit("user_joined", {
+          usuario: 'INFO',
+          mensaje: `${username} se unió a la sala.`,
+        });
       });
+      // socket.on("join_room",  ({ username, roomId }) => {
+      //   socket.join(roomId); // Unirse a la sala
+      //   // Puedes enviar un mensaje o emitir un evento para notificar a los otros usuarios que alguien se unió a la sala
+      //   io.to(roomId).emit("user_joined", `${username} se unió a la sala.`);
+      // });
 
 
 
