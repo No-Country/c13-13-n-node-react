@@ -24,11 +24,11 @@ export default function Dashboard() {
 
   const router = useRouter();
 
-  
+  const userData = Cookies.get("userData")
   // console.log('tus salas', userRooms);
   // console.log('todas las salas', allRooms);
   useEffect(() => {
-    const userData = Cookies.get("userData")
+    
     const initialUserData = userData? JSON.parse(userData) : null
     if (user) {
       // Si hay un usuario en el contexto, establece currentUser
