@@ -33,7 +33,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
     })
     socket.on("user_connected", (users) => {
-      log(users)
+      console.log(users);
       // Actualizar la lista de usuarios conectados
       setUsuariosConectados(users);
     });
