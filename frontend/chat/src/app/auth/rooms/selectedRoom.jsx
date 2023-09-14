@@ -29,15 +29,15 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       if(!usuariosConectados.includes(mensaje)){
         setUsuariosConectados((usuarios) => [...usuarios, mensaje]);
       }
-      ()=>setIsConnected(true)
+     setIsConnected(true)
       // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
     })
     return () => {
-      socket.off("connect");
-      socket.off("chat_message");
+      socket.emit('leaveRoom', 'miSala');
+      socket.disconnect();
     };
   }, []);
-
+console.log(usuariosConectados);
   useEffect(() => {
     if (currentRoom && user) {
       const joinuser = async () => {
