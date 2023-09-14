@@ -15,16 +15,13 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const [roomFull, setroomFull] = useState(null);
   const [infosala, setinfosala] = useState(false);
   const [loading, setloading] = useState(false);
-  const [usuariosEnSala, setUsuariosEnSala] = useState([]);
+  const [usuariosConectados, setUsuariosConectados] = useState([]);
 // console.log(user, currentRoom, roomsUser );
   // console.log("estos son los mensajes", mensajes)
   useEffect(() => {
 
-    socket.on("connect", setIsConnected(true));
-    // if (user){
-    //   setcurrentUser(user)
-    // }
-    // console.log(currentUser);
+    socket.on("connect", ()=>setIsConnected(true));
+  
     socket.on("chat_message", (data) => {
       setMensajes((mensajes) => [...mensajes, data]);
     });
@@ -66,7 +63,11 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
             socket.emit("join_room", datasocket);
             socket.on("user_joined",(mensaje) => {
               // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
-              setUsuariosEnSala((usuarios) => [...usuarios, mensaje]);
+              if(!usuariosConectados.includes(mensaje)){
+                setUsuariosEnSala((usuarios) => [...usuarios, mensaje]);
+              }
+
+              
             })
             setroomFull(false) }
         } catch (error) {
@@ -80,6 +81,9 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   }, [currentRoom]);
 
   const enviarMensaje = async () => {
+    if (nuevoMensaje.trim() === '') {
+      return;
+    }
     const data = {
       room: currentRoom.id,
       usuario: user.fullname,
@@ -178,7 +182,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
 <div>
   <h3>Usuarios en la sala:</h3>
   <ul>
-    {usuariosEnSala.map((usuario, index) => (
+    {usuariosConectados.map((usuario, index) => (
       <li key={index}>{usuario}</li>
     ))}
   </ul>
