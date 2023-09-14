@@ -42,8 +42,11 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
       socket.disconnect();
     };
-  }, [currentRoom]);
-console.log(usuariosConectados);
+  }, [currentRoom, user]);
+
+console.log('soy currentroom en selectroom',currentRoom);
+console.log('soy user en selectroom',user);
+console.log('soy rooms del user en selectroom',roomsUser);
   useEffect(() => {
     if (currentRoom && user) {
       const joinuser = async () => {

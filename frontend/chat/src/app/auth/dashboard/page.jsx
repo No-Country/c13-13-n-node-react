@@ -76,9 +76,10 @@ export default function Dashboard() {
   }
   async function selectedRoomId(e) {
     // e.preventDefault(); 
-    console.log(allRooms)
-    console.log(e);
+    // console.log(allRooms)
+    // console.log(e);
     const actualroom = await allRooms.find((r) => r.id == e);
+    console.log(actualroom);
     if(actualroom){setcurrentRoom(actualroom)
     }else{
   setcurrentRoom(null)}
