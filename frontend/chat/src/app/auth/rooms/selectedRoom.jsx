@@ -180,7 +180,10 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           </div>
           )}
 <div>
-  <h3>Usuarios en la sala:</h3>
+<li class="list-group-item d-flex justify-content-between align-items-center">
+    Usuarios en la sala:
+    <span class="badge bg-primary rounded-pill">{usuariosConectados.length}</span>
+  </li>
   <ul class="list-group">
     {usuariosConectados.map((usuario, index) => (
       <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center" key={index}>{usuario}</li>
