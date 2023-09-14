@@ -22,8 +22,9 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   
   
   useEffect(() => {
-    if(currentRoom){socket.on("connect", ()=>setIsConnected(true));
-  
+    if(currentRoom && !isConnected){
+      socket.on("connect", ()=>setIsConnected(true));
+  }
     socket.on("chat_message", (data) => {
       setMensajes((mensajes) => [...mensajes, data]);
     });
@@ -35,7 +36,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       // Actualizar la lista de usuarios conectados
       setUsuariosConectados(users);
     });
-}
+
     return () => {
       socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
       socket.disconnect();
