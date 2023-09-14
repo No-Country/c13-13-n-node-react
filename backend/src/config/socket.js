@@ -12,10 +12,10 @@ module.exports = (io) => {
     io.on('connection', (socket) => {
       console.log('Usuario conectado: ' + socket.id);
       usersOnline[socket.id] = { usuario };
-      socket.to(room).emit('chat_message', {
-          usuario: 'INFO',
-          mensaje: 'Se ha conectado un usuario'
-      });
+      // socket.to(room).emit('chat_message', {
+      //     usuario: 'INFO',
+      //     mensaje: 'Se ha conectado un usuario'
+      // });
   console.log(usersOnline);
       socket.on('chat_message', (data) => {
         const {room, usuario, mensaje } = data;
@@ -32,7 +32,7 @@ module.exports = (io) => {
         console.log('Usuario desconectado: ' + socket.id);
       
         // Elimina al usuario de la lista de usuarios conectados
-        delete usersOnline[socket.id];
+        // delete usersOnline[socket.id];
       
       });
 
