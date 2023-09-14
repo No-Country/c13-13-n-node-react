@@ -64,7 +64,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
             socket.on("user_joined",(mensaje) => {
               // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
               if(!usuariosConectados.includes(mensaje)){
-                setUsuariosEnSala((usuarios) => [...usuarios, mensaje]);
+                setUsuariosConectados((usuarios) => [...usuarios, mensaje]);
               }
 
               
@@ -181,12 +181,12 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           )}
 <div>
   <h3>Usuarios en la sala:</h3>
-  <ul>
+  <ul class="list-group">
     {usuariosConectados.map((usuario, index) => (
-      <li key={index}>{usuario}</li>
+      <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center" key={index}>{usuario}</li>
     ))}
   </ul>
 </div>
     </div>
   );
-}
+    }
