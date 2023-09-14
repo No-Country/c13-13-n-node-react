@@ -4,15 +4,18 @@ import * as fetchFunctions from "@/utils/fetch/fetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { serialize } from "cookie";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 
 export default function Login() {
+  const Url= process.env.NEXT_PUBLIC_API_BASE_URL
   const [email, setEmial] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cargando, setICargando] = useState(false);
   const { setUser } = useAuth();
   const router = useRouter();
-
+console.log(typeof(Url));
   async function handleSubmit() {
     event.preventDefault();
     let data = {
@@ -20,8 +23,10 @@ export default function Login() {
       password: password,
     };
     setICargando(true);
+    const fetchurl = `${Url}/auth/login`
+    console.log(fetchurl);
     let dataResponse = await fetchFunctions.POST(
-      "https://c13-13-n-node-react-backend.onrender.com/auth/login",
+      fetchurl,
       data
     );
     setICargando(false);
@@ -29,8 +34,26 @@ export default function Login() {
       document.cookie = serialize("userData", JSON.stringify(dataResponse));
       setUser(dataResponse.user)
       setIsLoggedIn(true);
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: `Wellcome ${dataResponse.user.fullname}`,
+        showConfirmButton: false,
+        timer: 1500
+      })
     } else {
-      alert("Usuario o Password incorrecto");
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `Usuario o Password incorrecto`,
+        width: "20rem",
+        // height:"20rem",
+        padding: "0.5rem",
+      }).then((r) => {
+        if (r.isConfirmed) {
+          router.push("/");
+        }})
     }
   }
 

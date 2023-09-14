@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const {
   DB_DEPLOY,
-  // DB_USER, DB_PASSWORD, DB_HOST,
+  DB_USER, DB_PASSWORD, DB_HOST,
 } = process.env;
 
 // const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/nocountrychat`, {
@@ -52,7 +52,7 @@ const { User, Room, Message } = sequelize.models;
 User.belongsToMany(Room, { through: "Users_Room" });
 Room.belongsToMany(User, { through: "Users_Room" });
 //relacion usuario mensaje
-Message.belongsTo(User, { foreignKey: "senderId" });
+Message.belongsTo(User, { foreignKey: "senderId"});
 //relacion Sala mensaje
 Message.belongsTo(Room, { foreignKey: "roomId" });
 

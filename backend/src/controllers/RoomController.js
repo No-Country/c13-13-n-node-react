@@ -38,6 +38,7 @@ async function JoinUserToRoom(userId, roomId) {
     include: [{ model: Room }],
   });
   const roomsArray = await userRooms.Rooms.map(e => e.id)
+  // console.log(roomsArray);
   // console.log('salas del usuario', roomsArray);
   if (!user || !room) {
     return 'The user has not been able to join the chat'

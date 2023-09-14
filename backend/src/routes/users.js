@@ -1,6 +1,6 @@
 const { Router } = require("express");
 require("dotenv").config();
-const { createUser, getAllUsers, getUserID,updateUser } = require("../controllers/Usercontroller");
+const { createUser, getAllUsers, getUserID,updateUser,deleteUser } = require("../controllers/Usercontroller");
 const router = Router();
 const authController = require('../controllers/authController');
 const User = require("../models/User");
@@ -52,16 +52,16 @@ router.get("/:id", async (req, res) => {
     res.status(400).send(error.message);
   }
 });
-// //eliminar permanentemente usuario (proximamente)
-// router.delete("/:id", async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     let result = await deleteUser(id);
-//     res.status(200).send(result);
-//   } catch (error) {
-//     res.status(400).send(error.message);
-//   }
-// });
+//eliminar permanentemente usuario (proximamente)
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    let result = await deleteUser(id);
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
 
 // //modificar datos del usuario
 router.put("/", async (req, res) => {
@@ -84,7 +84,7 @@ router.delete('/eliminar-imagen/:publicId', async (req, res) => {
   try {
     // Utiliza la API de Cloudinary para eliminar la imagen
     const result = await cloudinary.uploader.destroy(Id);
-    console.log(result)
+    // console.log(result)
     if (result.result === 'ok') {
       // La imagen se eliminó con éxito
       res.status(200).json({ message: 'Imagen eliminada con éxito' });

@@ -1,68 +1,143 @@
 "use client";
 import { useEffect, useState } from "react";
-import io from "socket.io-client";
-const socket = io.connect ("https://c13-13-n-node-react-backend.onrender.com/")
+import {io} from "socket.io-client";
+// const socket = io("http://localhost:8080")
+// import { useAuth } from '../../contexts/AuthContext';
+
 
 export default function Socket() {
-  const [message, setMessage] = useState("");
-  const [messageReceived, setMessageReceived] = useState("");
+//   const { user } = useAuth();
 
+//   const [currentUser, setcurrentUser] = useState({});
+//   const [isConnected, setIsConnected] = useState(false);
+//   const [nuevoMensaje, setNuevoMensaje] = useState("");
+//   const [mensajes, setMensajes] = useState([]);
 
+//   useEffect(() => {
+//     socket.on("connect", setIsConnected(true));
+// // if (user){
+// //   setcurrentUser(user)
+// // }
+// console.log(user);
+//     socket.on("chat_message", (data) => {
+//       setMensajes((mensajes) => [...mensajes, data]);
+//     });
 
-  /**useEffect(()=>{
-        socket.on("receive_message",(data)=>{
-            alert(data.message)
-        })
-    },[socket]) */
+//     return () => {
+//       socket.off("connect");
+//       socket.off("chat_message");
+//     };
+//   }, []);
 
-  /**How it should be on the backend
-    io.on("connection", (socket)=>{
-        console.log(`User Connected: ${socket.io}`);
+//   const enviarMensaje = () => {
+//     socket.emit("chat_message", {
+//       usuario: socket.id,
+//       mensaje: nuevoMensaje,
+//     });
+//     setNuevoMensaje(""); // Limpiar el campo de entrada después de enviar
+//   };
 
-     socket.on("send_message",(data)=>{
-        de esta manera se envia el mensaje a todos los conectados:
-        socket.broadcast.emit("receive_message, data")
+//   const handleSubmit = (e) => {
+//     e.preventDefault(); // Evita la acción de envío por defecto del formulario
+//     enviarMensaje(); // Llama a la función para enviar el mensaje
+//   };
 
-        console.log(data)  este seria el mensaje recibido en el back del front
-        })
-    })*/
+//   return (
+//     <div className="App">
+//       <div style={{marginTop:"5%", display:"flex", justifyContent:"center"}}>
+//         <span className={isConnected ? "badge rounded-pill bg-info" : "badge rounded-pill bg-warning"}>{isConnected ? "CONECTADO" : "NO CONECTADO"}</span>
+//       </div>
+      
+     
+//       <div style={{ margin: "2%" }}>
+//         <ul className="list-group">
+//           {mensajes.map((mensaje) => (
+//             <li
+//               key={mensaje.usuario} // Agregar una clave única
+//               className={
+//                 mensaje.usuario !== socket.id
+//                   ? "list-group-item d-flex justify-content-between align-items-center"
+//                   : "list-group-item list-group-item-primary d-flex justify-content-between align-items-center"
+//               }
+//             >
+//               <span className="badge bg-primary rounded-pill">
+//                 {mensaje.usuario}
+//               </span>{" "}
+//               {mensaje.mensaje}
+//             </li>
+//           ))}
+//         </ul>
+//       </div>
 
+//       <form onSubmit={handleSubmit}> 
+//       <div className="input-group mb-3" style={{display:"flex", width:"80%", margin:"2%",flexDirection:"row"}}>
+//         <input
+//         type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"
+//           onChange={(e) => setNuevoMensaje(e.target.value)}
+//           value={nuevoMensaje} 
+//         style={{}}
+//         />
+//         <button className="btn btn-primary" type="button" id="button-addon2">Enviar</button> 
+//       </div>
+        
+    
+//       </form>
+//     </div>
+//   );
+// }
+// "use client";
+// import { useEffect, useState } from "react";
+// import {io} from "socket.io-client";
+// const socket = io("http://localhost:8080")
 
-    const handleSubmit = (e) =>{
-      e.preventDefault()     
-      socket.emit("newMessage",message)
-    }
+// export default function Socket() {
 
-    useEffect(()=>{
-      socket.on("message",(message)=>{     
-        setMessageReceived(message)
-    })
-,[socket]    })
+//   const [isConnected, setIsConnected] = useState(false);
+//   const [nuevoMensaje, setNuevoMensaje] = useState('');
+//   const [mensajes, setMensajes] = useState([]);
 
+//   useEffect(() => {
 
+//     socket.on('connect', () => setIsConnected(true));
 
-  return (
-    <div className="contarinerGral">
-      <div className="winsowChat">
+//     socket.on('chat_message', (data) => {
+//       setMensajes(mensajes => [...mensajes, data]);
+//     });
 
-        <h5>{messageReceived}</h5>
-      </div>
+//     return () => {
+//       socket.off('connect');
+//       socket.off('chat_message');
+//     }
 
-      <form onSubmit={handleSubmit}>
-      <input
-        className="form-control"
-        id="disabledInput"
-        type="text"
-        placeholder="Mensaje.."
-        value={message}
-        onChange={(e) => {
-          setMessage(e.target.value);
-        }}
-      />
-      <button className="btn btn-primary">
-        Enviar mensaje
-      </button>
-      </form>
-    </div>
-  );
+//   }, []);
+
+//   const enviarMensaje = () => {
+//     socket.emit('chat_message', {
+//       usuario: socket.id,
+//       mensaje: nuevoMensaje
+//     });
+//   }
+
+//   return (
+//     <div className="App">
+//       <h2>{isConnected ? 'CONECTADO' : 'NO CONECTADO'}</h2>
+//       <div style={{margin:"2%"}}>
+// <ul class="list-group">
+//         {mensajes.map(mensaje => (
+//           <li className={mensaje.usuario==socket.id?"list-group-item d-flex justify-content-between align-items-center":"list-group-item list-group-item-primary d-flex justify-content-between align-items-center"}>
+//              <span className="badge bg-primary rounded-pill">{mensaje.usuario}</span> {mensaje.mensaje}
+//             </li>
+//         ))}
+//       </ul>
+
+//       </div>
+      
+//       <input
+//         type="text"
+//         onChange={e => setNuevoMensaje(e.target.value)}
+//       />
+//       <button onClick={enviarMensaje}>Enviar</button>
+//     </div>
+//   );
 }
+
