@@ -15,6 +15,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const [roomFull, setroomFull] = useState(null);
   const [infosala, setinfosala] = useState(false);
   const [loading, setloading] = useState(false);
+  const [usuariosEnSala, setUsuariosEnSala] = useState([]);
 // console.log(user, currentRoom, roomsUser );
   // console.log("estos son los mensajes", mensajes)
   useEffect(() => {
@@ -57,10 +58,17 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           }
           const dataResponse = await fetchFunctions.POST("https://c13-13-n-node-react-backend.onrender.com/rooms/join", data);
           // const dataResponse = await fetchFunctions.POST("http://localhost:8080/rooms/join", data);
-          console.log(datasocket);
-          socket.emit("join_room", datasocket);
+          
+          
           //  console.log(dataResponse);   
-          if (dataResponse === "Room is full") { setroomFull(true) } else { setroomFull(false) }
+          if (dataResponse === "Room is full") { setroomFull(true) } else { 
+            console.log(datasocket);
+            socket.emit("join_room", datasocket);
+            socket.on("user_joined",(mensaje) => {
+              // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
+              setUsuariosEnSala((usuarios) => [...usuarios, mensaje]);
+            })
+            setroomFull(false) }
         } catch (error) {
           console.error("Error al cargar las salas:", error);
         }
@@ -167,7 +175,14 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           
           </div>
           )}
-
+<div>
+  <h3>Usuarios en la sala:</h3>
+  <ul>
+    {usuariosEnSala.map((usuario, index) => (
+      <li key={index}>{usuario}</li>
+    ))}
+  </ul>
+</div>
     </div>
   );
 }
