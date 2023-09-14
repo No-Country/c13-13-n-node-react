@@ -21,12 +21,18 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   // console.log("estos son los mensajes", mensajes)
   
   useEffect(() => {
-    setactualRoom(currentRoom)
-  }, []);
+    if(actualRoom !== currentRoom ){
+      socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
+      socket.disconnect();
+      setIsConnected(false)
+      setactualRoom(currentRoom)
+    }
+    
+  }, [currentRoom]);
   
   useEffect(() => {
     if(currentRoom && !isConnected){
-      socket.on("connect", ()=>setIsConnected(true));
+      socket.on("connect", setIsConnected(true));
   }
     socket.on("chat_message", (data) => {
       setMensajes((mensajes) => [...mensajes, data]);
