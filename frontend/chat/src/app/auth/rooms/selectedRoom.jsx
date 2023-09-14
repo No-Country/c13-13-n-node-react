@@ -25,7 +25,13 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     socket.on("chat_message", (data) => {
       setMensajes((mensajes) => [...mensajes, data]);
     });
+    socket.on("user_joined",(mensaje) => {
+      if(!usuariosConectados.includes(mensaje)&&mensaje!==user.fullname){
+        setUsuariosConectados((usuarios) => [...usuarios, mensaje]);
+      }
 
+      // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
+    })
     return () => {
       socket.off("connect");
       socket.off("chat_message");
@@ -61,14 +67,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           if (dataResponse === "Room is full") { setroomFull(true) } else { 
             console.log(datasocket);
             socket.emit("join_room", datasocket);
-            socket.on("user_joined",(mensaje) => {
-              // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
-              if(!usuariosConectados.includes(mensaje)){
-                setUsuariosConectados((usuarios) => [...usuarios, mensaje]);
-              }
-
-              
-            })
+            
             setroomFull(false) }
         } catch (error) {
           console.error("Error al cargar las salas:", error);
