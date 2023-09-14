@@ -4,40 +4,53 @@ const { register, login } = require('../controllers/authController');
 
 module.exports = (io) => {
  
-  let usersOnline = []
+  const connectedUsersByRoom = {};
 
   // io.on('connection', (socket) => {
     //console.log('Usuario conectado: ' + socket.id);
     // Escucha eventos personalizados desde el cliente
     io.on('connection', (socket) => {
       console.log('Usuario conectado: ' + socket.id);
-      usersOnline[socket.id] = { usuario };
+
+      // connectedUsersByRoom[socket.id] = { usuario };
       // socket.to(room).emit('chat_message', {
       //     usuario: 'INFO',
       //     mensaje: 'Se ha conectado un usuario'
       // });
-  console.log(usersOnline);
+  // console.log(usersOnline);
       socket.on('chat_message', (data) => {
         const {room, usuario, mensaje } = data;
         io.to(room).emit('chat_message', data);
       });
 
       socket.on("join_room",  ({ username, roomId, users }) => {
+        if (!connectedUsersByRoom[roomId]) {
+          connectedUsersByRoom[roomId] = [];
+        }
+        connectedUsersByRoom[roomId].push(username);
         socket.join(roomId); // Unirse a la sala
         // Puedes enviar un mensaje o emitir un evento para notificar a los otros usuarios que alguien se unió a la sala
         io.to(roomId).emit("user_joined", {username, users} );
-        // io.to(roomId).emit("user_connected", users);
+        io.to(roomId).emit("user_connected", connectedUsersByRoom[roomId]);
       });
 
       io.on('disconnect', (socket) => {
         console.log('Usuario desconectado: ' + socket.id);
       
-        // Elimina al usuario de la lista de usuarios conectados
-        // delete usersOnline[socket.id];
+        const rooms = socket.rooms;
+        rooms.forEach((room) => {
+          if (room !== socket.id && connectedUsersByRoom[room]) {
+            const index = connectedUsersByRoom[room].indexOf(socket.username);
+            if (index !== -1) {
+              connectedUsersByRoom[room].splice(index, 1);
+              io.to(room).emit("user_connected", connectedUsersByRoom[room]);
+            }
+          }
+        });
       
       });
 
-console.log(usersOnline);
+console.log(connectedUsersByRoom);
   });
 
 
