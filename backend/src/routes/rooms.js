@@ -43,7 +43,7 @@ router.put('/update/:roomId', async (req, res) => {
   res.json(updatedRoom);
 });
 
-router.put('/delete/:roomId', async (req, res) => {
+router.delete('/delete/:roomId', async (req, res) => {
   const { roomId } = req.params;
   // console.log(roomId, title, maxParticipants, image, status)
   const deletedRoom= await RoomController.deleteRoom(roomId);
