@@ -112,10 +112,10 @@ export default function NewRoom({ user }) {
     //   }
     // })
     
-    Toast.fire({
-      icon: 'success',
-      title: `¡Sala ${formData.title} creada correctamente!`
-    })
+    // Toast.fire({
+    //   icon: 'success',
+    //   title: `¡Sala ${formData.title} creada correctamente!`
+    // })
     Swal.fire({
       icon: "success",
       title: "Registro Exitoso",
