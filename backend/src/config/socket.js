@@ -24,9 +24,7 @@ module.exports = (io) => {
       });
 
       socket.on("join_room",  ({ username, roomId, users }) => {
-        if (!connectedUsersByRoom[roomId]) {
-          connectedUsersByRoom[roomId] = [];
-        }
+       
         if (connectedUsersByRoom[roomId]) {
           const userAlreadyExists = connectedUsersByRoom[roomId].some((user) => user === username);
           if (!userAlreadyExists) {
