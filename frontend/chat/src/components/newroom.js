@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
 export default function NewRoom({ user }) {
+  const Url= process.env.NEXT_PUBLIC_API_BASE_URL
   const cloudinaryApiKey = process.env.CLOUDINARY_API_KEY;
   const router = useRouter(); 
   const [cargando, setCargando] = useState(false);
@@ -84,7 +85,7 @@ export default function NewRoom({ user }) {
     try {
       setCargando(true)
        const dataResponse = await fetchFunctions.POST(
-         "https://c13-13-n-node-react-backend.onrender.com/rooms/newroom",
+        `${Url}/rooms/newroom`,
          formData
        );
        setCargando( false) 
@@ -99,16 +100,35 @@ export default function NewRoom({ user }) {
       padding: "1rem",
     });
   } else if (dataResponse.length > 30) {
-    Swal.fire({
-      icon: "success",
-      title: "Registro Exitoso",
-      text: `¡Sala ${formData.title} creada correctamente!`,
-    }).then((r) => {
-      // console.log(r);
-      if (r.isConfirmed) {
-        router.push("/auth/dashboard");
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'center',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
       }
-    });
+    })
+    
+    Toast.fire({
+      icon: 'success',
+      title: `¡Sala ${formData.title} creada correctamente!`
+    })
+    router.push(`/auth/dashboard`)
+    // Swal.fire({
+    //   icon: "success",
+    //   title: "Registro Exitoso",
+    //   text: `¡Sala ${formData.title} creada correctamente!`,
+    // }).then((r) => {
+    //   console.log(r);
+    //   if (r.isConfirmed) {
+    //     router.push(`/auth/dashboard`).catch((error) => {
+    //       console.error("Error al redirigir al dashboard:", error);
+    //     });
+    //   }
+    // });
   } else {
     alert("No se puede crear la sala");
   } 
