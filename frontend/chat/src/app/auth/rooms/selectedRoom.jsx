@@ -9,7 +9,7 @@ import { BsArrowRight } from "react-icons/bs";
 
 export default function selectedRoom({ user, currentRoom, roomsUser }) {
 
-
+  const Url= process.env.NEXT_PUBLIC_API_BASE_URL
   const [isConnected, setIsConnected] = useState(false);
   const [nuevoMensaje, setNuevoMensaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
@@ -20,18 +20,20 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   // console.log("estos son los mensajes", mensajes)
   useEffect(() => {
 
-    socket.on("connect", setIsConnected(true));
-    // if (user){
-    //   setcurrentUser(user)
-    // }
-    // console.log(currentUser);
+    socket.on('connect', () => {
+      console.log('Conectado al servidor de sockets');
+      if (user && currentRoom) {
+        socket.emit('join_room', currentRoom.id, user.fullname);
+      }
+    });
     socket.on("chat_message", (data) => {
       setMensajes((mensajes) => [...mensajes, data]);
     });
-
+    
     return () => {
       socket.off("connect");
       socket.off("chat_message");
+      socket.off("join_room");
     };
   }, []);
 
@@ -46,20 +48,24 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           username: user.fullname,
           roomId: currentRoom.id
         }
-        const msjURL =
-          `https://c13-13-n-node-react-backend.onrender.com/message/${currentRoom.id}`
-        // `http://localhost:8080/message/${currentRoom.id}`
+        const msjURL =`${Url}/message/${currentRoom.id}`
 
         try {
+
+
           const allMsj = await fetchFunctions.GET(msjURL);
           console.log(allMsj);
           if (allMsj) {
             setMensajes(allMsj)
           }
-          const dataResponse = await fetchFunctions.POST("https://c13-13-n-node-react-backend.onrender.com/rooms/join", data);
-          // const dataResponse = await fetchFunctions.POST("http://localhost:8080/rooms/join", data);
+          const dataResponse = await fetchFunctions.POST(`${Url}/rooms/join`, data);
           console.log(datasocket);
           socket.emit("join_room", datasocket);
+          socket.on("user_joined", (data) => {
+            console.log(`${data.username} se ha conectado a la sala.`);
+            setMensajes((mensajes) => [...mensajes, data]);
+            // Aquí puedes mostrar una notificación o realizar cualquier otra acción.
+          });
           //  console.log(dataResponse);   
           if (dataResponse === "Room is full") { setroomFull(true) } else { setroomFull(false) }
         } catch (error) {
@@ -70,7 +76,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       joinuser();
 
     }
-  }, [currentRoom]);
+  }, [currentRoom, user]);
 
   const enviarMensaje = async () => {
     const data = {
@@ -85,11 +91,8 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     }
     // console.log(dataDB);
     // console.log(data);
-    await socket.emit("chat_message", data);
-    const messageDB = await fetchFunctions.POST(
-      // "http://localhost:8080/message/save", dataDB
-      "https://c13-13-n-node-react-backend.onrender.com/message/save", dataDB
-    );
+    socket.emit("chat_message", data);
+    const messageDB = await fetchFunctions.POST(`${Url}/message/save`, dataDB);
     setNuevoMensaje("");
   };
 
