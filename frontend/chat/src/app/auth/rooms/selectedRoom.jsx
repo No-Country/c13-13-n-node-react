@@ -27,11 +27,15 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     });
     socket.on("user_joined",(mensaje) => {
       if(!usuariosConectados.includes(mensaje)){
-        setUsuariosConectados((usuarios) => [...usuarios, mensaje]);
+        setUsuariosConectados((data) => [...data.users, data.username]);
       }
      setIsConnected(true)
       // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
     })
+    // socket.on("user_connected", (users) => {
+    //   // Actualizar la lista de usuarios conectados
+    //   setUsuariosConectados(users);});
+
     return () => {
       socket.emit('leaveRoom', 'miSala');
       socket.disconnect();
@@ -47,7 +51,8 @@ console.log(usuariosConectados);
         }
         const datasocket = {
           username: user.fullname,
-          roomId: currentRoom.id
+          roomId: currentRoom.id,
+          users: usuariosConectados
         }
         const msjURL =
           `https://c13-13-n-node-react-backend.onrender.com/message/${currentRoom.id}`
