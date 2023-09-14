@@ -22,10 +22,11 @@ module.exports = (io) => {
         io.to(room).emit('chat_message', data);
       });
 
-      socket.on("join_room",  ({ username, roomId }) => {
+      socket.on("join_room",  ({ username, roomId, users }) => {
         socket.join(roomId); // Unirse a la sala
         // Puedes enviar un mensaje o emitir un evento para notificar a los otros usuarios que alguien se unió a la sala
-        io.to(roomId).emit("user_joined", username);
+        io.to(roomId).emit("user_joined", {username, users} );
+        // io.to(roomId).emit("user_connected", users);
       });
 
       io.on('disconnect', (socket) => {
