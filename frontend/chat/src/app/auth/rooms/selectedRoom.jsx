@@ -35,8 +35,8 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     });
 
     return () => {
-      socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
-      socket.disconnect();
+      // socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
+      // socket.disconnect();
     };
   }, [currentRoom, user]);
   console.log('soy isConnected en selectroom', isConnected);
