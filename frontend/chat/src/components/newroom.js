@@ -100,35 +100,32 @@ export default function NewRoom({ user }) {
       padding: "1rem",
     });
   } else if (dataResponse.length > 30) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'center',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
+    // const Toast = Swal.mixin({
+    //   toast: true,
+    //   position: 'center',
+    //   showConfirmButton: false,
+    //   timer: 3000,
+    //   timerProgressBar: true,
+    //   didOpen: (toast) => {
+    //     toast.addEventListener('mouseenter', Swal.stopTimer)
+    //     toast.addEventListener('mouseleave', Swal.resumeTimer)
+    //   }
+    // })
     
     Toast.fire({
       icon: 'success',
       title: `¡Sala ${formData.title} creada correctamente!`
     })
-    router.push(`/auth/dashboard`)
-    // Swal.fire({
-    //   icon: "success",
-    //   title: "Registro Exitoso",
-    //   text: `¡Sala ${formData.title} creada correctamente!`,
-    // }).then((r) => {
-    //   console.log(r);
-    //   if (r.isConfirmed) {
-    //     router.push(`/auth/dashboard`).catch((error) => {
-    //       console.error("Error al redirigir al dashboard:", error);
-    //     });
-    //   }
-    // });
+    Swal.fire({
+      icon: "success",
+      title: "Registro Exitoso",
+      text: `¡Sala ${formData.title} creada correctamente!`,
+    }).then((r) => {
+      console.log(r);
+      if (r.isConfirmed) {
+        window.location.reload()
+      }
+    });
   } else {
     alert("No se puede crear la sala");
   } 
