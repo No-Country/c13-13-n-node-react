@@ -34,19 +34,32 @@ module.exports = (io) => {
         io.to(roomId).emit("user_connected", connectedUsersByRoom[roomId]);
       });
 
+      socket.on('leaveRoom', ({ roomId, username }) => {
+        socket.leave(roomId);
+        console.log(`Cliente ${username} abandonó la sala: ${roomId}`);
+        if (connectedUsersByRoom[roomId]) {
+          const index = connectedUsersByRoom[roomId].indexOf(username);
+          if (index !== -1) {
+            connectedUsersByRoom[roomId].splice(index, 1);
+            io.to(roomId).emit("user_connected", connectedUsersByRoom[roomId]);
+          }
+        }
+      })
+
       io.on('disconnect', (socket) => {
         console.log('Usuario desconectado: ' + socket.id);
       
-        const rooms = socket.rooms;
-        rooms.forEach((room) => {
-          if (room !== socket.id && connectedUsersByRoom[room]) {
-            const index = connectedUsersByRoom[room].indexOf(socket.username);
-            if (index !== -1) {
-              connectedUsersByRoom[room].splice(index, 1);
-              io.to(room).emit("user_connected", connectedUsersByRoom[room]);
-            }
-          }
-        });
+      
+        // const rooms = socket.rooms;
+        // rooms.forEach((room) => {
+        //   if (room !== socket.id && connectedUsersByRoom[room]) {
+        //     const index = connectedUsersByRoom[room].indexOf(socket.username);
+        //     if (index !== -1) {
+        //       connectedUsersByRoom[room].splice(index, 1);
+        //       io.to(room).emit("user_connected", connectedUsersByRoom[room]);
+        //     }
+        //   }
+        // });
       
       });
 
