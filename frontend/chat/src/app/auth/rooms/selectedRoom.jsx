@@ -32,7 +32,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       setMensajes((mensajes) => [...mensajes, data]);
     });
     socket.on("user_joined",(mensaje) => {
-     setIsConnected(true)
+    //  setIsConnected(true)
     })
     socket.on("user_connected", (users) => {
       console.log(users);
