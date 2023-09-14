@@ -20,6 +20,9 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
 // console.log(user, currentRoom, roomsUser );
   // console.log("estos son los mensajes", mensajes)
   
+  useEffect(() => {
+    setactualRoom(currentRoom)
+  }, []);
   
   useEffect(() => {
     if(currentRoom && !isConnected){
@@ -42,10 +45,11 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       socket.disconnect();
     };
   }, [currentRoom]);
-  console.log('soy isConnected en selectroom', isConnected);
-console.log('soy currentroom en selectroom',currentRoom);
-console.log('soy user en selectroom',user);
-console.log('soy rooms del user en selectroom',roomsUser);
+  // console.log('soy isConnected en selectroom', isConnected);
+console.log('soy current room en selectroom',currentRoom);
+console.log('soy actual room en selectroom',actualRoom);
+// console.log('soy user en selectroom',user);
+// console.log('soy rooms del user en selectroom',roomsUser);
 
 
   useEffect(() => {
