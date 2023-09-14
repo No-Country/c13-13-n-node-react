@@ -19,14 +19,10 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const [actualRoom, setactualRoom] = useState();
 // console.log(user, currentRoom, roomsUser );
   // console.log("estos son los mensajes", mensajes)
-  useEffect(() => {
-    if(currentRoom){
-      setactualRoom(currentRoom)
-    }
-  }, [currentRoom]);
+  
   
   useEffect(() => {
-    socket.on("connect", ()=>setIsConnected(true));
+    if(currentRoom){socket.on("connect", ()=>setIsConnected(true));
   
     socket.on("chat_message", (data) => {
       setMensajes((mensajes) => [...mensajes, data]);
@@ -39,15 +35,14 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       // Actualizar la lista de usuarios conectados
       setUsuariosConectados(users);
     });
-
+}
     return () => {
-      // socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
-      // socket.disconnect();
+      socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
+      socket.disconnect();
     };
-  }, []);
-  
+  }, [currentRoom]);
   console.log('soy isConnected en selectroom', isConnected);
-console.log('soy actualRoom en selectroom',actualRoom);
+console.log('soy currentroom en selectroom',currentRoom);
 console.log('soy user en selectroom',user);
 console.log('soy rooms del user en selectroom',roomsUser);
 
@@ -89,9 +84,11 @@ console.log('soy rooms del user en selectroom',roomsUser);
           console.error("Error al cargar las salas:", error);
         }
       };
+
       joinuser();
+
     }
-  }, []);
+  }, [currentRoom]);
 
   const enviarMensaje = async () => {
     if (nuevoMensaje.trim() === '') {
@@ -128,9 +125,10 @@ console.log('soy rooms del user en selectroom',roomsUser);
     enviarMensaje();
   };
 
-  const cambiarSala = () => {
-   
-  };
+  // const SalirdeSala = () => {
+
+  //   socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
+  // };
 
   return (
     <div className="App">
