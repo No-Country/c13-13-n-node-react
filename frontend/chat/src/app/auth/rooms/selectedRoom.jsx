@@ -26,10 +26,10 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       setMensajes((mensajes) => [...mensajes, data]);
     });
     socket.on("user_joined",(mensaje) => {
-      if(!usuariosConectados.includes(mensaje)&&mensaje!==user.fullname){
+      if(!usuariosConectados.includes(mensaje)){
         setUsuariosConectados((usuarios) => [...usuarios, mensaje]);
       }
-
+      ()=>setIsConnected(true)
       // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
     })
     return () => {
@@ -184,8 +184,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     Usuarios en la sala:
     <span class="badge bg-primary rounded-pill">{usuariosConectados.length}</span>
   </li>
-  
-    {usuariosConectados.map((usuario, index) => (
+    {usuariosConectados.filter(u=> u !== user.fullname).map((usuario, index) => (
       <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center" key={index}>{usuario}</li>
     ))}
   </ul>
