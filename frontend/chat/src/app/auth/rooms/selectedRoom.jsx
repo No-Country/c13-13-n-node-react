@@ -39,7 +39,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     });
 
     return () => {
-      socket.emit('leaveRoom', 'miSala');
+      socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
       socket.disconnect();
     };
   }, [currentRoom]);
