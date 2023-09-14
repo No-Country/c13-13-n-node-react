@@ -26,15 +26,17 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       setMensajes((mensajes) => [...mensajes, data]);
     });
     socket.on("user_joined",(mensaje) => {
-      if(!usuariosConectados.includes(mensaje)){
-        setUsuariosConectados((data) => [...data.users, data.username]);
-      }
+      // if(!usuariosConectados.includes(mensaje)){
+      //   setUsuariosConectados((data) => [...data.users, data.username]);
+      // }
      setIsConnected(true)
       // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
     })
-    // socket.on("user_connected", (users) => {
-    //   // Actualizar la lista de usuarios conectados
-    //   setUsuariosConectados(users);});
+    socket.on("user_connected", (users) => {
+      log(users)
+      // Actualizar la lista de usuarios conectados
+      setUsuariosConectados(users);
+    });
 
     return () => {
       socket.emit('leaveRoom', 'miSala');
