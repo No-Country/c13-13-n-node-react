@@ -26,11 +26,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       setMensajes((mensajes) => [...mensajes, data]);
     });
     socket.on("user_joined",(mensaje) => {
-      // if(!usuariosConectados.includes(mensaje)){
-      //   setUsuariosConectados((data) => [...data.users, data.username]);
-      // }
      setIsConnected(true)
-      // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
     })
     socket.on("user_connected", (users) => {
       console.log(users);
@@ -43,12 +39,15 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       socket.disconnect();
     };
   }, [currentRoom, user]);
-
+  console.log('soy isConnected en selectroom', isConnected);
 console.log('soy currentroom en selectroom',currentRoom);
 console.log('soy user en selectroom',user);
 console.log('soy rooms del user en selectroom',roomsUser);
+
+
   useEffect(() => {
     if (currentRoom && user) {
+
       const joinuser = async () => {
         const data = {
           userId: user.id.toString(),
@@ -73,9 +72,9 @@ console.log('soy rooms del user en selectroom',roomsUser);
           // const dataResponse = await fetchFunctions.POST("http://localhost:8080/rooms/join", data);
           
           
-          //  console.log(dataResponse);   
+           console.log("soy dataresponse", dataResponse);   
           if (dataResponse === "Room is full") { setroomFull(true) } else { 
-            console.log(datasocket);
+            console.log("soy data socket",datasocket);
             socket.emit("join_room", datasocket);
             
             setroomFull(false) }
