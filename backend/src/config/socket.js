@@ -27,7 +27,14 @@ module.exports = (io) => {
         if (!connectedUsersByRoom[roomId]) {
           connectedUsersByRoom[roomId] = [];
         }
-        connectedUsersByRoom[roomId].push(username);
+        if (connectedUsersByRoom[roomId]) {
+          const userAlreadyExists = connectedUsersByRoom[roomId].some((user) => user === username);
+          if (!userAlreadyExists) {
+            connectedUsersByRoom[roomId].push(username);
+          }
+        } else {
+          connectedUsersByRoom[roomId] = [username]; // Si la sala no tiene lista de usuarios, crearla
+        }
         socket.join(roomId); // Unirse a la sala
         // Puedes enviar un mensaje o emitir un evento para notificar a los otros usuarios que alguien se unió a la sala
         io.to(roomId).emit("user_joined", {username, users} );
