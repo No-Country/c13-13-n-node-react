@@ -42,7 +42,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       socket.emit('leaveRoom', 'miSala');
       socket.disconnect();
     };
-  }, []);
+  }, [currentRoom]);
 console.log(usuariosConectados);
   useEffect(() => {
     if (currentRoom && user) {
@@ -54,7 +54,7 @@ console.log(usuariosConectados);
         const datasocket = {
           username: user.fullname,
           roomId: currentRoom.id,
-          users: usuariosConectados
+          // users: usuariosConectados
         }
         const msjURL =
           `https://c13-13-n-node-react-backend.onrender.com/message/${currentRoom.id}`
