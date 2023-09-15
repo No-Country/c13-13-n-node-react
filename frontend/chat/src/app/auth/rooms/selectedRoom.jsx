@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-const socket = io("https://c13-13-n-node-react-backend.onrender.com")
+
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import { BsArrowRight } from "react-icons/bs";
 //Aca esta toda la logica de Socket.io del chat
@@ -16,29 +16,20 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const [infosala, setinfosala] = useState(false);
   const [loading, setloading] = useState(false);
   const [usuariosConectados, setUsuariosConectados] = useState([]);
-  const [actualRoom, setactualRoom] = useState();
 // console.log(user, currentRoom, roomsUser );
   // console.log("estos son los mensajes", mensajes)
   
-  useEffect(() => {
-    if(actualRoom !== currentRoom ){
-      socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
-      socket.disconnect();
-      setIsConnected(false)
-      setactualRoom(currentRoom)
-    }
-    
-  }, [currentRoom]);
   
   useEffect(() => {
-    if(currentRoom && !isConnected){
-      socket.on("connect", setIsConnected(true));
+const socket = io("https://c13-13-n-node-react-backend.onrender.com")
+
+    if(currentRoom && !isConnected){socket.on("connect", ()=>setIsConnected(true));
   }
     socket.on("chat_message", (data) => {
       setMensajes((mensajes) => [...mensajes, data]);
     });
     socket.on("user_joined",(mensaje) => {
-    //  setIsConnected(true)
+     setIsConnected(true)
     })
     socket.on("user_connected", (users) => {
       console.log(users);
@@ -51,9 +42,8 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       socket.disconnect();
     };
   }, [currentRoom]);
-  // console.log('soy isConnected en selectroom', isConnected);
-console.log('soy current room en selectroom',currentRoom);
-console.log('soy actual room en selectroom',actualRoom);
+//   console.log('soy isConnected en selectroom', isConnected);
+// console.log('soy currentroom en selectroom',currentRoom);
 // console.log('soy user en selectroom',user);
 // console.log('soy rooms del user en selectroom',roomsUser);
 

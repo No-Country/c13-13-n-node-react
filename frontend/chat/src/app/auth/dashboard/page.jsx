@@ -65,7 +65,9 @@ export default function Dashboard() {
   }
 
 
-  async function handleSubmit() { }
+  async function changeRoom() { 
+    window.location.reload();
+  }
 
   async function handleNewRoom() {
     setnewRoom(!newRoom);
@@ -83,8 +85,10 @@ export default function Dashboard() {
     if(actualroom){setcurrentRoom(actualroom)
     }else{
   setcurrentRoom(null)}
-    
   }
+
+  
+
   console.log(currentRoom);
   return (
     <>
@@ -145,7 +149,16 @@ export default function Dashboard() {
               <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column", margin: "5%" }}>
                 <p className="text-primary" style={{ textAlign: "center" }}>SALAS DISPONIBLES</p>
                 {cargando ? (<div style={{ display: "flex", justifyContent: "center", width: "100%" }}> <img style={{ width: "15%" }} src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" alt="" /></div>) : ( currentUser&&<div className="dashboard-container" >
-                  <Rooms user={currentUser} selectedRoomId={selectedRoomId} rooms={allRooms} roomsUser={userRooms} style={{ width: "100%" }} />
+                {!currentRoom? (<Rooms user={currentUser} selectedRoomId={selectedRoomId} rooms={allRooms} roomsUser={userRooms} style={{ width: "100%" }} />): 
+                <div style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", marginTop: "20%" }}>
+                <button
+                type="button"
+                onClick={changeRoom}
+                className="btn btn-outline-warning btn-sm"
+              >
+                Cambiar Sala
+              </button></div>
+              }
                 </div>)}
                 <div style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", marginTop: "20%" }}>
 
