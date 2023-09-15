@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 const socket = io("https://c13-13-n-node-react-backend.onrender.com")
-// const socket = io("http://localhost:8080")
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import { BsArrowRight } from "react-icons/bs";
 //Aca esta toda la logica de Socket.io del chat
@@ -16,25 +15,35 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const [roomFull, setroomFull] = useState(null);
   const [infosala, setinfosala] = useState(false);
   const [loading, setloading] = useState(false);
+  const [usuariosConectados, setUsuariosConectados] = useState([]);
 // console.log(user, currentRoom, roomsUser );
   // console.log("estos son los mensajes", mensajes)
   useEffect(() => {
 
-    socket.on("connect", setIsConnected(true));
-    // if (user){
-    //   setcurrentUser(user)
-    // }
-    // console.log(currentUser);
+    socket.on("connect", ()=>setIsConnected(true));
+  
     socket.on("chat_message", (data) => {
       setMensajes((mensajes) => [...mensajes, data]);
     });
+    socket.on("user_joined",(mensaje) => {
+      // if(!usuariosConectados.includes(mensaje)){
+      //   setUsuariosConectados((data) => [...data.users, data.username]);
+      // }
+     setIsConnected(true)
+      // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
+    })
+    socket.on("user_connected", (users) => {
+      console.log(users);
+      // Actualizar la lista de usuarios conectados
+      setUsuariosConectados(users);
+    });
 
     return () => {
-      socket.off("connect");
-      socket.off("chat_message");
+      socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
+      socket.disconnect();
     };
-  }, []);
-
+  }, [currentRoom]);
+console.log(usuariosConectados);
   useEffect(() => {
     if (currentRoom && user) {
       const joinuser = async () => {
@@ -44,7 +53,8 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
         }
         const datasocket = {
           username: user.fullname,
-          roomId: currentRoom.id
+          roomId: currentRoom.id,
+          // users: usuariosConectados
         }
         const msjURL =
           `https://c13-13-n-node-react-backend.onrender.com/message/${currentRoom.id}`
@@ -58,10 +68,14 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           }
           const dataResponse = await fetchFunctions.POST("https://c13-13-n-node-react-backend.onrender.com/rooms/join", data);
           // const dataResponse = await fetchFunctions.POST("http://localhost:8080/rooms/join", data);
-          console.log(datasocket);
-          socket.emit("join_room", datasocket);
+          
+          
           //  console.log(dataResponse);   
-          if (dataResponse === "Room is full") { setroomFull(true) } else { setroomFull(false) }
+          if (dataResponse === "Room is full") { setroomFull(true) } else { 
+            console.log(datasocket);
+            socket.emit("join_room", datasocket);
+            
+            setroomFull(false) }
         } catch (error) {
           console.error("Error al cargar las salas:", error);
         }
@@ -73,6 +87,9 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   }, [currentRoom]);
 
   const enviarMensaje = async () => {
+    if (nuevoMensaje.trim() === '') {
+      return;
+    }
     const data = {
       room: currentRoom.id,
       usuario: user.fullname,
@@ -168,7 +185,17 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           
           </div>
           )}
-
+<div>
+  <ul class="list-group">
+<li class="list-group-item d-flex justify-content-between align-items-center">
+    Usuarios en la sala:
+    <span class="badge bg-primary rounded-pill">{usuariosConectados.length}</span>
+  </li>
+    {usuariosConectados.filter(u=> u !== user.fullname).map((usuario, index) => (
+      <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center" key={index}>{usuario}</li>
+    ))}
+  </ul>
+</div>
     </div>
   );
-}
+    }

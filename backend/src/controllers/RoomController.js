@@ -112,4 +112,26 @@ async function updateRoom( roomId, title, maxParticipants, image, status ){
     }
 }
 
-module.exports = { createRoom, JoinUserToRoom, getUserRooms, getAllRooms, updateRoom };
+
+const deleteRoom = async function (id) {
+    if (!id) {
+        throw new Error('You must enter the room to delete')
+    }
+    const searchRoom = await Room.findOne({
+        where: {
+            id: id,
+        },
+    });
+    if (!searchRoom) {
+        throw new Error(`The room ${id} cannot be found to delete`)
+    } else {
+        await Room.destroy({
+            where: {
+                id: id
+            }
+        })
+        return `The room ${id} was successfully removed`
+    }
+}
+
+module.exports = { createRoom, JoinUserToRoom, getUserRooms, getAllRooms, updateRoom,deleteRoom };

@@ -4,32 +4,71 @@ const { register, login } = require('../controllers/authController');
 
 module.exports = (io) => {
  
-  let usersOnline = []
+  const connectedUsersByRoom = {};
 
   // io.on('connection', (socket) => {
     //console.log('Usuario conectado: ' + socket.id);
     // Escucha eventos personalizados desde el cliente
     io.on('connection', (socket) => {
       console.log('Usuario conectado: ' + socket.id);
-  
-      socket.broadcast.emit('chat_message', {
-          usuario: 'INFO',
-          mensaje: 'Se ha conectado un usuario'
-      });
-  
+
+      // connectedUsersByRoom[socket.id] = { usuario };
+      // socket.to(room).emit('chat_message', {
+      //     usuario: 'INFO',
+      //     mensaje: 'Se ha conectado un usuario'
+      // });
+  // console.log(usersOnline);
       socket.on('chat_message', (data) => {
         const {room, usuario, mensaje } = data;
         io.to(room).emit('chat_message', data);
       });
 
-      socket.on("join_room",  ({ username, roomId }) => {
+      socket.on("join_room",  ({ username, roomId, users }) => {
+       
+        if (connectedUsersByRoom[roomId]) {
+          const userAlreadyExists = connectedUsersByRoom[roomId].some((user) => user === username);
+          if (!userAlreadyExists) {
+            connectedUsersByRoom[roomId].push(username);
+          }
+        } else {
+          connectedUsersByRoom[roomId] = [username]; // Si la sala no tiene lista de usuarios, crearla
+        }
         socket.join(roomId); // Unirse a la sala
         // Puedes enviar un mensaje o emitir un evento para notificar a los otros usuarios que alguien se unió a la sala
-        io.to(roomId).emit("user_joined", `${username} se unió a la sala.`);
+        io.to(roomId).emit("user_joined", {username, users} );
+        io.to(roomId).emit("user_connected", connectedUsersByRoom[roomId]);
       });
 
+      socket.on('leaveRoom', ({ roomId, username }) => {
+        socket.leave(roomId);
+        console.log(`Cliente ${username} abandonó la sala: ${roomId}`);
+        if (connectedUsersByRoom[roomId]) {
+          const index = connectedUsersByRoom[roomId].indexOf(username);
+          if (index !== -1) {
+            connectedUsersByRoom[roomId].splice(index, 1);
+            io.to(roomId).emit("user_connected", connectedUsersByRoom[roomId]);
+          }
+        }
+      })
 
+      io.on('disconnect', (socket) => {
+        console.log('Usuario desconectado: ' + socket.id);
+      
+      
+        // const rooms = socket.rooms;
+        // rooms.forEach((room) => {
+        //   if (room !== socket.id && connectedUsersByRoom[room]) {
+        //     const index = connectedUsersByRoom[room].indexOf(socket.username);
+        //     if (index !== -1) {
+        //       connectedUsersByRoom[room].splice(index, 1);
+        //       io.to(room).emit("user_connected", connectedUsersByRoom[room]);
+        //     }
+        //   }
+        // });
+      
+      });
 
+console.log(connectedUsersByRoom);
   });
 
 

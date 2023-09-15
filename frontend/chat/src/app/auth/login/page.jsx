@@ -34,13 +34,30 @@ console.log(typeof(Url));
       document.cookie = serialize("userData", JSON.stringify(dataResponse));
       setUser(dataResponse.user)
       setIsLoggedIn(true);
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: `Wellcome ${dataResponse.user.fullname}`,
-        showConfirmButton: false,
-        timer: 1500
-      })
+
+       const Toast = Swal.mixin({
+      toast: true,
+      position: 'center',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    
+    Toast.fire({
+      icon: 'success',
+      title: `Bienvenido ${dataResponse.user.fullname}`
+    })
+      // Swal.fire({
+      //   position: 'top-end',
+      //   icon: 'success',
+      //   title: `Wellcome ${dataResponse.user.fullname}`,
+      //   showConfirmButton: false,
+      //   timer: 1500
+      // })
     } else {
 
       Swal.fire({

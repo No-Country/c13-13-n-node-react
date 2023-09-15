@@ -188,7 +188,7 @@ setLoading(false);
                 onChange={handleChange}
                 className={`form-control ${validationErrors.email && "is-invalid"
                   }`}
-                readOnly={!isEditing}
+                  readOnly={true}
               />
               <div className="invalid-feedback">You must enter an email</div>
             </div>
