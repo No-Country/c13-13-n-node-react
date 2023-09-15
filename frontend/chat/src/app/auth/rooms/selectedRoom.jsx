@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 const socket = io("https://c13-13-n-node-react-backend.onrender.com")
 import * as fetchFunctions from "@/utils/fetch/fetch";
-import { BsArrowRight } from "react-icons/bs";
+import { TbUserDown } from "react-icons/tb";
+import { GiExitDoor } from "react-icons/gi";
 //Aca esta toda la logica de Socket.io del chat
 
 export default function selectedRoom({ user, currentRoom, roomsUser }) {
@@ -17,6 +18,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const [infosala, setinfosala] = useState(false);
   const [loading, setloading] = useState(false);
   const [usuariosConectados, setUsuariosConectados] = useState([]);
+  const [usersActive, setusersActive] = useState(false);
 // console.log(user, currentRoom, roomsUser );
   // console.log("estos son los mensajes", mensajes)
   
@@ -130,7 +132,10 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
     e.preventDefault();
     enviarMensaje();
   };
-
+const handleusers =() => {
+setusersActive(!usersActive)
+  };
+  
   // const SalirdeSala = () => {
 
   //   socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
@@ -202,14 +207,16 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
           )}
 <div>
   <ul class="list-group">
-<li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center">
-    Miembros activos:
+<li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center" onClick={handleusers}>
+<span><TbUserDown /></span>
+ Miembros activos:
     <span class="badge bg-primary rounded-pill">{usuariosConectados.length}</span>
   </li>
-    {usuariosConectados.filter(u=> u !== user.fullname).map((usuario, index) => (
+    {usersActive? (usuariosConectados.filter(u=> u !== user.fullname).map((usuario, index) => (
       <li class="list-group-item list-group-item-light d-flex justify-content-between align-items-center" key={index}>{usuario}</li>
-    ))}
-  </ul>
+    ))):<div></div>}
+  </ul> 
+  
 </div>
     </div>
   );

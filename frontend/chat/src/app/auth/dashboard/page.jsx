@@ -10,6 +10,9 @@ import { transition } from "@cloudinary/url-gen/actions/effect";
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import "./page.css";
 import { useAuth } from '../../../contexts/AuthContext';
+import { GiExitDoor } from "react-icons/gi";
+import {BsInfoSquare } from "react-icons/bs";
+ 
 // import { io } from "socket.io-client";
 // const socket = io("https://c13-13-n-node-react-backend.onrender.com")
 //guardar en URL https://c13-13-n-node-react-backend.onrender.com o http://localhost:8080
@@ -23,6 +26,7 @@ export default function Dashboard() {
   const [allRooms, setallRooms] = useState();
   const [userRooms, setuserRooms] = useState();
   const [cargando, setCargando] = useState(false);
+  const [infoSala, setinfoSala] = useState(false);
   
   const router = useRouter();
 
@@ -86,7 +90,10 @@ export default function Dashboard() {
     }else{
   setcurrentRoom(null)}
   }
-
+  
+  const handleInfoSala = () => {
+    setinfoSala(!infoSala)
+  };
   
 
   console.log(currentRoom);
@@ -170,7 +177,26 @@ export default function Dashboard() {
                   </button>
                 </div></div>
                 ): (
-                  <div><div className="card border-info mb-3" style={{maxWidth: "20rem",minWidth:"15rem",margin:"2%", display:"flex", justifyContent:"center"}}>
+                  <div>
+                    <div style={{ display: "flex", flexDirection: "column", alignContent: "center", width:"100%", alignItems: "center", marginTop: "5%" }}>
+                <button
+                type="button"
+                onClick={changeRoom}
+                className="btn btn-outline-warning btn-sm"
+              > 
+                Cambiar Sala <GiExitDoor className="me-2" />
+              </button></div>
+              {/* setinfoSala */}
+              <div style={{ display: "flex", flexDirection: "column", width:"100%", alignContent: "center", alignItems: "center", marginTop: "5%" }}>
+                <button
+                type="button"
+                onClick={handleInfoSala}
+                className="btn btn-outline-info btn-sm"
+              >
+                Informacion de la sala  <BsInfoSquare className="me-2" />
+              </button></div>
+              {infoSala?
+                   ( <div className="card border-info mb-3" style={{maxWidth: "20rem",minWidth:"15rem",margin:"2%", display:"flex", justifyContent:"center"}}>
                   <div className="card-header">{currentRoom.title}</div>
                   <div className="card-body">
                     <h4 className="card-title">{currentRoom.profile}</h4>
@@ -184,15 +210,8 @@ export default function Dashboard() {
                   </div>
                   <hr />
                   <img src={currentRoom.image} style={{ width: "40%",alignSelf:"center", margin:"2%" }} alt="imagen" />
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", marginTop: "5%" }}>
-                <button
-                type="button"
-                onClick={changeRoom}
-                className="btn btn-outline-warning btn-sm"
-              >
-                Cambiar Sala
-              </button></div></div>)
+                </div>) : <div></div>}
+                </div>)
               }
                 </div>)}
                 
