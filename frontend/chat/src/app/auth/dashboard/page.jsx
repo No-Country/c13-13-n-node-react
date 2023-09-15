@@ -104,6 +104,7 @@ export default function Dashboard() {
 
         }}
       >
+        
         <Profile />
 
       </div>
@@ -137,6 +138,7 @@ export default function Dashboard() {
             </button>{" "}
           </div>
         ) : (
+          
           <div
             style={{
               display: "flex",
@@ -145,22 +147,18 @@ export default function Dashboard() {
               flexDirection: "column",
             }}
           >
-            <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent:"space-around" }}>
+            {currentRoom && (
+                <SelectedRoom user={currentUser} currentRoom={currentRoom} roomsUser={userRooms} />
+              )}
               <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column", margin: "5%" }}>
-                <p className="text-primary" style={{ textAlign: "center" }}>SALAS DISPONIBLES</p>
+                
                 {cargando ? (<div style={{ display: "flex", justifyContent: "center", width: "100%" }}> <img style={{ width: "15%" }} src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" alt="" /></div>) : ( currentUser&&<div className="dashboard-container" >
-                {!currentRoom? (<Rooms user={currentUser} selectedRoomId={selectedRoomId} rooms={allRooms} roomsUser={userRooms} style={{ width: "100%" }} />): 
-                <div style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", marginTop: "20%" }}>
-                <button
-                type="button"
-                onClick={changeRoom}
-                className="btn btn-outline-warning btn-sm"
-              >
-                Cambiar Sala
-              </button></div>
-              }
-                </div>)}
-                <div style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", marginTop: "20%" }}>
+                {!currentRoom? (
+                  <div>
+                <p className="text-primary" style={{ textAlign: "center" }}>SALAS DISPONIBLES</p>
+                <Rooms user={currentUser} selectedRoomId={selectedRoomId} rooms={allRooms} roomsUser={userRooms} style={{ width: "100%" }} />
+                <div style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", marginTop: "10%" }}>
 
                   <p className="text-info" style={{ textAlign: "center" }}>CREAR UNA SALA</p>
                   <button
@@ -170,12 +168,36 @@ export default function Dashboard() {
                   >
                     Crear Sala
                   </button>
+                </div></div>
+                ): (
+                  <div><div className="card border-info mb-3" style={{maxWidth: "20rem",minWidth:"15rem",margin:"2%", display:"flex", justifyContent:"center"}}>
+                  <div className="card-header">{currentRoom.title}</div>
+                  <div className="card-body">
+                    <h4 className="card-title">{currentRoom.profile}</h4>
+                    <p className="card-text"> 
+                    Límite de usuarios: {currentRoom.maxParticipants}
+                    <hr />
+                    Usuarios actuales: {currentRoom.participants}
+                    <hr />
+                    Estado: {currentRoom.status}
+                    </p>
+                  </div>
+                  <hr />
+                  <img src={currentRoom.image} style={{ width: "40%",alignSelf:"center", margin:"2%" }} alt="imagen" />
                 </div>
+                <div style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", marginTop: "5%" }}>
+                <button
+                type="button"
+                onClick={changeRoom}
+                className="btn btn-outline-warning btn-sm"
+              >
+                Cambiar Sala
+              </button></div></div>)
+              }
+                </div>)}
+                
 
               </div>
-              {currentRoom && (
-                <SelectedRoom user={currentUser} currentRoom={currentRoom} roomsUser={userRooms} />
-              )}
             </div>
           </div>
         )}

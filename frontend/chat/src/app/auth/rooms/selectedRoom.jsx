@@ -116,7 +116,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       // "http://localhost:8080/message/save", dataDB
       `${Url}/message/save`, dataDB
     );
-    
+
     setNuevoMensaje("");
   };
 
@@ -145,10 +145,10 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
               <div style={{ marginTop: "5%", display: "flex", justifyContent: "center", borderRadius:"10px important!" }}>
             <span style={{height:"30px", display:"flex", flexWrap:"wrap",alignContent:"center"}} className={isConnected ? "badge rounded-pill bg-info" : "badge rounded-pill bg-warning"}>{isConnected ? (
              <div>{"Conectado a la sala " + currentRoom.title }
-              <button style={{height:"30px",paddingLeft:"10px",fontSize:"10px"}} type="button" onClick={setInfoSala} class="btn btn-outline-info">Info sala <BsArrowRight className="me-2" /></button>
+              {/* <button style={{height:"30px",paddingLeft:"10px",fontSize:"10px"}} type="button" onClick={setInfoSala} class="btn btn-outline-info">Info sala <BsArrowRight className="me-2" /></button> */}
              </div> ) : "NO CONECTADO"}</span>
           </div>
-            <div style={{ margin: "2%", heigh: "100%", display: "flex", minHeight: "300px", border: "solid 1px #BCE1D6", minWidth: "350px", maxWidth: "500px", flexDirection: "column" }}>
+            <div style={{ margin: "2%", heigh: "100%", display: "flex", minHeight: "300px", border: "solid 1px #BCE1D6", minWidth: "350px", maxWidth: "500px", flexDirection: "column",maxHeight:"300px", overflowY:"auto" }}>
               <ul className="list-group">
                 {mensajes.length ? (mensajes.map((mensaje) => (
                   <li
@@ -181,7 +181,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
 
           </div>
           
-        { infosala&&(<div className="card border-info mb-3" style={{maxWidth: "20rem",minWidth:"15rem",margin:"2%", display:"flex", justifyContent:"center"}}>
+        {/* { infosala&&(<div className="card border-info mb-3" style={{maxWidth: "20rem",minWidth:"15rem",margin:"2%", display:"flex", justifyContent:"center"}}>
   <div className="card-header">{currentRoom.title}</div>
   <div className="card-body">
     <h4 className="card-title">{currentRoom.profile}</h4>
@@ -195,19 +195,19 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   </div>
   <hr />
   <img src={currentRoom.image} style={{ width: "40%",alignSelf:"center", margin:"2%" }} alt="imagen" />
-</div>)}
+</div>)} */}
 {loading && (<div style={{ display: "flex", justifyContent: "center", width: "100%",height:"auto" }}> <img style={{ width: "20%", height:"20%" }} src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" alt="" /></div>)}
           
           </div>
           )}
 <div>
   <ul class="list-group">
-<li class="list-group-item d-flex justify-content-between align-items-center">
-    Usuarios en la sala:
+<li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center">
+    Miembros activos:
     <span class="badge bg-primary rounded-pill">{usuariosConectados.length}</span>
   </li>
     {usuariosConectados.filter(u=> u !== user.fullname).map((usuario, index) => (
-      <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center" key={index}>{usuario}</li>
+      <li class="list-group-item list-group-item-light d-flex justify-content-between align-items-center" key={index}>{usuario}</li>
     ))}
   </ul>
 </div>
