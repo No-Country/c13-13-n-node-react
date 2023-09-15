@@ -32,18 +32,18 @@ export default function Dashboard() {
   // console.log('tus salas', userRooms);
   // console.log('todas las salas', allRooms);
   useEffect(() => {
-    if (user) {
+    if (initialUserData) {
       // Si hay un usuario en el contexto, establece currentUser
-      setCurrentUser(user);
-      fetchData()
+      setCurrentUser(initialUserData.user);
+      fetchData(initialUserData.user)
     } else {
       router.push(`/`);
       return; // Salir de la función si no hay datos de usuario
     }
-  }, [user]);
+  }, []);
 
 
-  async function fetchData() {
+  async function fetchData(user) {
     try {
       if (!currentUser && initialUserData) {
         setCurrentUser(initialUserData.user);
