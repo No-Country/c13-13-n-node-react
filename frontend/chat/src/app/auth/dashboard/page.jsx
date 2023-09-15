@@ -10,6 +10,9 @@ import { transition } from "@cloudinary/url-gen/actions/effect";
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import "./page.css";
 import { useAuth } from '../../../contexts/AuthContext';
+import { GiExitDoor } from "react-icons/gi";
+import {BsInfoSquare } from "react-icons/bs";
+ 
 // import { io } from "socket.io-client";
 // const socket = io("https://c13-13-n-node-react-backend.onrender.com")
 //guardar en URL https://c13-13-n-node-react-backend.onrender.com o http://localhost:8080
@@ -23,6 +26,7 @@ export default function Dashboard() {
   const [allRooms, setallRooms] = useState();
   const [userRooms, setuserRooms] = useState();
   const [cargando, setCargando] = useState(false);
+  const [infoSala, setinfoSala] = useState(false);
   
   const router = useRouter();
 
@@ -32,18 +36,18 @@ export default function Dashboard() {
   // console.log('tus salas', userRooms);
   // console.log('todas las salas', allRooms);
   useEffect(() => {
-    if (user) {
+    if (initialUserData) {
       // Si hay un usuario en el contexto, establece currentUser
-      setCurrentUser(user);
-      fetchData()
+      setCurrentUser(initialUserData.user);
+      fetchData(initialUserData.user)
     } else {
       router.push(`/`);
       return; // Salir de la función si no hay datos de usuario
     }
-  }, [user]);
+  }, []);
 
 
-  async function fetchData() {
+  async function fetchData(user) {
     try {
       if (!currentUser && initialUserData) {
         setCurrentUser(initialUserData.user);
@@ -65,7 +69,9 @@ export default function Dashboard() {
   }
 
 
-  async function handleSubmit() { }
+  async function changeRoom() { 
+    window.location.reload();
+  }
 
   async function handleNewRoom() {
     setnewRoom(!newRoom);
@@ -76,14 +82,20 @@ export default function Dashboard() {
   }
   async function selectedRoomId(e) {
     // e.preventDefault(); 
-    console.log(allRooms)
-    console.log(e);
+    // console.log(allRooms)
+    // console.log(e);
     const actualroom = await allRooms.find((r) => r.id == e);
+    console.log(actualroom);
     if(actualroom){setcurrentRoom(actualroom)
     }else{
   setcurrentRoom(null)}
-    
   }
+  
+  const handleInfoSala = () => {
+    setinfoSala(!infoSala)
+  };
+  
+
   console.log(currentRoom);
   return (
     <>
@@ -99,6 +111,7 @@ export default function Dashboard() {
 
         }}
       >
+        
         <Profile />
 
       </div>
@@ -132,6 +145,7 @@ export default function Dashboard() {
             </button>{" "}
           </div>
         ) : (
+          
           <div
             style={{
               display: "flex",
@@ -140,13 +154,18 @@ export default function Dashboard() {
               flexDirection: "column",
             }}
           >
-            <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent:"space-around" }}>
+            {currentRoom && (
+                <SelectedRoom user={currentUser} currentRoom={currentRoom} roomsUser={userRooms} />
+              )}
               <div style={{ display: "flex", justifyContent: "flex-start", flexDirection: "column", margin: "5%" }}>
-                <p className="text-primary" style={{ textAlign: "center" }}>SALAS DISPONIBLES</p>
+                
                 {cargando ? (<div style={{ display: "flex", justifyContent: "center", width: "100%" }}> <img style={{ width: "15%" }} src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" alt="" /></div>) : ( currentUser&&<div className="dashboard-container" >
-                  <Rooms user={currentUser} selectedRoomId={selectedRoomId} rooms={allRooms} roomsUser={userRooms} style={{ width: "100%" }} />
-                </div>)}
-                <div style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", marginTop: "20%" }}>
+                {!currentRoom? (
+                  <div>
+                <p className="text-primary" style={{ textAlign: "center" }}>SALAS DISPONIBLES</p>
+                <Rooms user={currentUser} selectedRoomId={selectedRoomId} rooms={allRooms} roomsUser={userRooms} style={{ width: "100%" }} />
+                <div style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", marginTop: "10%" }}>
 
                   <p className="text-info" style={{ textAlign: "center" }}>CREAR UNA SALA</p>
                   <button
@@ -156,12 +175,48 @@ export default function Dashboard() {
                   >
                     Crear Sala
                   </button>
-                </div>
+                </div></div>
+                ): (
+                  <div>
+                    <div style={{ display: "flex", flexDirection: "column", alignContent: "center", width:"100%", alignItems: "center", marginTop: "5%" }}>
+                <button
+                type="button"
+                onClick={changeRoom}
+                className="btn btn-outline-warning btn-sm"
+              > 
+                Cambiar Sala <GiExitDoor className="me-2" />
+              </button></div>
+              {/* setinfoSala */}
+              <div style={{ display: "flex", flexDirection: "column", width:"100%", alignContent: "center", alignItems: "center", marginTop: "5%" }}>
+                <button
+                type="button"
+                onClick={handleInfoSala}
+                className="btn btn-outline-info btn-sm"
+              >
+                Informacion de la sala  <BsInfoSquare className="me-2" />
+              </button></div>
+              {infoSala?
+                   ( <div className="card border-info mb-3" style={{maxWidth: "20rem",minWidth:"15rem",margin:"2%", display:"flex", justifyContent:"center"}}>
+                  <div className="card-header">{currentRoom.title}</div>
+                  <div className="card-body">
+                    <h4 className="card-title">{currentRoom.profile}</h4>
+                    <p className="card-text"> 
+                    Límite de usuarios: {currentRoom.maxParticipants}
+                    <hr />
+                    Usuarios actuales: {currentRoom.participants}
+                    <hr />
+                    Estado: {currentRoom.status}
+                    </p>
+                  </div>
+                  <hr />
+                  <img src={currentRoom.image} style={{ width: "40%",alignSelf:"center", margin:"2%" }} alt="imagen" />
+                </div>) : <div></div>}
+                </div>)
+              }
+                </div>)}
+                
 
               </div>
-              {currentRoom && (
-                <SelectedRoom user={currentUser} currentRoom={currentRoom} roomsUser={userRooms} />
-              )}
             </div>
           </div>
         )}

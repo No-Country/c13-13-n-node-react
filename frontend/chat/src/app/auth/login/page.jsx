@@ -15,7 +15,7 @@ export default function Login() {
   const [cargando, setICargando] = useState(false);
   const { setUser } = useAuth();
   const router = useRouter();
-console.log(typeof(Url));
+// console.log(typeof(Url));
   async function handleSubmit() {
     event.preventDefault();
     let data = {
@@ -39,7 +39,7 @@ console.log(typeof(Url));
       toast: true,
       position: 'center',
       showConfirmButton: false,
-      timer: 3000,
+      timer: 2000,
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.addEventListener('mouseenter', Swal.stopTimer)

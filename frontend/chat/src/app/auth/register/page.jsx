@@ -136,31 +136,7 @@ const handleAvatarChange = async (e) => {
     }
   }
 }
-// };
-  // const handleAvatarChange = async (e) => {
-  //   e.preventDefault();
-  //   const file = e.target.files[0]
-  //   // console.log(file)
-  //   const formData = new FormData();
-  //   // console.log(file)
-  //   formData.append('file', file);
-  //   formData.append('upload_preset', 'TellMeChat')
-  //   formData.append('api_key', 317454741746325);
-  //   setloadingImage(true)
-  //   const res = await fetch('https://api.cloudinary.com/v1_1/TellMe/image/upload',
-  //     {
-  //       method: "POST",
-  //       body: formData
-  //     })
-  //   const cloudinaryData = await res.json();
-  //   const uploadedUrl = cloudinaryData.secure_url
-  //   // console.log('soy la url nueva', uploadedUrl)
-  //   setloadingImage(false)
-  //   setFormData((prevFormData) => ({
-  //     ...prevFormData,
-  //     avatar: uploadedUrl,
-  //   }));
-  // }
+
 
   const handleCancel = () => {
     router.push("/");
