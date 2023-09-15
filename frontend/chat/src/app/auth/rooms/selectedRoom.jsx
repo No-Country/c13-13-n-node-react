@@ -1,14 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-
+const socket = io("https://c13-13-n-node-react-backend.onrender.com")
 import * as fetchFunctions from "@/utils/fetch/fetch";
 import { BsArrowRight } from "react-icons/bs";
 //Aca esta toda la logica de Socket.io del chat
 
 export default function selectedRoom({ user, currentRoom, roomsUser }) {
+  const Url= process.env.NEXT_PUBLIC_API_BASE_URL
 
-const socket = io("https://c13-13-n-node-react-backend.onrender.com")
+
   const [isConnected, setIsConnected] = useState(false);
   const [nuevoMensaje, setNuevoMensaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
@@ -22,13 +23,13 @@ const socket = io("https://c13-13-n-node-react-backend.onrender.com")
   
   useEffect(() => {
 
-
-    if(currentRoom && !isConnected){socket.on("connect", ()=>setIsConnected(true));
+    if(currentRoom && !isConnected){socket.on("connect", setIsConnected(true));
   }
     socket.on("chat_message", (data) => {
       setMensajes((mensajes) => [...mensajes, data]);
     });
     socket.on("user_joined",(mensaje) => {
+      console.log(mensaje);
      setIsConnected(true)
     })
     socket.on("user_connected", (users) => {
@@ -41,8 +42,8 @@ const socket = io("https://c13-13-n-node-react-backend.onrender.com")
       socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
       socket.disconnect();
     };
-  }, [currentRoom]);
-//   console.log('soy isConnected en selectroom', isConnected);
+  }, []);
+  console.log('soy isConnected en selectroom', isConnected);
 // console.log('soy currentroom en selectroom',currentRoom);
 // console.log('soy user en selectroom',user);
 // console.log('soy rooms del user en selectroom',roomsUser);
@@ -50,7 +51,8 @@ const socket = io("https://c13-13-n-node-react-backend.onrender.com")
 
   useEffect(() => {
     if (currentRoom && user) {
-
+      socket.on("user_joined",(mensaje) => {
+        console.log("mensaje de userjoined",mensaje);})
       const joinuser = async () => {
         const data = {
           userId: user.id.toString(),
@@ -62,7 +64,7 @@ const socket = io("https://c13-13-n-node-react-backend.onrender.com")
           // users: usuariosConectados
         }
         const msjURL =
-          `https://c13-13-n-node-react-backend.onrender.com/message/${currentRoom.id}`
+          `${Url}/message/${currentRoom.id}`
         // `http://localhost:8080/message/${currentRoom.id}`
 
         try {
@@ -71,7 +73,9 @@ const socket = io("https://c13-13-n-node-react-backend.onrender.com")
           if (allMsj) {
             setMensajes(allMsj)
           }
-          const dataResponse = await fetchFunctions.POST("https://c13-13-n-node-react-backend.onrender.com/rooms/join", data);
+          console.log("soy data",data);
+
+          const dataResponse = await fetchFunctions.POST(`${Url}/rooms/join`, data);
           // const dataResponse = await fetchFunctions.POST("http://localhost:8080/rooms/join", data);
           
           
@@ -107,11 +111,12 @@ const socket = io("https://c13-13-n-node-react-backend.onrender.com")
     }
     // console.log(dataDB);
     // console.log(data);
-    await socket.emit("chat_message", data);
+    socket.emit("chat_message", data);
     const messageDB = await fetchFunctions.POST(
       // "http://localhost:8080/message/save", dataDB
-      "https://c13-13-n-node-react-backend.onrender.com/message/save", dataDB
+      `${Url}/message/save`, dataDB
     );
+    
     setNuevoMensaje("");
   };
 
