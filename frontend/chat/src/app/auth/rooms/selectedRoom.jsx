@@ -8,7 +8,7 @@ import { BsArrowRight } from "react-icons/bs";
 
 export default function selectedRoom({ user, currentRoom, roomsUser }) {
 
-
+const socket = io("https://c13-13-n-node-react-backend.onrender.com")
   const [isConnected, setIsConnected] = useState(false);
   const [nuevoMensaje, setNuevoMensaje] = useState("");
   const [mensajes, setMensajes] = useState([]);
@@ -21,7 +21,7 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   
   
   useEffect(() => {
-const socket = io("https://c13-13-n-node-react-backend.onrender.com")
+
 
     if(currentRoom && !isConnected){socket.on("connect", ()=>setIsConnected(true));
   }
