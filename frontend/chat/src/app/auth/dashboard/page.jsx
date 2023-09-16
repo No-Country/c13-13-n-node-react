@@ -178,7 +178,7 @@ export default function Dashboard() {
                 </div></div>
                 ): (
                   <div>
-                    <div style={{ display: "flex", flexDirection: "column", alignContent: "center", width:"100%", alignItems: "center", marginTop: "5%" }}>
+                    <div style={{ display: "flex", flexDirection: "column", alignContent: "center", width:"100%", alignItems: "center"}}>
                 <button
                 type="button"
                 onClick={changeRoom}
