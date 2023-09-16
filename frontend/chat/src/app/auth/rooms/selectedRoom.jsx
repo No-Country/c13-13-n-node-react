@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 const socket = io("https://c13-13-n-node-react-backend.onrender.com")
 import * as fetchFunctions from "@/utils/fetch/fetch";
-import { BsArrowRight } from "react-icons/bs";
+import { TbUserDown } from "react-icons/tb";
+import { GiExitDoor } from "react-icons/gi";
 //Aca esta toda la logica de Socket.io del chat
 
 export default function selectedRoom({ user, currentRoom, roomsUser }) {
+  const Url= process.env.NEXT_PUBLIC_API_BASE_URL
 
 
   const [isConnected, setIsConnected] = useState(false);
@@ -16,21 +18,21 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
   const [infosala, setinfosala] = useState(false);
   const [loading, setloading] = useState(false);
   const [usuariosConectados, setUsuariosConectados] = useState([]);
+  const [usersActive, setusersActive] = useState(false);
 // console.log(user, currentRoom, roomsUser );
   // console.log("estos son los mensajes", mensajes)
+  
+  
   useEffect(() => {
 
-    socket.on("connect", ()=>setIsConnected(true));
-  
+    if(currentRoom && !isConnected){socket.on("connect", setIsConnected(true));
+  }
     socket.on("chat_message", (data) => {
       setMensajes((mensajes) => [...mensajes, data]);
     });
     socket.on("user_joined",(mensaje) => {
-      // if(!usuariosConectados.includes(mensaje)){
-      //   setUsuariosConectados((data) => [...data.users, data.username]);
-      // }
+      console.log(mensaje);
      setIsConnected(true)
-      // Agrega el mensaje (usuario que se unió) al estado de usuariosEnSala
     })
     socket.on("user_connected", (users) => {
       console.log(users);
@@ -42,10 +44,17 @@ export default function selectedRoom({ user, currentRoom, roomsUser }) {
       socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
       socket.disconnect();
     };
-  }, [currentRoom]);
-console.log(usuariosConectados);
+  }, []);
+  console.log('soy isConnected en selectroom', isConnected);
+// console.log('soy currentroom en selectroom',currentRoom);
+// console.log('soy user en selectroom',user);
+// console.log('soy rooms del user en selectroom',roomsUser);
+
+
   useEffect(() => {
     if (currentRoom && user) {
+      socket.on("user_joined",(mensaje) => {
+        console.log("mensaje de userjoined",mensaje);})
       const joinuser = async () => {
         const data = {
           userId: user.id.toString(),
@@ -57,7 +66,7 @@ console.log(usuariosConectados);
           // users: usuariosConectados
         }
         const msjURL =
-          `https://c13-13-n-node-react-backend.onrender.com/message/${currentRoom.id}`
+          `${Url}/message/${currentRoom.id}`
         // `http://localhost:8080/message/${currentRoom.id}`
 
         try {
@@ -66,13 +75,15 @@ console.log(usuariosConectados);
           if (allMsj) {
             setMensajes(allMsj)
           }
-          const dataResponse = await fetchFunctions.POST("https://c13-13-n-node-react-backend.onrender.com/rooms/join", data);
+          console.log("soy data",data);
+
+          const dataResponse = await fetchFunctions.POST(`${Url}/rooms/join`, data);
           // const dataResponse = await fetchFunctions.POST("http://localhost:8080/rooms/join", data);
           
           
-          //  console.log(dataResponse);   
+           console.log("soy dataresponse", dataResponse);   
           if (dataResponse === "Room is full") { setroomFull(true) } else { 
-            console.log(datasocket);
+            console.log("soy data socket",datasocket);
             socket.emit("join_room", datasocket);
             
             setroomFull(false) }
@@ -102,11 +113,12 @@ console.log(usuariosConectados);
     }
     // console.log(dataDB);
     // console.log(data);
-    await socket.emit("chat_message", data);
+    socket.emit("chat_message", data);
     const messageDB = await fetchFunctions.POST(
       // "http://localhost:8080/message/save", dataDB
-      "https://c13-13-n-node-react-backend.onrender.com/message/save", dataDB
+      `${Url}/message/save`, dataDB
     );
+
     setNuevoMensaje("");
   };
 
@@ -120,6 +132,14 @@ console.log(usuariosConectados);
     e.preventDefault();
     enviarMensaje();
   };
+const handleusers =() => {
+setusersActive(!usersActive)
+  };
+  
+  // const SalirdeSala = () => {
+
+  //   socket.emit('leaveRoom', { roomId: currentRoom.id, username: user.fullname });
+  // };
 
   return (
     <div className="App">
@@ -130,10 +150,10 @@ console.log(usuariosConectados);
               <div style={{ marginTop: "5%", display: "flex", justifyContent: "center", borderRadius:"10px important!" }}>
             <span style={{height:"30px", display:"flex", flexWrap:"wrap",alignContent:"center"}} className={isConnected ? "badge rounded-pill bg-info" : "badge rounded-pill bg-warning"}>{isConnected ? (
              <div>{"Conectado a la sala " + currentRoom.title }
-              <button style={{height:"30px",paddingLeft:"10px",fontSize:"10px"}} type="button" onClick={setInfoSala} class="btn btn-outline-info">Info sala <BsArrowRight className="me-2" /></button>
+              {/* <button style={{height:"30px",paddingLeft:"10px",fontSize:"10px"}} type="button" onClick={setInfoSala} class="btn btn-outline-info">Info sala <BsArrowRight className="me-2" /></button> */}
              </div> ) : "NO CONECTADO"}</span>
           </div>
-            <div style={{ margin: "2%", heigh: "100%", display: "flex", minHeight: "300px", border: "solid 1px #BCE1D6", minWidth: "350px", maxWidth: "500px", flexDirection: "column" }}>
+            <div style={{ margin: "2%", heigh: "100%", display: "flex", minHeight: "300px", border: "solid 1px #BCE1D6", minWidth: "350px", maxWidth: "500px", flexDirection: "column",maxHeight:"300px", overflowY:"auto" }}>
               <ul className="list-group">
                 {mensajes.length ? (mensajes.map((mensaje) => (
                   <li
@@ -166,7 +186,7 @@ console.log(usuariosConectados);
 
           </div>
           
-        { infosala&&(<div className="card border-info mb-3" style={{maxWidth: "20rem",minWidth:"15rem",margin:"2%", display:"flex", justifyContent:"center"}}>
+        {/* { infosala&&(<div className="card border-info mb-3" style={{maxWidth: "20rem",minWidth:"15rem",margin:"2%", display:"flex", justifyContent:"center"}}>
   <div className="card-header">{currentRoom.title}</div>
   <div className="card-body">
     <h4 className="card-title">{currentRoom.profile}</h4>
@@ -180,21 +200,23 @@ console.log(usuariosConectados);
   </div>
   <hr />
   <img src={currentRoom.image} style={{ width: "40%",alignSelf:"center", margin:"2%" }} alt="imagen" />
-</div>)}
+</div>)} */}
 {loading && (<div style={{ display: "flex", justifyContent: "center", width: "100%",height:"auto" }}> <img style={{ width: "20%", height:"20%" }} src="https://res.cloudinary.com/dbwmesg3e/image/upload/v1693864078/loading_..._hfexoy.gif" alt="" /></div>)}
           
           </div>
           )}
 <div>
   <ul class="list-group">
-<li class="list-group-item d-flex justify-content-between align-items-center">
-    Usuarios en la sala:
+<li class="list-group-item list-group-item-dark d-flex justify-content-between align-items-center" onClick={handleusers}>
+<span><TbUserDown /></span>
+ Miembros activos:
     <span class="badge bg-primary rounded-pill">{usuariosConectados.length}</span>
   </li>
-    {usuariosConectados.filter(u=> u !== user.fullname).map((usuario, index) => (
-      <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center" key={index}>{usuario}</li>
-    ))}
-  </ul>
+    {usersActive? (usuariosConectados.filter(u=> u !== user.fullname).map((usuario, index) => (
+      <li class="list-group-item list-group-item-light d-flex justify-content-between align-items-center" key={index}>{usuario}</li>
+    ))):<div></div>}
+  </ul> 
+  
 </div>
     </div>
   );
